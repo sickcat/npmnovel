@@ -1,0 +1,164 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'publish' ]
+2 info using npm@3.5.2
+3 info using node@v4.2.6
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/bm/police/novel_app/node',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/bm/.npm/vue-study/1.0.0/package.tgz not in flight; packing
+9 info lifecycle vue-study@1.0.0~prepublish: vue-study@1.0.0
+10 silly lifecycle vue-study@1.0.0~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/home/bm/.npm/vue-study/1.0.0/package.tgz',
+11 verbose tar pack   '/home/bm/police/novel_app/node' ]
+12 verbose tarball /home/bm/.npm/vue-study/1.0.0/package.tgz
+13 verbose folder /home/bm/police/novel_app/node
+14 verbose addLocalTarball adding from inside cache /home/bm/.npm/vue-study/1.0.0/package.tgz
+15 silly cache afterAdd vue-study@1.0.0
+16 verbose afterAdd /home/bm/.npm/vue-study/1.0.0/package/package.json not in flight; writing
+17 verbose afterAdd /home/bm/.npm/vue-study/1.0.0/package/package.json written
+18 silly publish { name: 'vue-study',
+18 silly publish   version: '1.0.0',
+18 silly publish   description: 'A Vue.js project',
+18 silly publish   author: { name: 'zimplexing', email: 'zhangx_0728@163.com' },
+18 silly publish   private: false,
+18 silly publish   scripts:
+18 silly publish    { dev: 'node build/dev-server.js',
+18 silly publish      start: 'node build/dev-server.js',
+18 silly publish      build: 'node build/build.js',
+18 silly publish      unit: 'cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run',
+18 silly publish      e2e: 'node test/e2e/runner.js',
+18 silly publish      test: 'npm run unit && npm run e2e' },
+18 silly publish   dependencies:
+18 silly publish    { axios: '^0.16.1',
+18 silly publish      iview: '^2.0.0-rc.14',
+18 silly publish      moment: '^2.18.1',
+18 silly publish      vue: '^2.2.6',
+18 silly publish      'vue-awesome': '^2.3.1',
+18 silly publish      'vue-infinite-scroll': '^2.0.1',
+18 silly publish      'vue-router': '^2.3.1',
+18 silly publish      'vue-scroll': '^2.0.3',
+18 silly publish      'vue-scroller': '^2.2.0',
+18 silly publish      'vue-spinner': '^1.0.2',
+18 silly publish      'vue-touch': '^2.0.0-beta.4',
+18 silly publish      vuex: '^2.3.1' },
+18 silly publish   devDependencies:
+18 silly publish    { autoprefixer: '^6.7.2',
+18 silly publish      'babel-core': '^6.22.1',
+18 silly publish      'babel-loader': '^6.2.10',
+18 silly publish      'babel-plugin-transform-runtime': '^6.22.0',
+18 silly publish      'babel-preset-env': '^1.3.2',
+18 silly publish      'babel-preset-stage-2': '^6.22.0',
+18 silly publish      'babel-register': '^6.22.0',
+18 silly publish      chalk: '^1.1.3',
+18 silly publish      'connect-history-api-fallback': '^1.3.0',
+18 silly publish      'copy-webpack-plugin': '^4.0.1',
+18 silly publish      'css-loader': '^0.28.0',
+18 silly publish      'eventsource-polyfill': '^0.9.6',
+18 silly publish      express: '^4.14.1',
+18 silly publish      'extract-text-webpack-plugin': '^2.0.0',
+18 silly publish      'file-loader': '^0.11.1',
+18 silly publish      'friendly-errors-webpack-plugin': '^1.1.3',
+18 silly publish      'html-webpack-plugin': '^2.28.0',
+18 silly publish      'http-proxy-middleware': '^0.17.3',
+18 silly publish      'webpack-bundle-analyzer': '^2.2.1',
+18 silly publish      'cross-env': '^4.0.0',
+18 silly publish      karma: '^1.4.1',
+18 silly publish      'karma-coverage': '^1.1.1',
+18 silly publish      'karma-mocha': '^1.3.0',
+18 silly publish      'karma-phantomjs-launcher': '^1.0.2',
+18 silly publish      'karma-phantomjs-shim': '^1.4.0',
+18 silly publish      'karma-sinon-chai': '^1.3.1',
+18 silly publish      'karma-sourcemap-loader': '^0.3.7',
+18 silly publish      'karma-spec-reporter': '0.0.30',
+18 silly publish      'karma-webpack': '^2.0.2',
+18 silly publish      lolex: '^1.5.2',
+18 silly publish      mocha: '^3.2.0',
+18 silly publish      chai: '^3.5.0',
+18 silly publish      sinon: '^2.1.0',
+18 silly publish      'sinon-chai': '^2.8.0',
+18 silly publish      'inject-loader': '^3.0.0',
+18 silly publish      'babel-plugin-istanbul': '^4.1.1',
+18 silly publish      'phantomjs-prebuilt': '^2.1.14',
+18 silly publish      chromedriver: '^2.27.2',
+18 silly publish      'cross-spawn': '^5.0.1',
+18 silly publish      nightwatch: '^0.9.12',
+18 silly publish      'selenium-server': '^3.0.1',
+18 silly publish      semver: '^5.3.0',
+18 silly publish      shelljs: '^0.7.6',
+18 silly publish      opn: '^4.0.2',
+18 silly publish      'optimize-css-assets-webpack-plugin': '^1.3.0',
+18 silly publish      ora: '^1.2.0',
+18 silly publish      rimraf: '^2.6.0',
+18 silly publish      'url-loader': '^0.5.8',
+18 silly publish      'vue-loader': '^11.3.4',
+18 silly publish      'vue-style-loader': '^2.0.5',
+18 silly publish      'vue-template-compiler': '^2.2.6',
+18 silly publish      webpack: '^2.3.3',
+18 silly publish      'webpack-dev-middleware': '^1.10.0',
+18 silly publish      'webpack-hot-middleware': '^2.18.0',
+18 silly publish      'webpack-merge': '^4.1.0' },
+18 silly publish   engines: { node: '>= 4.0.0', npm: '>= 3.0.0' },
+18 silly publish   browserslist: [ '> 1%', 'last 2 versions', 'not ie <= 8' ],
+18 silly publish   readme: '# vue-nReader\n\n整个项目一共14个页面（包括通用组件），主要使用了vue2.0+vue-router+vuex，主要实现了小说排行榜，小说分类，小说详情，小说阅读，搜索页面，小说阅读记录等页面。达到了可用来看小说的基本需求。\n\n项目中的API均来自追书神器，纯属共享学习之用，有任何疑问或建议可提[issue](https://github.com/zimplexing/vue-nReader/issues/new)或联系[zhangx_0728@gmail.com](mailto://zhangx_0728@gmail.com)，使用代理，本地可以完美运行。\n\n## 本地运行 \n\n使用vue-cli工具构建，基本命令如下：\n``` bash\n# 安装依赖\nnpm install \n\n# 开发模式\nnpm run dev\n\n# 生产模式\nnpm run build\n\n```\n## 预览地址\n项目放在google云的虚拟主机上，访问速度看人品。代理也运行在上面，所以加载速度可能会比较慢。其中有一些小说封面会加载不出来，这个是api的问题，并不是网络的原因。\n\n\n电脑端请开启开发者模式\n[在线预览地址](http://35.189.165.140:8080/)\n\n手机扫码：\n![](https://github.com/zimplexing/vue-nReader/blob/master/screenshot/nReader.png?raw=true)\n\n## TODO\n- [ ] 增加发现页面\n\n- [ ] 搜索历史功能\n\n- [ ] 社区评论功能 \n\n- [x] 章节倒叙查看\n\n- [ ] 组件切换动效\n\n- [x] 优化返回功能\n\n- [x] 记录阅读历史功能\n\n- [ ] 阅读界面设置功能\n\n\n## 屏幕截图\n\n<img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/bookshelf.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/catory.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/rank.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/catDetail.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/rankType.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/search.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/book.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/readbook.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/nightMode.png?raw=true" width="280"/> <img src="https://github.com/zimplexing/vue-nReader/blob/master/screenshot/chapter.png?raw=true" width="280"/> \n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   _id: 'vue-study@1.0.0',
+18 silly publish   _shasum: '8c468928e99ce5dc605b489ca0442dd02c47d24b',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name vue-study
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/vue-study
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /home/bm/.npm/vue-study/1.0.0/package.tgz
+26 verbose request uri https://registry.npmjs.org/vue-study
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 下午2:14:22
+29 verbose request using bearer token for auth
+30 verbose request id 0d59a12ba75f2026
+31 http request PUT https://registry.npmjs.org/vue-study
+32 http 403 https://registry.npmjs.org/vue-study
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '103',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Fri, 29 Dec 2017 06:14:28 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-hnd18721-HND',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1514528064.628576,VS0,VE4952',
+33 verbose headers   vary: 'Accept-Encoding, Accept' }
+34 verbose request invalidating /home/bm/.npm/registry.npmjs.org/vue-study on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: You do not have permission to publish "vue-study". Are you logged in as the correct user? : vue-study
+36 verbose stack     at makeError (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/usr/share/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/usr/share/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/usr/share/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid vue-study
+39 verbose cwd /home/bm/police/novel_app/node
+40 error Linux 4.4.0-104-generic
+41 error argv "/usr/bin/nodejs" "/usr/bin/npm" "publish"
+42 error node v4.2.6
+43 error npm  v3.5.2
+44 error code E403
+45 error You do not have permission to publish "vue-study". Are you logged in as the correct user? : vue-study
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
