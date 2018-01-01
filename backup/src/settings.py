@@ -29,7 +29,10 @@ settings['static_path'] = os.path.join(os.path.dirname(__file__), 'static')
 settings['template_path'] = os.path.join(os.path.dirname(__file__), 'template')
 
 settings['host'] = '127.0.0.1'
-settings['database'] = 'ticket'
+settings['database'] = 'novel'
 settings['user'] = 'root'
 settings['password'] = '83147439'
 settings['timezone'] = '+8:00'
+
+# novel data path
+settings["data_path"] = "../../data/"

@@ -15,7 +15,7 @@
     name: 'Bookslist',
     data() {
       return {
-        staticPath: 'http://statics.zhuishushenqi.com/'
+        staticPath: 'http://localhost:5888/api/img?path='
       }
     },
     props: ['book'],
@@ -27,8 +27,7 @@
     },
     methods: {
       getImgSrc() {
-        return this.book.cover.indexOf('http') === -1 ? this.staticPath + this.book.cover : this.book.cover.slice(this.book
-          .cover.indexOf('http'));
+        return this.staticPath + this.book.cover
       },
       getBook() {
         // 只记录从不是搜索结果中进入书本详情的路径，不然会出现死循环

@@ -3,9 +3,9 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 8080,
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     assetsSubDirectory: 'static',
-    assetsPublicPath: 'https://github.com/sickcat/npmnovel.git',
+    assetsPublicPath: '/',
     proxyTable: {
         '/api': {
             target: 'http://127.0.0.1:5888/',

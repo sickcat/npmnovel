@@ -8,9 +8,7 @@
       <section v-show="!loading">
 
         <!-- book name and so on -->
-        <!--
-        <img v-if="book" :src="book.cover.indexOf('http') === -1 ? staticPath + book.cover : book.cover.slice(book.cover.indexOf('http'))">
-        -->
+        <img v-if="book" :src="staticPath + book.cover">
 
         <div class="book-info">
           <p class="book-title" v-if="book">{{book.title}}</p>
@@ -72,7 +70,7 @@ export default {
       showArrow: true,
       showFun: false,
       book: null,
-      staticPath: 'http://statics.zhuishushenqi.com/',
+      staticPath: 'http://localhost:5888/api/img?path=',
       isFollowed: false,
       loading: true,
       color: '#04b1ff',
@@ -101,7 +99,7 @@ export default {
       console.log(err)
     });
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter(to, from, next) {  
     next(vm => {
       if(from.fullPath.indexOf('/readbook/') === -1){
           vm.$store.commit('setThirdPath',from.fullPath);     

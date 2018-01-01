@@ -76,7 +76,7 @@ export default {
             loadedChapterContent: [], //缓存的章节内容
             preView: '', //返回上级路径
             firstLoad: true, //首次加载标识符
-            operation: false, //显示操作界面标识符
+            operation: true, //显示操作界面标识符
             currentChapter: 0,
             isNewset: false, //最新章节
             nightMode: false, //夜间/日间模式却换
@@ -129,6 +129,7 @@ export default {
         },
         operationAction($event) {
             //判断点击位置 执行不同操作
+            console.log("in")
             let el = $event.pointers[0] || $event.srcEvent;
             if (this.isShowChapter) {
                 this.isShowChapter = false;
@@ -171,7 +172,7 @@ export default {
         jumpChapter(index) {
             this.currentChapter = index;
             this.isShowChapter = false;
-            this.operation = false;
+            this.operation = true;
         },
         //记录阅读历史
         recordReadHis(readRecord) {
@@ -214,6 +215,7 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
+            console.log(vm);
             vm.preView = from.fullPath;
         })
     },
@@ -222,7 +224,7 @@ export default {
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList')) || {};
         if (!readRecord[this.bookChapter.book]) {
             this.showAddToShelf = true;
-            next(false);
+            next(true);
         } else {
             this.recordReadHis(readRecord);
             next();

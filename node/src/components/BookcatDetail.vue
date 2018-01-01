@@ -43,20 +43,8 @@ export default {
             mins: null,
             types: [{
                 type: 'hot',
-                name: '热门'
-            }, {
-                type: 'new',
-                name: '新书'
-            }, {
-                type: 'reputation',
-                name: '好评'
-            }, {
-                type: 'over',
-                name: '完结'
-            }, {
-                type: 'monthly',
-                name: '包月'
-            }]
+                name: '重要讲话'
+            },]
         }
     },
     beforeRouteEnter(to, from, next) {

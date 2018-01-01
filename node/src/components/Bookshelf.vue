@@ -2,7 +2,7 @@
   <div>
     <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
     <div v-show="!loading">
-      <button type="button" class="add-book" v-if="!books.length" @click="$router.push('/bookcat')">添加小说</button>
+      <button type="button" class="add-book" v-if="!books.length" @click="$router.push('/bookcat')">添加书籍</button>
 
       <!-- bookshelf list -->
       <ul class="book-shelf" v-if="books.length">
@@ -40,6 +40,7 @@ export default {
       color: '#04b1ff',
       size: '10px',
       margin: '4px',
+      staticPath: 'http://localhost:5888/api/img?path=',
     }
   },
   filters: {
@@ -97,8 +98,10 @@ export default {
      * 获取封边静态路径
      */
     getImgSrc(book) {
-      return book.cover.indexOf('http') === -1 ? this.staticPath + book.cover : book.cover.slice(book
-        .cover.indexOf('http'));
+      if (book.cover[0] == "/")
+        book.cover = book.cover.substr(1);
+      var a = this.staticPath + book.cover;
+      return a;
     },
     /**
      * 设置头部文字
