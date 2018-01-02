@@ -21,6 +21,7 @@ class BookHandler(tornado.web.RequestHandler):
 			self.finish()
 			return
 		book = book[0]
+		chaptername = mysql.get_chapter_from_id(book["last_chapter"])[0]["title"]
 		rdata = {
 			"_id": book["book_id"],
 			"cover": book["cover"],
@@ -29,6 +30,9 @@ class BookHandler(tornado.web.RequestHandler):
 			"cat": book["cat"],
 			"tags": book["tags"],
 			"longIntro": book["longintro"],
+			"author": book["author"],
+			"read_count": book["read_count"],
+			"lastChapter": chaptername,
 		}
 		self.write(json.dumps(rdata))
 		self.finish()
@@ -49,6 +53,7 @@ class BookViewHandler(tornado.web.RequestHandler):
 			if each == "":
 				continue
 			book = mysql.get_book_from_id(int(each))[0]
+			chaptername = mysql.get_chapter_from_id(book["last_chapter"])[0]["title"]
 			idict = {
 				"_id":book["book_id"],
 				"cover": book["cover"],
@@ -57,7 +62,7 @@ class BookViewHandler(tornado.web.RequestHandler):
 				"cat": book["cat"],
 				"tags": book["tags"],
 				"longIntro": book["longintro"],
-				"lastChapter": book["last_chapter"],
+				"lastChapter": chaptername,
 				"author": book["author"],
 			}
 			rdata.append(idict)

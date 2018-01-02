@@ -11,6 +11,7 @@ from handler.category import CategoryHandler
 from handler.getchapter import ChapterHandler
 from handler.getchapter import GetChapterHandler
 from handler.Img import ImgHandler
+from handler.types import TypesHandler
 url_patterns = [
 
     #Test server
@@ -23,6 +24,7 @@ url_patterns = [
     (r'/api/chapters/(\w+)', ChapterHandler),
     (r'/api/getChapter', GetChapterHandler),
     (r'/api/img', ImgHandler),
+    (r'/api/types', TypesHandler),
     #(r'/index/(\w+)', MainHandler),
     #(r'/index', MainHandler),
     #(r'/movie/(\w+)', MovieHandler),

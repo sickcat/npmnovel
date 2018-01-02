@@ -6,11 +6,13 @@ CREATE TABLE `Book` (
   `cat` varchar(255),
   `tags` varchar(255),
   `author` varchar(255),
-  `read_count` int(11) NOT NULL,
-  `word_count` int(11),
+  `read_count` int(11) DEFAULT 0,
+  `word_count` int(11) DEFAULT 0,
   `longintro` text,
   `shortintro` text,
   `last_chapter` int,
+  `click_count` int(11) DEFAULT 0,
+  `other_info` text DEFAULT NULL,
   PRIMARY KEY (`book_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -54,3 +56,7 @@ INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, wor
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(6, "五猖会", 2, "五猖会", "6", 150, 500000);
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(7, "无常", 2, "无常", "7", 150, 500000);
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(8, "从百草园到三味书屋", 2, "从百草园到三味书屋", "8", 150, 500000);
+
+INSERT INTO `Cat`(cat_id, name) VALUES(1, "全部");
+INSERT INTO `Cat`(cat_id, name) VALUES(2, "文学");
+INSERT INTO `Cat`(cat_id, name) VALUES(3, "散文");

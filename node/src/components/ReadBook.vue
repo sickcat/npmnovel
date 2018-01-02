@@ -21,13 +21,17 @@
                 <Icon type="ios-moon-outline"></Icon>
                 <span>夜间模式</span>
             </v-touch>
-            <div class="menu-btn">
-                <Icon type="ios-gear-outline"></Icon>
-                <span>设置</span>
-            </div>
+            <v-touch class="menu-btn" @tap="returnPos()">
+                <Icon type="ios-clock-outline"></Icon>
+                <span>回到历史位置</span>
+            </v-touch>
             <v-touch class="menu-btn" @tap="showChapter">
                 <Icon type="ios-list-outline"></Icon>
                 <span>目录</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="returnTop()">
+                <Icon type="ios-arrow-outline"></Icon>
+                <span>返回顶部</span>
             </v-touch>
         </div>
         <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
@@ -85,6 +89,7 @@ export default {
             chapterDescSort: false, //是否降序排列
             dontAddBook: false, //不添加到书架
             title: '',
+            TOP: 0,
         }
     },
     computed: {
@@ -94,7 +99,7 @@ export default {
     },
     created() {
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
-        // let scrollTop = readRecord ? readRecord[this.$route.params.bookId].readPos : 0;
+        //let scrollTop = readRecord ? readRecord[this.$route.params.bookId].readPos : 0;
         this.firstLoad = true;
         api.getMixChapters(this.$route.params.bookId).then(response => {
             //console.log(response.data)
@@ -115,6 +120,19 @@ export default {
         'currentChapter': 'getBookChapterContent'
     },
     methods: {
+        //回到上次位置
+        returnPos() {
+            console.log("returnPos");
+            let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
+            if (readRecord[this.$route.params.bookId]) {
+                this.currentChapter = readRecord[this.$route.params.bookId].chapter;
+                document.getElementById("container").scrollTop = readRecord[this.$route.params.bookId].readPos;
+            }
+        },
+        returnTop() {
+            let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
+            document.getElementById("container").scrollTop = 0;
+        },
         // todo 暂时获取一个章节内容，后续需要缓存3个章节左右
         getBookChapterContent() {
             this.loading = true;
@@ -223,6 +241,7 @@ export default {
         this.dontAddBook && next();
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList')) || {};
         if (!readRecord[this.bookChapter.book]) {
+            this.recordReadHis(readRecord);
             this.showAddToShelf = true;
             next(true);
         } else {

@@ -1,20 +1,14 @@
 import Vue from 'vue';
 
 export default {
+    staticPath: 'http://localhost:5888/api/img?path=',
 
-    /**
-     * 获取所有的排行榜类型
-     * @returns {null}
-     */
-    getRankType() {
-        return Vue.http.get('/ranking/gender');
+    getTypes() {
+        return Vue.http.get('/api/types');
     },
 
-    /**
-     * 根据id获取排行榜
-     * @returns {String} id为周榜id，月榜id，总榜id
-     */
-    getRankList(id) {
+
+    getRankList (id) {
         return Vue.http.get('/ranking/' + id);
     },
 

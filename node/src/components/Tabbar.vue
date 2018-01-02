@@ -13,7 +13,7 @@
                 <div>
                     <Icon name="shopping-cart"></Icon>
                 </div>
-                <div>mu.lu</div>
+                <div>目录</div>
             </router-link>
         </li>
     </ul>

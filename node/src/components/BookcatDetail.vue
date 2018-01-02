@@ -5,6 +5,7 @@
             <ul class="select-bar">
                 <li v-for="(item, index) in types" @click="setType(item.type)">{{item.name}}</li>
             </ul>
+            
             <ul class="select-bar">
                 <li data-type="hot">全部</li>
                 <li v-if="mins" v-for="(minor, index) in mins" @click="setMinor(minor)">{{minor}}</li>
@@ -42,9 +43,9 @@ export default {
             minor: '',
             mins: null,
             types: [{
-                type: 'hot',
-                name: '重要讲话'
-            },]
+                type: 'all',
+                name: '全部'
+            }],
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -55,6 +56,8 @@ export default {
              * 获取大分类中的小类别
              */
             //this.$http.get('/api/category')
+            vm.updateTypes();
+
             api.getCategoryDetail().then(response => {
             }).catch(err => {
                 console.log(err);
@@ -64,6 +67,12 @@ export default {
         })
     },
     methods: {
+        updateTypes() {
+            api.getTypes().then(response => {
+                this.types = response.data;
+            }).catch(err => {});
+        },
+
         /**
          * 根据筛选分类获取结果
          */

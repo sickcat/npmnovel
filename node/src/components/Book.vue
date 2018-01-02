@@ -14,7 +14,7 @@
           <p class="book-title" v-if="book">{{book.title}}</p>
           <p class="book-author" v-if="book">{{book.author}}</p>
           <p class="reader-info" v-if="book">
-            <span v-text=""></span>{{book.updated | ago}} | {{wordCount}}万 | {{book.cat}}</p>
+            <span v-text=""></span>{{book.updated | ago}} | {{wordCount}}万字 | {{book.cat}}</p>
         </div>
 
         <!-- button -->
@@ -26,16 +26,16 @@
         <!-- statics -->
         <div class="book-status">
           <div class="list-item">
-            <span class="item">追书人气</span>
-            <span v-if="book">{{book.latelyFollower}}</span>
+            <span class="item">阅读人数</span>
+            <span v-if="book">{{book.read_count}}</span>
           </div>
           <div class="list-item">
-            <span class="item">读者留存率</span>
-            <span v-if="book">{{book.retentionRatio}}%</span>
+            <span class="item">点击人数</span>
+            <span v-if="book">{{book.click_count}}</span>
           </div>
           <div class="list-item">
-            <span class="item">日更新字数</span>
-            <span v-if="book">{{book.serializeWordCount}}</span>
+            <span class="item">最后更新章节</span>
+            <span v-if="book">{{book.lastChapter}}</span>
           </div>
         </div>
 
@@ -70,7 +70,7 @@ export default {
       showArrow: true,
       showFun: false,
       book: null,
-      staticPath: 'http://localhost:5888/api/img?path=',
+      staticPath: api.staticPath,
       isFollowed: false,
       loading: true,
       color: '#04b1ff',

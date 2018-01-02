@@ -5,7 +5,7 @@
         <div class="header-text">
             <span>{{headText}}</span>
         </div>
-        <div class="operation" v-if="showFun">
+        <div class="operation" v-if="false">
             <span @click="$router.push({path:'/search'})"><Icon  name="search"></Icon></span>
             <!--<span @click="showBar"><Icon name="bars"></Icon></span>-->
         </div>
@@ -40,7 +40,7 @@ export default {
         },
         showFun:{
             type: Boolean,
-            default: true
+            default: false,
         }
     },
     methods: {

@@ -11,11 +11,12 @@
 </template>
 
 <script>
+import api from '../libs/api'
   export default {
     name: 'Bookslist',
     data() {
       return {
-        staticPath: 'http://localhost:5888/api/img?path='
+        staticPath: api.staticPath,
       }
     },
     props: ['book'],

@@ -52,3 +52,7 @@ def get_chapters_from_book(book_id):
 def get_chapter_from_id(chapter_id):
 	sql = 'select * from Chapter where chapter_id={0}'.format(chapter_id)
 	return database(0, sql)
+
+def get_all_cats():
+	sql = 'select * from Cat'
+	return database(0, sql)

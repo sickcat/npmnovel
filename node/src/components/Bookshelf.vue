@@ -40,7 +40,7 @@ export default {
       color: '#04b1ff',
       size: '10px',
       margin: '4px',
-      staticPath: 'http://localhost:5888/api/img?path=',
+      staticPath: api.staticPath,
     }
   },
   filters: {
