@@ -85,7 +85,6 @@ export default {
   },
   computed: {
     wordCount() {
-      return 10000;
       return parseInt(this.book.wordCount / 10000, 10);
     }
   },
@@ -181,8 +180,8 @@ section:first-child {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   border-bottom: 1px solid #f2f2f2;
 }
 

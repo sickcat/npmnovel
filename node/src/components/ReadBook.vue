@@ -94,7 +94,8 @@ export default {
     },
     computed: {
         bookChaptersBody() {
-            return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br/><br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp');
+            return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>');
+            //return this.bookChaptersContent && this.bookChaptersContent.body;
         }
     },
     created() {
@@ -343,6 +344,7 @@ article {
 }
 
 .chapter-list li {
+    padding-top: 2.5rem;
     padding-left: 1rem;
     line-height: 2.5rem;
     border-bottom: 1px solid #f2f2f2;

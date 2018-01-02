@@ -33,6 +33,7 @@ class BookHandler(tornado.web.RequestHandler):
 			"author": book["author"],
 			"read_count": book["read_count"],
 			"lastChapter": chaptername,
+			"wordCount": book["word_count"],
 		}
 		self.write(json.dumps(rdata))
 		self.finish()
