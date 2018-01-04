@@ -37,6 +37,10 @@ export default new Router({
       name: 'readbook',
       component: ReadBook
     }, {
+      path: '/readbook/:bookId/:chapterId',
+      name: 'readbook',
+      component: ReadBook
+    }, {
       path: '/book/:bookId',
       name: 'book',
       component: Book

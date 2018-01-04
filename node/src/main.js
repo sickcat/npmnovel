@@ -14,6 +14,10 @@ Vue.use(vuescroll)
 VueTouch.config.swipe = {
   direction: 'horizontal'
 };
+VueTouch.registerCustomEvent('doubletap', {
+  type: 'tap',
+  taps: 2
+})
 Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(iView);
 Vue.config.productionTip = false;
@@ -31,7 +35,6 @@ new Vue({
     App
   }
 });
-
 //Disable context menu
 document.addEventListener('contextmenu', event => {
   event.preventDefault();

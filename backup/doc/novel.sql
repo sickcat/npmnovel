@@ -103,3 +103,4 @@ INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, wor
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(47, "谢啸皎_我与你同在_20171010", 3, "谢啸皎_我与你同在_20171010", "47.html", 0, 0);
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(48, "李鹏飞_市局政治部编发“双节”_20171009", 3, "李鹏飞_市局政治部编发“双节”_20171009", "48.html", 0, 0);
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(49, "马鸿雁_布吉所涉稳重点人员管控_20171010", 3, "马鸿雁_布吉所涉稳重点人员管控_20171010", "49.html", 0, 0);
+INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(50, "图片测试", 3, "CHJ", "dct12.html", 0, 0);

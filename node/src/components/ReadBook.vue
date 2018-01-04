@@ -8,10 +8,87 @@
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
-        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="{'night-mode':nightMode}">
+        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass" @doubletap="dbclickEvent()">
             <header>{{bookChaptersContent.title}}</header>
-            <article v-html="bookChaptersBody"></article>
+            <article id="font-size-color" v-html="bookChaptersBody"></article>
+            
+            <span text-align="center">点击底部阅读下一章</span>
         </v-touch>
+        
+
+        <div class="setting" v-if="setting">
+            <v-touch class="menu-btn" @tap="add_fontsize(0)">
+                <Icon type="ios-up-outline"></Icon>
+                <span>默认大小</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="add_fontsize(1)">
+                <Icon type="ios-up-outline"></Icon>
+                <span>字体+</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="add_fontsize(-1)">
+                <Icon type="ios-down-outline"></Icon>
+                <span>字体-</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="add_speed(1)">
+                <Icon type="ios-down-outline"></Icon>
+                <span>滚动速度+</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="add_speed(-1)">
+                <Icon type="ios-down-outline"></Icon>
+                <span>滚动速度-</span>
+            </v-touch>
+        </div>
+        <div class="setting2" v-if="setting">
+            <v-touch class="menu-btn">
+                <span>背景颜色</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_back(0)">
+                <span class='circle background-0'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_back(1)">
+                <span class='circle background-1'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_back(2)">
+                <span class='circle background-2'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_back(3)">
+                <span class='circle background-3'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_back(4)">
+                <span class='circle background-4'>
+                </span>  
+            </v-touch>
+        </div>
+        <div class="setting3" v-if="setting">
+            <v-touch class="menu-btn">
+                <span>字体颜色</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_color(0)">
+                <span class='circle color-back-0'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_color(1)">
+                <span class='circle color-back-1'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_color(2)" style="background: #FFFFFF;">
+                <span class='circle color-back-2'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_color(3)">
+                <span class='circle color-back-3'>
+                </span>  
+            </v-touch>
+            <v-touch class="menu-btn" @tap="change_color(4)">
+                <span class='circle color-back-4'>
+                </span>  
+            </v-touch>
+        </div>
+
         <div class="menu" v-if="operation">
             <v-touch class="menu-btn" v-if="nightMode" @tap="changeMode">
                 <Icon type="ios-sunny-outline"></Icon>
@@ -29,9 +106,9 @@
                 <Icon type="ios-list-outline"></Icon>
                 <span>目录</span>
             </v-touch>
-            <v-touch class="menu-btn" @tap="returnTop()">
-                <Icon type="ios-arrow-outline"></Icon>
-                <span>返回顶部</span>
+            <v-touch class="menu-btn" @tap="settings">
+                <Icon type="ios-setting-outline"></Icon>
+                <span>设置</span>
             </v-touch>
         </div>
         <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
@@ -43,7 +120,7 @@
                 </v-touch>
             </div>
             <ul id="chapter-list">
-                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" @tap="jumpChapter(index)">{{chapter.title}}</v-touch>
+                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" :class="{ selected: index==currentChapter}" @tap="jumpChapter(index)">{{chapter.title}}</v-touch>
             </ul>
         </div>
 
@@ -57,7 +134,6 @@
 <script>
 import api from '../libs/api'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-
 
 export default {
     name: 'ReadBook',
@@ -84,19 +160,27 @@ export default {
             currentChapter: 0,
             isNewset: false, //最新章节
             nightMode: false, //夜间/日间模式却换
-            isShowChapter: true, //是否显示目录
+            isShowChapter: false, //是否显示目录
             showAddToShelf: false, //显示添加书架的提示
             chapterDescSort: false, //是否降序排列
             dontAddBook: false, //不添加到书架
             title: '',
             TOP: 0,
+            backgroundClass: '',
+            colorClass: '',
+            setting: false,
+            fontSize: 1.5,
+            showNextTitle: true,
+            dbflag: true,
+            timer: Object(),
+            speed: 5,
         }
     },
     computed: {
         bookChaptersBody() {
-            return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>');
+            return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
-        }
+        },
     },
     created() {
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
@@ -106,19 +190,32 @@ export default {
             //console.log(response.data)
             this.bookChapter = response.data;
             //缓存时默认取前50章节
-            this.loadedChapters = this.bookChapter.chapters.slice(0, 50);
             //console.log(this.loadedChapters)
-            this.currentChapter = readRecord && readRecord[this.$route.params.bookId] && readRecord[this.$route.params.bookId].chapter ? readRecord[this.$route.params.bookId].chapter : 0;
+            if (this.$route.params.chapterId) {
+                this.currentChapter = this.$route.params.chapterId
+            }
+            else {
+                this.currentChapter = readRecord && readRecord[this.$route.params.bookId] && readRecord[this.$route.params.bookId].chapter ? readRecord[this.$route.params.bookId].chapter : 0;
+            }
+            this.loadedChapters = this.bookChapter.chapters;
             this.getBookChapterContent();
         }).catch(err => {
             console.log(err);
         })
+        let settings = JSON.parse(window.localStorage.getItem('settings'));
+        if (settings) {
+            this.speed = settings["speed"];        
+            this.backgroundClass = settings["backgroundClass"];
+            this.colorClass = settings["colorClass"];
+            this.fontSize = settings["fontSize"];
+        }
+        this.updateFont();
     },
     ready() {
         window.addEventListener('scroll', this.scorll);
     },
     watch: {
-        'currentChapter': 'getBookChapterContent'
+        'currentChapter': 'getBookChapterContent',
     },
     methods: {
         //回到上次位置
@@ -134,6 +231,9 @@ export default {
             let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
             document.getElementById("container").scrollTop = 0;
         },
+        settings() {
+            this.setting = !this.setting;
+        },
         // todo 暂时获取一个章节内容，后续需要缓存3个章节左右
         getBookChapterContent() {
             this.loading = true;
@@ -141,10 +241,12 @@ export default {
                 this.title = response.data.title
                 this.bookChaptersContent = response.data.chapter;
                 this.loading = false;
+                setTimeout(this.updateFont, 100);
             }).catch(err => {
                 this.$Message.error('获取章节失败！');
                 console.log(err);
-            })
+            });
+            this.updateFont();
         },
         operationAction($event) {
             //判断点击位置 执行不同操作
@@ -160,13 +262,16 @@ export default {
             let contanierEle = document.getElementById('container');
             if (0 < targetPos && targetPos < gap) {
                 this.operation = false;
+                this.setting = false;
                 contanierEle.scrollTop -= screenHeight;
             }
             if (targetPos > gap && targetPos < screenHeight - gap) {
                 this.operation = !this.operation;
+                this.setting = false;
             }
             if (screenHeight - gap < targetPos && targetPos < screenHeight) {
                 this.operation = false;
+                this.setting = false;
                 //判断是否到底部
                 if (contanierEle.scrollHeight === contanierEle.scrollTop + screenHeight) {
                     if (this.currentChapter >= this.bookChapter.chapters.length) {
@@ -182,6 +287,13 @@ export default {
         //切换日间/夜间模式
         changeMode() {
             this.nightMode = !this.nightMode;
+            if (!this.nightMode) {
+                this.backgroundClass = "";
+                this.colorClass = "";
+            } else {
+                this.backgroundClass = "background-0";
+                this.colorClass = "color-0";
+            }
         },
         //显示目录
         showChapter() {
@@ -221,24 +333,104 @@ export default {
         descSort() {
             this.chapterDescSort = !this.chapterDescSort;
             this.bookChapter.chapters.reverse();
-            this.loadedChapters = this.bookChapter.chapters.slice(0, 50);
+            this.loadedChapters = this.bookChapter.chapters;
             this.loadPages = 1;
         },
         //滚动加载到底部，显示更多
         onScroll: function (e, position) {
-            if (position.scrollTop > 1300 * this.loadPages) {
-                this.loadedChapters = this.loadedChapters.concat(this.bookChapter.chapters.slice(50 * this.loadPages, 50 * this.loadPages + 50));
-                this.loadPages++;
+            //if (position.scrollTop > 1300 * this.loadPages) {
+            //    this.loadedChapters = this.loadedChapters.concat(this.bookChapter.chapters.slice(50 * this.loadPages, 50 * this.loadPages + 50));
+            //   this.loadPages++;
+            //    console.log("onScroll");
+            //}
+        },
+        updateFont() {
+            var fontSize = this.fontSize;
+            Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
+                        ele.style.fontSize = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 'rem';
+                });
+        },
+        add_fontsize(a) {
+            console.log(a);
+            var fontSize = this.fontSize;
+            if (a == 0) {
+                fontSize = 1.5;
+                Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
+                        ele.style.fontSize = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 'rem';
+                });
+            } else if (a == 1 && fontSize < 2.5) {
+                fontSize += 0.1;
+                Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
+                        ele.style.fontSize = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 'rem';
+                });
+            } else if (a == -1 && fontSize > 1.0) {
+                fontSize -= 0.1;
+                Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
+                        ele.style.fontSize = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 'rem';
+                });
+            } else if (a == 2 ) {
+                Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
+                        ele.style.fontSize = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 'rem';
+                });
+            } else {
+                this.$Message.info('不能再继续改变字体了');
             }
-        }
+            this.fontSize = fontSize;
+        },
+        change_back(a) {
+            this.backgroundClass = "background-" + a;
+        },
+        change_color(a) {
+            this.colorClass = "color-" + a;
+        },
+        dbclickEvent() {
+            console.log(this.dbflag);
+            var speed = this.speed;
+            if (this.dbflag) {
+            this.timer=self.setInterval(function() {
+                    var currentpos;
+                    currentpos=document.getElementById("container").scrollTop;
+                    document.getElementById("container").scrollTop = currentpos+speed;
+                },100);
+            } else {
+                clearInterval(this.timer);
+                this.timer = Object();
+            }
+            this.dbflag = !this.dbflag;
+        },
+        add_speed(a) {
+            if (a == 1) {
+                this.speed += 1;
+                this.$Message.info('增加成功');
+            } else if (a == -1) {
+                this.speed -= 1;
+                if(this.speed == 0)
+                    this.$Message.info('继续减少可以反向预览');
+                else
+                    this.$Message.info('减少成功');
+            }
+        },
     },
     beforeRouteEnter(to, from, next) {
+        var str = to.path;
         next(vm => {
-            console.log(vm);
             vm.preView = from.fullPath;
-        })
+            if (vm.preView == "/")
+                vm.preView = "/bookshelf"
+        });
     },
     beforeRouteLeave(to, from, next) {
+        let settings = {};
+        settings["speed"] = this.speed;        
+        settings["backgroundClass"] = this.backgroundClass;
+        settings["colorClass"] = this.colorClass;
+        settings["fontSize"] = this.fontSize;
+        window.localStorage.setItem('settings', JSON.stringify(settings));
         this.dontAddBook && next();
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList')) || {};
         if (!readRecord[this.bookChapter.book]) {
@@ -254,7 +446,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .container {
     background: #dad9d4;
     width: 100vw;
@@ -267,14 +459,18 @@ header {
     text-align: center;
     padding-top: 1rem;
     margin-bottom: 1rem;
-    font-size: 1.3rem;
+    font-size: 2rem;
     font-weight: bold;
 }
 
 article {
-    font-size: 1.1rem;
-    line-height: 1.7rem;
-    padding: 0 1rem;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    padding: 1rem;
+}
+
+span {
+    font-size: 1.5rem;
 }
 
 .head {
@@ -301,6 +497,47 @@ article {
     width: 100vw;
 }
 
+.setting {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000;
+    height: 3rem;
+    width: 100vw;
+}
+.setting2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    background: #000;
+    height: 3.5rem;
+    width: 100vw;
+}
+.setting3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    top: 6rem;
+    left: 0;
+    background: #000;
+    height: 3.5rem;
+    width: 100vw;
+}
+.circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
 .menu-btn {
     display: flex;
     flex-direction: column;
@@ -310,18 +547,18 @@ article {
 }
 
 .menu-btn i {
-    font-size: 1.6rem;
+    font-size: 1.6rem !important;
 }
 
 .menu-btn span {
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
 }
 
 .arrow-left {
     position: absolute;
     left: 1rem;
     line-height: 3rem;
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
 }
 
 .night-mode {
@@ -365,6 +602,60 @@ article {
 
 .chapter-sort {
     margin-right: 1.5rem;
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
+}
+
+.night-mode {
+    background: #383434;
+    color: #807d7d;
+}
+
+.background-0 {
+    background: #383434;
+}
+.background-1 {
+    background: #CCC9C1;
+}
+.background-2 {
+    background: #C8C0A8;
+}
+.background-3 {
+    background: #BCC6BD;
+}
+.background-4 {
+    background: #BAC5C9;
+}
+.color-0 {
+    color: #807d7d;
+}
+.color-back-0 {
+    background: #807d7d;   
+}
+.color-1 {
+    color: #FFFFFF;
+}
+.color-back-1 {
+    background: #FFFFFF;   
+}
+.color-2 {
+    color: #000000;
+}
+.color-back-2 {
+    background: #000000;   
+}
+.color-3 {
+    color: #DED6D6;
+}
+.color-back-3 {
+    background: #DED6D6;   
+}
+.color-4 {
+    color: #FDD9D9;
+}
+.color-back-4 {
+    background: #FDD9D9;   
+}
+.selected {
+    background: #66ccFF;
 }
 </style>

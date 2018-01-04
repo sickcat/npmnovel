@@ -51,7 +51,7 @@ class BookViewHandler(tornado.web.RequestHandler):
 		ids = self.request.arguments["id"][0]
 		rdata = []
 		for each in ids.split(","):
-			if each == "":
+			if each == "" or each == "undefined":
 				continue
 			book = mysql.get_book_from_id(int(each))[0]
 			chaptername = mysql.get_chapter_from_id(book["last_chapter"])[0]["title"]

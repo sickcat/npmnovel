@@ -19,8 +19,9 @@
 
         <!-- button -->
         <div class="book-operation">
-          <button class="btn" @click="followAction">{{isFollowed ? '不追了' : '追更新'}}</button>
+          <button class="btn" @click="followAction">{{isFollowed ? '从书架移除' : '加入书架'}}</button>
           <button class="btn" @click="readBook">开始阅读</button>
+          <button class="btn" @click="showChapter">{{isShowChapter ? '隐藏目录' : '显示目录'}}</button>
         </div>
 
         <!-- statics -->
@@ -50,6 +51,22 @@
       </section>
       <!--<section></section>-->
     </transition>
+
+    <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
+      <div class="chapter-contents">
+          <p>{{book.title}}：目录</p>
+          <v-touch class="menu-btn" @tap="hideShow">
+            <span style="color: #66ccff;">隐藏</span>
+          </v-touch>
+          <v-touch tag="span" class="chapter-sort" @tap="descSort">
+              <Icon type="arrow-down-b" v-if="!chapterDescSort"></Icon>
+              <Icon type="arrow-up-b" v-else></Icon>
+          </v-touch>
+      </div>
+      <ul id="chapter-list">
+          <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" @tap="jumpChapter(index)">{{chapter.title}}</v-touch>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -75,7 +92,12 @@ export default {
       loading: true,
       color: '#04b1ff',
       size: '10px',
-      margin: '4px'
+      margin: '4px',
+      isShowChapter: false,
+      loadedChapters: [],
+      bookChapter: {},
+      chapterDescSort: false, //是否降序排列
+      loadPages: 0,
     }
   },
   filters: {
@@ -97,6 +119,17 @@ export default {
     }, err => {
       console.log(err)
     });
+    api.getMixChapters(this.$route.params.bookId).then(response => {
+            //console.log(response.data)
+            this.bookChapter = response.data;
+            //缓存时默认取前50章节
+            this.loadedChapters = this.bookChapter.chapters;
+            //console.log(this.loadedChapters)
+            this.currentChapter = readRecord && readRecord[this.$route.params.bookId] && readRecord[this.$route.params.bookId].chapter ? readRecord[this.$route.params.bookId].chapter : 0;
+            this.getBookChapterContent();
+        }).catch(err => {
+            console.log(err);
+        });
   },
   beforeRouteEnter(to, from, next) {  
     next(vm => {
@@ -106,9 +139,29 @@ export default {
     })
   },
   methods: {
+    onScroll: function (e, position) {
+      
+    },
     readBook() {
       this.$store.commit('setReadBook',this.book);
       this.$router.push('/readbook/' + this.$route.params.bookId);
+    },
+    jumpChapter(index) {
+      this.$store.commit('setReadBook',this.book);
+      this.$router.push('/readbook/' + this.$route.params.bookId + '/' + index);
+    },
+    showChapter() {
+      this.isShowChapter = !this.isShowChapter;
+    },
+    hideShow() {
+      this.isShowChapter = false;
+    },
+    //章节倒叙查看
+    descSort() {
+        this.chapterDescSort = !this.chapterDescSort;
+        this.bookChapter.chapters.reverse();
+        this.loadedChapters = this.bookChapter.chapters;
+        this.loadPages = 1;
     },
     isFollowBook() {
       //返回本地是否缓存（加入书架）
@@ -186,7 +239,7 @@ section:first-child {
 }
 
 .book-operation .btn {
-  width: 8rem;
+  width: 7rem;
   background: #03a9f4;
   border: none;
   color: #fff;
@@ -262,4 +315,55 @@ section:first-child {
 .book-intro{
   margin-top: 1rem;
 }
+.chapter-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: auto;
+    background: #fff;
+    width: 80vw;
+}
+
+.chapter-list ul {
+    margin-top: 2.5rem;
+}
+
+.chapter-list li {
+    padding-top: 2.5rem;
+    padding-left: 1rem;
+    line-height: 2.5rem;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.chapter-contents {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80vw;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 2.5rem;
+    padding-left: 1rem;
+}
+.chapter-contents-2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80vw;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 2.5rem;
+    padding-left: 1rem;
+}
+
+.chapter-sort {
+    margin-right: 1.5rem;
+    font-size: 1.4rem !important;
+}
+
 </style>
