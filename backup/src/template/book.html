@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BMTicketBook</title>
+		<link href='/static/bootstrap.min.css' rel='stylesheet' type='text/css'>
+        <link href='/static/hacker.css' rel='stylesheet' type='text/css'>
+		<script src='/static/jquery-2.1.1.min.js'></script>
+		<script src='/static/bootstrap.min.js'></script>
+		<script>
+			function sureToLogout()
+			{
+				var res=confirm('确定注销登录吗？');
+				if(res)
+				{
+					location.href='/logout';
+				}
+			}
+		</script>
+	</head>
+	<body>
+        <div class='container' role='content'>   <!--content-->
+		<div class='row'>
+			<ul class='nav nav-stacked'>
+				<li class='columns'>
+					<br>
+					<div>标题：{{book["title"]}}</div>
+					<div>ID（undefined时为增加书本）: {{book["book_id"]}}</div>
+					<div>作者：{{book["author"]}}</div>
+					<div><img src="/api/img?path={{book['cover']}}" width="100px" height="100px"/></div>
+				</li>
+			</ul>
+		</div>
+		<form action="/oms/book/{{book['book_id']}}" method="POST">
+			标题:<br>
+			<input type="text" name="title" value="{{book['title']}}">
+			<br>
+			作者:<br>
+			<input type="text" name="author" value="{{book['author']}}">
+			<br>
+			字数总计:<br>
+			<input type="text" name="word_count" type="number" value="{{book['word_count']}}">
+			<br>
+			长简介:<br>
+			<div  height="800px" width="500px">			
+				<textarea type="text" name="longintro" text="{{book['longintro']}}">
+				{{book['longintro']}}
+				</textarea>
+			</div>
+			<br>
+			短简介:<br>
+			<textarea type="text" name="shortintro" text="{{book['shortintro']}}">
+			{{book['shortintro']}}
+			</textarea>
+			<br>
+			删除状态（0=未删除， 1=删除， 2=增加书本）:<br>
+			<input type="text" name="deleted" type="number" value="{{book['deleted']}}">
+			<input type="submit" value="Submit">
+		</form> 
+        </div>
+	</body>
+</html>

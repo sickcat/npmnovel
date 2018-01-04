@@ -13,6 +13,9 @@ class ImgHandler(tornado.web.RequestHandler):
 
     def get(self):
     	path = self.request.arguments["path"][0]
+        if path == "":
+            self.finish()
+            return
     	img_path = os.path.join(settings["data_path"], path)
     	f = open(img_path)
     	img = f.read()

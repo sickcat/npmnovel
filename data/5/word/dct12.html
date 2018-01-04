@@ -1,0 +1,592 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <title>
+   Abiword HTML Document
+  </title>
+  <style type="text/css">
+   <!-- #toc,
+.toc,
+.mw-warning {
+	border: 1px solid #aaa;
+	background-color: #f9f9f9;
+	padding: 5px;
+	font-size: 95%;
+}
+#toc h2,
+.toc h2 {
+	display: inline;
+	border: none;
+	padding: 0;
+	font-size: 100%;
+	font-weight: bold;
+}
+#toc #toctitle,
+.toc #toctitle,
+#toc .toctitle,
+.toc .toctitle {
+	text-align: center;
+}
+#toc ul,
+.toc ul {
+	list-style-type: none;
+	list-style-image: none;
+	margin-left: 0;
+	padding-left: 0;
+	text-align: left;
+}
+#toc ul ul,
+.toc ul ul {
+	margin: 0 0 0 2em;
+}
+#toc .toctoggle,
+.toc .toctoggle {
+	font-size: 94%;
+}p, h1, h2, h3, li {
+	color:#000000;
+	font-family:'Noto Sans CJK SC Regular';
+	font-size:12pt;
+	text-align:left;
+	vertical-align:normal;
+}
+body{
+padding-top : 0.7875in;
+padding-bottom : 0.7875in;
+padding-left : 0.7875in;
+padding-right : 0.7875in;
+text-decoration:none;
+text-indent:0in;
+text-align:left;
+font-weight:normal;
+font-variant:normal;
+color:#000000;
+font-size:12pt;
+font-style:normal;
+widows:2;
+font-family:'Noto Sans CJK SC Regular';
+} -->
+  </style>
+ </head>
+ <body>
+  <div>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     14331017 陈浩基
+    </span>
+    <span style="font-size:12pt;font-family:'Liberation Serif'">
+    </span>
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     分布式
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     Spring 数据访问
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     实验内容与学习要点（对应写总结，汇报实验过程）
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     实验第一题（增加spring与数据库读写）只实现了数据库读写
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     1.mysql安装配置
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     直接apt-get安装即可
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     由于是之前安装的，要源码安装也还是十分方便的
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     在etc/mysql目录下也可以很方便的修改mysql的相关配置
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/0.png" style="width:170.0mm" title=""/>
+   <p>
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     各种mysql操作：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/1.png" style="width:87.0mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     2.jdbc数据库访问
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     初始运行时的问题：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/2.png" style="width:116.9mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     然后通过百度发现，老师使用的包没有这个东西，将使用的spring包从4.3.3版本换回spring-core-4.1.5.RELEASE.jar就再也不报编译错误开始运行了
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     但是接下来又出现问题：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/3.png" style="width:176.7mm" title=""/>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     通过观察数据库，发现疑问：没有表，只好手动插入了（老师在mysql_ddl.sql中已经给出了相关的sql语句，谢谢）
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/4.png" style="width:66.1mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="right" alt="" src="/api/img?path=5/word/dct12.html_files/5.png" style="width:95.0mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     之后再执行：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     虽然只是简单的hello world，但成功了
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/6.png" style="width:134.6mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     3.jpa数据访问模式
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     拷贝老师的代码文件，install发现：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/7.png" style="width:170.0mm" title=""/>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     增加了老师课件中要求我们加入的依赖（也可以很方便的去掉注释）之后build成功
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/8.png" style="width:111.4mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     test信息：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/9.png" style="width:157.1mm" title=""/>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     修改数据库密码后编译遇到了和上一个实验一样的问题，修改下面的包依赖解决
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/10.png" style="width:114.8mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     运行结果：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/11.png" style="width:158.7mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     重头戏：在
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Liberation Serif'">
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     Good Thymes Virtual Grocery 代码基础上，使用
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Liberation Serif'">
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     spring MVC 和
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Liberation Serif'">
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     Spring data access 改进，使之具有简单
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Liberation Serif'">
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     Grocery 功能。
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     下载地址：https://github.com/thymeleaf/thymeleafexamples-gtvg
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     先从github下载相关代码，通过分析可以发现，其数据全部存储在
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Liberation Serif'">
+    </span>
+    <span style="font-weight:bold;font-size:16pt;font-family:'Noto Sans CJK SC Regular'">
+     *Repository.java中
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/12.png" style="width:170.0mm" title=""/>
+   <p>
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     有因为这项目整个架构就是mvc的，但很可惜没用spring，那么我们先在这里面换成读取数据库即可
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     按照规矩，添加properties，database.config等一大堆，现在的想法只是让程序可以访问数据库和操作数据库而已
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     更改完成后，我们从上图可以发现，修改product的string很容易呢，就拿这个地方做测试了
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     第一次运行结果：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/13.png" style="width:170.0mm" title=""/>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     失败了。。。
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     原因是NULLPOINTER
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     几经折腾，源代码被我改的面目全非，只好换个类来实现读取数据库的功能了
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     后面发现，自己少实现了一些部分，比如service类，引入文件之后实验成功：
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/14.png" style="width:137.8mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     可以看到name里面增加了数据里的全部内容
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     并且每次访问这个页面都会导致name越来越长因为数据库越来越大
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/15.png" style="width:146.8mm" title=""/>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <img align="left" alt="" src="/api/img?path=5/word/dct12.html_files/16.png" style="width:170.0mm" title=""/>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     读取数据库成功的话，那就证明之后只要按部就班的多添加几个Product，Order，User类（源码中已经给好，可以直接使用）以及相应的 *Service 类， *Dao 和 *DaoImpl ，最后在数据库中创建好相应表格，读取就行了。由于时间仓促，这一部分未能完成。
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     至此，实验属于半成功吧，如果不是踩了不少坑的话估计是可以完成的。
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+    <span style="font-size:12pt;font-family:'Noto Sans CJK SC Regular'">
+     14331017 陈浩基
+    </span>
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p class="" style="text-align:left">
+   </p>
+   <p>
+   </p>
+  </div>
+ </body>
+</html>

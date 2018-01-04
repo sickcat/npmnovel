@@ -45,6 +45,7 @@ def otk(file_path, book_id="tmp"):
 	#更换img源
 	update_img_src(word_path, book_id)
 
+	chapter_id = 0
 	for each in os.listdir(word_path):
 		if each.split(".")[-1] == "html":
 			size = os.path.getsize(os.path.join(word_path, each))
@@ -53,6 +54,8 @@ def otk(file_path, book_id="tmp"):
 			sql = 'INSERT INTO Chapter(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES({0},"{1}", {2}, "{3}", "{4}", 0, {5})'.format(
 				chapter_id, torndb.MySQLdb.escape_string(each[:-5]), book_id, torndb.MySQLdb.escape_string(each[:-5]), torndb.MySQLdb.escape_string('word/' + each), int(float(size)/18))
 			database(1, sql)
+
+	sql = 'update Book set last_chapter={0} where book_id={1}'.format(chapter_id, book_id)
 
 # 输入解压文件位置
 # 解压文件要求结构： 只包含word文件夹和title图片

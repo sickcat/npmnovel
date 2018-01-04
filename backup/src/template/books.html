@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BMTicketBook</title>
+		<link href='/static/bootstrap.min.css' rel='stylesheet' type='text/css'>
+        <link href='/static/hacker.css' rel='stylesheet' type='text/css'>
+		<script src='/static/jquery-2.1.1.min.js'></script>
+		<script src='/static/bootstrap.min.js'></script>
+		<script>
+			function sureToLogout()
+			{
+				var res=confirm('确定注销登录吗？');
+				if(res)
+				{
+					location.href='/logout';
+				}
+			}
+		</script>
+	</head>
+	<body>
+        <div class='container' role='content'>   <!--content-->
+		<div class='row'>
+			<ul class='nav nav-stacked' class='column'>
+				{% for i in books %}
+					<li>
+						<br>
+						<div>标题：{{i["title"]}}</div>
+						<div>ID: {{i["book_id"]}}</div>
+						<div>作者：{{i["author"]}}</div>
+						<div><img src="/api/img?path={{i['cover']}}" width="100px" height="100px"/></div>
+						<a href='/oms/book/{{i["book_id"]}}' class='btn btn-success'>点击此处跳转</a>
+					</li>
+				{%end%}
+				<li>
+					<br>
+					<br>
+					<br>
+			<br>
+			<br>
+					<a href='/oms/book/undefined' class='btn btn-success'>增加书籍</a>
+				</li>
+			</ul>
+		</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<span>上传压缩文件,自动生成章节</span>
+			<span>压缩文件格式为zip，包含word文件夹和title图片文件</span>
+			<span>图片格式随意， word格式为doc或docx</span>
+			<br>
+			<span>只有deleted为2的才会更新，不要更新之前的书本</span>
+			<br>
+		    <form action="/oms/zip" method="post" enctype="multipart/form-data">
+		    <span>书本id</span><br>
+		    <input type="number" name="book_id" />
+		    <input type="file" name="fileUpload" />
+
+		    <input type="submit" value="上传文件" />
+
+		    </form>
+
+        </div>
+
+	</body>
+</html>

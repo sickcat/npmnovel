@@ -1,0 +1,6 @@
+matrixPla:
+  build: .
+  command: ls
+  ports:
+    - "5888:5888"
+    - "8080:8080"
