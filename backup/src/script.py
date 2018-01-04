@@ -40,8 +40,8 @@ def otk(file_path, book_id="tmp"):
 	database(1, sql)
 	
 	#生成html文件
-	word_path = os.path.join(settings["data_path"], str(book_id), "word")
-	abiword(word_path)
+	word_path = os.path.join(settings["data_path"], str(book_id))
+	#abiword(word_path)
 	#更换img源
 	update_img_src(word_path, book_id)
 
@@ -52,13 +52,16 @@ def otk(file_path, book_id="tmp"):
 			sql = "select max(chapter_id) from Chapter"
 			chapter_id = database(0, sql)[0]["max(chapter_id)"] + 1
 			sql = 'INSERT INTO Chapter(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES({0},"{1}", {2}, "{3}", "{4}", 0, {5})'.format(
-				chapter_id, torndb.MySQLdb.escape_string(each[:-5]), book_id, torndb.MySQLdb.escape_string(each[:-5]), torndb.MySQLdb.escape_string('word/' + each), int(float(size)/18))
+				chapter_id, torndb.MySQLdb.escape_string(each[:-5]), book_id, torndb.MySQLdb.escape_string(each[:-5]), torndb.MySQLdb.escape_string(each), int(float(size)/18))
 			database(1, sql)
 
 	sql = 'update Book set last_chapter={0} where book_id={1}'.format(chapter_id, book_id)
+	mysql.database(1, sql)
+	return 1
 
 # 输入解压文件位置
 # 解压文件要求结构： 只包含word文件夹和title图片
+# 乱码问题？
 def rezip(file_path, book_id="tmp"):
 	f = zipfile.ZipFile(file_path, 'r')
 	for file in f.namelist():
@@ -78,7 +81,7 @@ def update_img_src(path, book_id="tmp"):
 			soup = BeautifulSoup(f.read())
 			f.close()
 			for img in soup.find_all("img"):
-				img["src"] = "/api/img?path=" + str(book_id) + "/word/" + img["src"]
+				img["src"] = "/api/img?path=" + str(book_id) + "/" + img["src"]
 			f = open(os.path.join(path, each), "w")
 			f.write(soup.prettify())
 			f.close()

@@ -19,19 +19,19 @@
 
         <!-- button -->
         <div class="book-operation">
-          <button class="btn" @click="followAction">{{isFollowed ? '从书架移除' : '加入书架'}}</button>
           <button class="btn" @click="readBook">开始阅读</button>
+          <button class="btn" @click="followAction">{{isFollowed ? '从书架移除' : '加入书架'}}</button>
           <button class="btn" @click="showChapter">{{isShowChapter ? '隐藏目录' : '显示目录'}}</button>
         </div>
 
         <!-- statics -->
         <div class="book-status">
           <div class="list-item">
-            <span class="item">阅读人数</span>
+            <span class="item">阅读人次</span>
             <span v-if="book">{{book.read_count}}</span>
           </div>
           <div class="list-item">
-            <span class="item">点击人数</span>
+            <span class="item">点击人次</span>
             <span v-if="book">{{book.click_count}}</span>
           </div>
           <div class="list-item">
@@ -239,7 +239,7 @@ section:first-child {
 }
 
 .book-operation .btn {
-  width: 7rem;
+  width: 6rem;
   background: #03a9f4;
   border: none;
   color: #fff;

@@ -8,18 +8,26 @@
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
-        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass" @doubletap="dbclickEvent()">
+        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass + ' ' + fontFamily" @doubletap="dbclickEvent()">
             <header>{{bookChaptersContent.title}}</header>
-            <article id="font-size-color" v-html="bookChaptersBody"></article>
+            <article :class='fontFamily' id="font-size-color" v-html="bookChaptersBody"></article>
             
+            <br>
+            <br>
             <span text-align="center">点击底部阅读下一章</span>
+            <v-touch class="menu-btn" @tap="get_next()">
+                <span text-align="center">点击底部阅读下一章</span>
+            </v-touch>
+            <br>
+            <br>
+            <br>
         </v-touch>
         
 
         <div class="setting" v-if="setting">
-            <v-touch class="menu-btn" @tap="add_fontsize(0)">
-                <Icon type="ios-up-outline"></Icon>
-                <span>默认大小</span>
+            <v-touch class="menu-btn" @tap="auto_read()">
+                <Icon type="ios-clock-outline"></Icon>
+                <span>定时翻页</span>
             </v-touch>
             <v-touch class="menu-btn" @tap="add_fontsize(1)">
                 <Icon type="ios-up-outline"></Icon>
@@ -86,6 +94,23 @@
             <v-touch class="menu-btn" @tap="change_color(4)">
                 <span class='circle color-back-4'>
                 </span>  
+            </v-touch>
+        </div>
+        <div class="setting4" v-if="false">
+            <v-touch class="menu-btn" @tap="">
+                <span>字体选择</span>
+            </v-touch>
+            <v-touch class="menu-btn heiti" @tap="update_family('heiti')">
+                <span class="heiti">黑体</span>
+            </v-touch>
+            <v-touch class="menu-btn songti" @tap="update_family('songti')">
+                <span>宋体</span>
+            </v-touch>
+            <v-touch class="menu-btn kaiti" @tap="update_family('kaiti')">
+                <span>楷体</span>
+            </v-touch>
+            <v-touch class="menu-btn" @tap="add_speed(-1)">
+                <span>定时翻页</span>
             </v-touch>
         </div>
 
@@ -174,10 +199,13 @@ export default {
             dbflag: true,
             timer: Object(),
             speed: 5,
+            fontFamily: '',
+            autoread: false,
         }
     },
     computed: {
         bookChaptersBody() {
+            return this.bookChaptersContent && this.bookChaptersContent.body
             return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
@@ -274,12 +302,13 @@ export default {
                 this.setting = false;
                 //判断是否到底部
                 if (contanierEle.scrollHeight === contanierEle.scrollTop + screenHeight) {
-                    if (this.currentChapter >= this.bookChapter.chapters.length) {
+                    if (this.currentChapter >= this.bookChapter.chapters.length-1) {
                         this.$Message.info('这已经是最新的章节了~');
                         return;
+                    } else {
+                        //当前章节加1
+                        this.currentChapter += 1;
                     }
-                    //当前章节加1
-                    this.currentChapter += 1;
                 }
                 contanierEle.scrollTop += screenHeight;
             }
@@ -346,36 +375,43 @@ export default {
         },
         updateFont() {
             var fontSize = this.fontSize;
+            var fontFamily = this.fontFamily;
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontFamily = fontFamily;
                 });
         },
         add_fontsize(a) {
             console.log(a);
             var fontSize = this.fontSize;
+            var fontFamily = this.fontFamily;
             if (a == 0) {
                 fontSize = 1.5;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize  + 0.4 + 'rem';
+                        ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 1 && fontSize < 2.5) {
                 fontSize += 0.1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontFamily = fontFamily;
                 });
             } else if (a == -1 && fontSize > 1.0) {
                 fontSize -= 0.1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 2 ) {
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 'rem';
+                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontFamily = fontFamily;
                 });
             } else {
                 this.$Message.info('不能再继续改变字体了');
@@ -389,10 +425,10 @@ export default {
             this.colorClass = "color-" + a;
         },
         dbclickEvent() {
-            console.log(this.dbflag);
             var speed = this.speed;
-            if (this.dbflag) {
-            this.timer=self.setInterval(function() {
+            if (this.dbflag && !this.autoread) {
+                clearInterval(this.timer);
+                this.timer=self.setInterval(function() {
                     var currentpos;
                     currentpos=document.getElementById("container").scrollTop;
                     document.getElementById("container").scrollTop = currentpos+speed;
@@ -400,6 +436,9 @@ export default {
             } else {
                 clearInterval(this.timer);
                 this.timer = Object();
+                if (this.autoread)
+                    this.$Message.info('自动翻页取消');
+                this.autoread = false;
             }
             this.dbflag = !this.dbflag;
         },
@@ -415,6 +454,29 @@ export default {
                     this.$Message.info('减少成功');
             }
         },
+        update_family(a) {
+            this.fontFamily = a;
+        },
+        auto_read() {
+            var speed = this.speed;
+            if (this.dbflag || this.autoread) {
+                clearInterval(this.timer);
+                this.timer = Object();
+            }
+            if (!this.autoread) {
+                clearInterval(this.timer);
+                this.timer = self.setInterval(function() {
+                    var currentpos;
+                    currentpos=document.getElementById("container").scrollTop;
+                    document.getElementById("container").scrollTop = currentpos+document.body.clientHeight;
+                },5000 - speed*200)
+                this.$Message.info('开始自动翻页');
+            }
+            this.dbflag = false;
+            this.autoread = !this.autoread
+        },
+        get_next() {
+        }
     },
     beforeRouteEnter(to, from, next) {
         var str = to.path;
@@ -465,7 +527,7 @@ header {
 
 article {
     font-size: 1.5rem;
-    line-height: 1.5rem;
+    line-height: 1.9rem;
     padding: 1rem;
 }
 
@@ -525,6 +587,17 @@ span {
     justify-content: space-around;
     position: fixed;
     top: 6rem;
+    left: 0;
+    background: #000;
+    height: 3.5rem;
+    width: 100vw;
+}
+.setting4 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    top: 9rem;
     left: 0;
     background: #000;
     height: 3.5rem;
@@ -623,7 +696,7 @@ span {
     background: #BCC6BD;
 }
 .background-4 {
-    background: #BAC5C9;
+    background: #FDEEC3;
 }
 .color-0 {
     color: #807d7d;
@@ -644,16 +717,16 @@ span {
     background: #000000;   
 }
 .color-3 {
-    color: #DED6D6;
+    color: #E50006;
 }
 .color-back-3 {
-    background: #DED6D6;   
+    background: #E50006;   
 }
 .color-4 {
-    color: #FDD9D9;
+    color: #FFFBB1;
 }
 .color-back-4 {
-    background: #FDD9D9;   
+    background: #FFFBB1;   
 }
 .selected {
     background: #66ccFF;

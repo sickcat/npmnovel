@@ -59,6 +59,7 @@ class GetChapterHandler(tornado.web.RequestHandler):
 		chapter_id = int(self.request.arguments["chapterUrl"][0])
 		chapter = mysql.get_chapter_from_id(chapter_id)[0]
 		book = mysql.get_book_from_id(int(chapter['book_id']))[0]
+		mysql.add_read(book["book_id"])
 		f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]))
 		body = f.read()
 		rdata = {

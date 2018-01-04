@@ -22,6 +22,7 @@ class BookHandler(tornado.web.RequestHandler):
 			return
 		book = book[0]
 		chaptername = mysql.get_chapter_from_id(book["last_chapter"])[0]["title"]
+		mysql.add_click(book_id)
 		rdata = {
 			"_id": book["book_id"],
 			"cover": book["cover"],
@@ -34,6 +35,7 @@ class BookHandler(tornado.web.RequestHandler):
 			"read_count": book["read_count"],
 			"lastChapter": chaptername,
 			"wordCount": book["word_count"],
+			"click_count": book["click_count"],
 		}
 		self.write(json.dumps(rdata))
 		self.finish()

@@ -20,6 +20,14 @@ def database(fun, sql):
 		print e
 		print "-----------Connect Error Try Again..."
 
+def add_click(book_id):
+	sql = 'update Book set click_count = click_count + 1 where book_id={0}'.format(book_id)
+	database(1, sql)
+
+def add_read(book_id):
+	sql = 'update Book set read_count = read_count + 1 where book_id={0}'.format(book_id)
+	database(1, sql)
+
 #only use in this file to check digit
 def isDigit(_input):
 	if not _input:
