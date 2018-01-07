@@ -21,7 +21,11 @@ class BookHandler(tornado.web.RequestHandler):
 			self.finish()
 			return
 		book = book[0]
-		chaptername = mysql.get_chapter_from_id(book["last_chapter"])[0]["title"]
+		chaptername = mysql.get_chapter_from_id(book["last_chapter"])
+		if chaptername:
+			chaptername = chaptername[0]["title"]
+		else:
+			chaptername = ""
 		mysql.add_click(book_id)
 		rdata = {
 			"_id": book["book_id"],

@@ -45,6 +45,7 @@ class CategoryHandler(tornado.web.RequestHandler):
 				"shortIntro": each["shortintro"],
 				"longIntro": each["longintro"],
 				"author": each["author"],
+				"read_count": each["read_count"],
 			}
 			rdata["books"].append(idict)
 		self.write(json.dumps(rdata))

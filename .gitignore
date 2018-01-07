@@ -1,2 +1,4 @@
 *.pyc
 data/*
+*.pyc
+backup/src/handler/category.pyc

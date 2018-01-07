@@ -3,9 +3,9 @@
     <img :src="getImgSrc()" />
     <div class="book-info">
       <p class="book-title">{{book.title}}</p>
-      <p class="book-author">{{book.author}} | {{book.cat}}</p>
+      <p class="book-author">{{book.author}}  {{book.cat}}</p>
       <p class="short-intro">{{book.shortIntro}}</p>
-      <p class="reader-info">{{latelyFollower}}万人气 | 100%读者留存</p>
+      <p class="reader-info">{{book.read_count}}人次阅读</p>
     </div>
   </li>
 </template>
@@ -23,7 +23,6 @@ import api from '../libs/api'
     computed: {
       latelyFollower() {
         return 100
-        return (this.book.latelyFollower / 10000).toFixed(1);
       }
     },
     methods: {

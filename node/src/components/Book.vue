@@ -64,7 +64,10 @@
           </v-touch>
       </div>
       <ul id="chapter-list">
-          <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" @tap="jumpChapter(index)">{{chapter.title}}</v-touch>
+          <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" @tap="jumpChapter(index)">
+                <div class="title">{{chapter.title}}</div>
+                <div class="title2">{{chapter.title2}}</div>
+          </v-touch>
       </ul>
     </div>
   </div>
@@ -365,5 +368,16 @@ section:first-child {
     margin-right: 1.5rem;
     font-size: 1.4rem !important;
 }
+
+.title {
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+.title2 {
+    font-size: 1rem;
+    color: #807d7d;
+}
+
 
 </style>

@@ -46,7 +46,9 @@ def otk(file_path, book_id="tmp"):
 	update_img_src(word_path, book_id)
 
 	chapter_id = 0
-	for each in os.listdir(word_path):
+	alist = os.listdir(word_path)
+	alist.sort()
+	for each in alist:
 		if each.split(".")[-1] == "html":
 			size = os.path.getsize(os.path.join(word_path, each))
 			sql = "select max(chapter_id) from Chapter"
@@ -63,9 +65,10 @@ def otk(file_path, book_id="tmp"):
 # 解压文件要求结构： 只包含word文件夹和title图片
 # 乱码问题？
 def rezip(file_path, book_id="tmp"):
-	f = zipfile.ZipFile(file_path, 'r')
-	for file in f.namelist():
-		f.extract(file, os.path.join(settings["data_path"], str(book_id)))
+	#f = zipfile.ZipFile(file_path, 'r')
+	os.system("unzip -O CP936 " + file_path + ' -d ' + os.path.join(settings["data_path"], str(book_id)))
+	#for file in f.namelist():
+	#	f.extract(file, os.path.join(settings["data_path"], str(book_id)))
 
 def abiword(path):
 	# 调用abiword软件，从doc和docx生成html

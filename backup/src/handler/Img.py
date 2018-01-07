@@ -13,7 +13,7 @@ class ImgHandler(tornado.web.RequestHandler):
 
     def get(self):
     	path = self.request.arguments["path"][0]
-        if path == "":
+        if path == "" or '.' not in path:
             self.finish()
             return
     	img_path = os.path.join(settings["data_path"], path)

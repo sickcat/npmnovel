@@ -1,5 +1,5 @@
 <template>
-    <div id="container" class="container">
+    <div id="container" class="container" :class="backgroundClass + ' ' +colorClass + ' ' + fontFamily">
         <div class="head" v-if="operation">
             <span class="arrow-left" @click="$router.push(preView)">
                 <Icon type="arrow-left-c"></Icon>
@@ -9,7 +9,7 @@
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
         <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass + ' ' + fontFamily" @doubletap="dbclickEvent()">
-            <header>{{bookChaptersContent.title}}</header>
+            <!--header>{{bookChaptersContent.title}}</header-->
             <article :class='fontFamily' id="font-size-color" v-html="bookChaptersBody"></article>
             
             <br>
@@ -145,7 +145,10 @@
                 </v-touch>
             </div>
             <ul id="chapter-list">
-                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" :class="{ selected: index==currentChapter}" @tap="jumpChapter(index)">{{chapter.title}}</v-touch>
+                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" :class="{ selected: index==currentChapter}" @tap="jumpChapter(index)">
+                <div class="title">{{chapter.title}}</div>
+                <div class="title2">&nbsp;{{chapter.title2}}</div>
+                </v-touch>
             </ul>
         </div>
 
@@ -205,7 +208,7 @@ export default {
     },
     computed: {
         bookChaptersBody() {
-            return this.bookChaptersContent && this.bookChaptersContent.body
+            return this.bookChaptersContent.body
             return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
@@ -301,7 +304,7 @@ export default {
                 this.operation = false;
                 this.setting = false;
                 //判断是否到底部
-                if (contanierEle.scrollHeight === contanierEle.scrollTop + screenHeight) {
+                if (contanierEle.scrollHeight === contanierEle.scrollTop + screenHeight || contanierEle.scrollHeight < contanierEle.scrollTop + screenHeight) {
                     if (this.currentChapter >= this.bookChapter.chapters.length-1) {
                         this.$Message.info('这已经是最新的章节了~');
                         return;
@@ -515,6 +518,8 @@ export default {
     height: 100vh;
     overflow: auto;
     color: #000;
+    padding-left: 5vw;
+    padding-right: 5vw;
 }
 
 header {
@@ -649,12 +654,22 @@ span {
     width: 80vw;
 }
 
+.title {
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+.title2 {
+    font-size: 1rem;
+    color: #807d7d;
+}
+
 .chapter-list ul {
     margin-top: 2.5rem;
 }
 
 .chapter-list li {
-    padding-top: 2.5rem;
+    padding-top: 0.5rem;
     padding-left: 1rem;
     line-height: 2.5rem;
     border-bottom: 1px solid #f2f2f2;
