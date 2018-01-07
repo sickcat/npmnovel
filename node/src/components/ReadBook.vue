@@ -109,7 +109,7 @@
             <v-touch class="menu-btn kaiti" @tap="update_family('kaiti')">
                 <span>楷体</span>
             </v-touch>
-            <v-touch class="menu-btn" @tap="add_speed(-1)">
+            <v-touch class="menu-btn" @tap="">
                 <span>定时翻页</span>
             </v-touch>
         </div>
@@ -655,12 +655,12 @@ span {
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #000000;
 }
 
 .title2 {
-    font-size: 1rem;
+    font-size: 0.5rem;
     color: #807d7d;
 }
 
