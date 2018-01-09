@@ -47,7 +47,7 @@
         </div>
         
         <!-- detail -->
-        <article class="book-intro" v-if="book" v-html="bookChaptersBody"></article>
+        <article class="book-intro" v-if="book" v-html="bookChaptersBody" margin-left="5vw"></article>
       
       </section>
       <!--<section></section>-->
