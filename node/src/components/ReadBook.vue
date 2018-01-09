@@ -10,14 +10,11 @@
 
         <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass + ' ' + fontFamily" @doubletap="dbclickEvent()">
             <!--header>{{bookChaptersContent.title}}</header-->
-            <article :class='fontFamily' id="font-size-color" v-html="bookChaptersBody"></article>
+            <article :class='fontFamily' id="fontStyle" v-html="bookChaptersBody" :fontFamily="fontFamily"></article>
             
             <br>
             <br>
-            <span text-align="center">点击底部阅读下一章</span>
-            <v-touch class="menu-btn" @tap="get_next()">
-                <span text-align="center">点击底部阅读下一章</span>
-            </v-touch>
+            <div class='mulucenter'>点击底部阅读下一章</div>
             <br>
             <br>
             <br>
@@ -145,9 +142,14 @@
                 </v-touch>
             </div>
             <ul id="chapter-list">
-                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" :class="{ selected: index==currentChapter}" @tap="jumpChapter(index)">
-                <div class="title">{{chapter.title}}</div>
-                <div class="title2">&nbsp;{{chapter.title2}}</div>
+                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" :class="{ selected: index==currentChapter}">
+                <v-touch v-if="chapter.click" @tap="jumpChapter(index)">
+                    <div class="title">{{chapter.title}}</div>
+                    <div class="title2">&nbsp;{{chapter.title2}}</div>
+                </v-touch>
+                <div v-else class="mulucenter">
+                    {{chapter.title}}
+                </div>
                 </v-touch>
             </ul>
         </div>
@@ -199,10 +201,10 @@ export default {
             setting: false,
             fontSize: 1.5,
             showNextTitle: true,
-            dbflag: true,
+            dbflag: false,
             timer: Object(),
             speed: 5,
-            fontFamily: '',
+            fontFamily: 'STKaiti',
             autoread: false,
         }
     },
@@ -311,6 +313,8 @@ export default {
                     } else {
                         //当前章节加1
                         this.currentChapter += 1;
+                        if (this.loadedChapters[this.currentChapter].click == 0)
+                            this.currentChapter += 1;
                     }
                 }
                 contanierEle.scrollTop += screenHeight;
@@ -379,10 +383,17 @@ export default {
         updateFont() {
             var fontSize = this.fontSize;
             var fontFamily = this.fontFamily;
+            this.fontFamily = "KaiTi";
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
-                        ele.style.fontFamily = fontFamily;
+                    ele.style.fontSize = fontSize + 'rem';
+                    ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                    ele.style.fontFamily = fontFamily;
+                });
+            Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
+                    ele.style.maxWidth =  '90vw';
+                    ele.style.maxHeight = '100vh';
+                    ele.style.width = "auto";
+                    ele.style.height = "auto";
                 });
         },
         add_fontsize(a) {
@@ -429,21 +440,23 @@ export default {
         },
         dbclickEvent() {
             var speed = this.speed;
-            if (this.dbflag && !this.autoread) {
+            if (!this.dbflag) {
                 clearInterval(this.timer);
                 this.timer=self.setInterval(function() {
                     var currentpos;
                     currentpos=document.getElementById("container").scrollTop;
                     document.getElementById("container").scrollTop = currentpos+speed;
                 },100);
+                this.dbflag = true;
+                this.autoread = false;
+                this.$Message.info('开始自动翻页');
             } else {
                 clearInterval(this.timer);
                 this.timer = Object();
-                if (this.autoread)
-                    this.$Message.info('自动翻页取消');
+                this.$Message.info('自动翻页取消');
                 this.autoread = false;
+                this.dbflag = false;
             }
-            this.dbflag = !this.dbflag;
         },
         add_speed(a) {
             if (a == 1) {
@@ -465,9 +478,13 @@ export default {
             if (this.dbflag || this.autoread) {
                 clearInterval(this.timer);
                 this.timer = Object();
-            }
-            if (!this.autoread) {
+                this.dbflag = false;
+                this.autoread = false;
+                this.$Message.info('自动翻页取消');
+            } else if (!this.autoread) {
                 clearInterval(this.timer);
+                this.dbflag = false;
+                this.autoread = true;
                 this.timer = self.setInterval(function() {
                     var currentpos;
                     currentpos=document.getElementById("container").scrollTop;
@@ -475,8 +492,6 @@ export default {
                 },5000 - speed*200)
                 this.$Message.info('开始自动翻页');
             }
-            this.dbflag = false;
-            this.autoread = !this.autoread
         },
         get_next() {
         }
@@ -490,6 +505,7 @@ export default {
         });
     },
     beforeRouteLeave(to, from, next) {
+        clearInterval(this.timer);
         let settings = {};
         settings["speed"] = this.speed;        
         settings["backgroundClass"] = this.backgroundClass;
@@ -745,5 +761,11 @@ span {
 }
 .selected {
     background: #66ccFF;
+}
+#fontStyle {
+    font-family: STKaiti;
+}
+.mulucenter {
+    text-align: center;
 }
 </style>

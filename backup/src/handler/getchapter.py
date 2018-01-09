@@ -59,6 +59,7 @@ class ChapterHandler(tornado.web.RequestHandler):
 				"title": each["title"] if each["title"] else each["chapter"],
 				"title2": title2,
 				"link": str(each["chapter_id"]),
+				"click": each["click"],
 				#"value": 100 if each["title"] not in mulusets.keys() else mulusets[each["title"]],
 			}
 			rdata["chapters"].append(idict)
@@ -89,7 +90,7 @@ class GetChapterHandler(tornado.web.RequestHandler):
 		book = mysql.get_book_from_id(int(chapter['book_id']))[0]
 		mysql.add_click(book["book_id"])
 		mysql.add_read(book["book_id"])
-		f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]))
+		f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]), "r")
 		body = f.read()
 		rdata = {
 			"title": book["title"],

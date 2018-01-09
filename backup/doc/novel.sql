@@ -13,7 +13,7 @@ CREATE TABLE `Book` (
   `last_chapter` int,
   `click_count` int(11) DEFAULT 0,
   `other_info` text DEFAULT NULL,
-  `deleted` DEFAULT 0,
+  `deleted` int(8) DEFAULT 0,
   PRIMARY KEY (`book_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -26,7 +26,8 @@ CREATE TABLE `Chapter` (
   `read_count` int(11) NOT NULL,
   `word_count` int(11),
   `longintro` text,
-  `deleted` DEFAULT 0,
+  `deleted` int(8) DEFAULT 0,
+  `click` int(8) DEFAULT 1,
   PRIMARY KEY (`chapter_id`),
   FOREIGN KEY (`book_id`) REFERENCES `Book` (`book_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;

@@ -56,6 +56,13 @@ def otk(file_path, book_id="tmp"):
 			sql = 'INSERT INTO Chapter(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES({0},"{1}", {2}, "{3}", "{4}", 0, {5})'.format(
 				chapter_id, torndb.MySQLdb.escape_string(each[:-5]), book_id, torndb.MySQLdb.escape_string(each[:-5]), torndb.MySQLdb.escape_string(each), int(float(size)/18))
 			database(1, sql)
+		elif each.split(".")[-1] == "txt":
+			size = os.path.getsize(os.path.join(word_path, each))
+			sql = "select max(chapter_id) from Chapter"
+			chapter_id = database(0, sql)[0]["max(chapter_id)"] + 1			
+			sql = 'INSERT INTO Chapter(chapter_id, chapter, book_id, title, link, read_count, word_count, click) VALUES({0},"{1}", {2}, "{3}", "{4}", 0, {5}, 0)'.format(
+				chapter_id, torndb.MySQLdb.escape_string(each[:-4]), book_id, torndb.MySQLdb.escape_string(each[:-4]), torndb.MySQLdb.escape_string(each), int(float(size)/18))
+			database(1, sql)
 
 	sql = 'update Book set last_chapter={0} where book_id={1}'.format(chapter_id, book_id)
 	mysql.database(1, sql)
@@ -66,7 +73,7 @@ def otk(file_path, book_id="tmp"):
 # 乱码问题？
 def rezip(file_path, book_id="tmp"):
 	#f = zipfile.ZipFile(file_path, 'r')
-	os.system("unzip -O CP936 " + file_path + ' -d ' + os.path.join(settings["data_path"], str(book_id)))
+	os.system("unzip -a -O CP936 -o " + file_path + ' -d ' + os.path.join(settings["data_path"], str(book_id)))
 	#for file in f.namelist():
 	#	f.extract(file, os.path.join(settings["data_path"], str(book_id)))
 
@@ -81,7 +88,7 @@ def update_img_src(path, book_id="tmp"):
 	for each in os.listdir(path):
 		if each.split(".")[-1] == "html":
 			f = open(os.path.join(path, each), "r")
-			soup = BeautifulSoup(f.read())
+			soup = BeautifulSoup(f.read(), "html.parser",from_encoding='gb18030')
 			f.close()
 			for img in soup.find_all("img"):
 				img["src"] = "/api/img?path=" + str(book_id) + "/" + img["src"]

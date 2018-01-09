@@ -57,6 +57,7 @@ class UpdateBooksHandler(tornado.web.RequestHandler):
 				"shortintro": "",
 				"deleted": 2,
 				"author": "",
+				"updated": "",
 			}
 			self.render('book.html', book = book)
 			return
@@ -75,15 +76,16 @@ class UpdateBooksHandler(tornado.web.RequestHandler):
 		longintro = torndb.MySQLdb.escape_string(self.request.arguments["longintro"][0])
 		shortintro = torndb.MySQLdb.escape_string(self.request.arguments["shortintro"][0])
 		deleted = int(self.request.arguments["deleted"][0])
+		update_time = self.request.arguments["updated"][0]
 		msg = ""
 		if URL == 'undefined':
 			sql = 'SELECT MAX(book_id) from Book'
 			book_id = mysql.database(0, sql)[0]["MAX(book_id)"] + 1
 			sql = 'INSERT INTO Book(book_id, cover, title, updated, cat, tags, read_count, word_count, longintro, author, shortintro, deleted) VALUES({0}, "", "{1}", "{2}", "", "", 0, {3}, "{4}", "{5}", "{6}", {7})'.format(
-				book_id, title, datetime.now().strftime("%Y-%m-%d"), word_count, longintro, author, shortintro, deleted)
+				book_id, title, update_time, word_count, longintro, author, shortintro, deleted)
 		else:
-			sql = 'UPDATE Book set title="{0}", author="{1}", word_count={2}, longintro="{3}", shortintro="{4}", deleted={5} where book_id={6}'.format(
-				title, author, word_count, longintro, shortintro, deleted, URL)
+			sql = 'UPDATE Book set title="{0}", author="{1}", word_count={2}, longintro="{3}", shortintro="{4}", deleted={5}, updated="{6}" where book_id={6}'.format(
+				title, author, word_count, longintro, shortintro, deleted, URL, update_time)
 		mysql.database(1, sql)
 		self.write("success")
 		self.finish()

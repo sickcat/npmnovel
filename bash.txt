@@ -1,0 +1,7 @@
+service nginx start
+service mysql start
+ENV LANG C.UTF-8
+sudo apt-get -y install language-pack-zh-hans
+export LANG=zh.CN.utf8
+export LC_ALL=zh_CN.UTF-8
+source /etc/profile

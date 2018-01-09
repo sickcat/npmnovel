@@ -14,7 +14,8 @@
           <p class="book-title" v-if="book">{{book.title}}</p>
           <p class="book-author" v-if="book">{{book.author}}</p>
           <p class="reader-info" v-if="book">
-            <span v-text=""></span>{{book.updated | ago}} | {{wordCount}}万字 | {{book.cat}}</p>
+            <!-- {{book.updated}} | ago -->
+            <span v-text=""></span>{{book.updated}} | {{wordCount}}万字 | {{book.cat}}</p>
         </div>
 
         <!-- button -->
@@ -46,30 +47,32 @@
         </div>
         
         <!-- detail -->
-        <p class="book-intro" v-if="book">{{book.longIntro}}</p>
+        <article class="book-intro" v-if="book" v-html="bookChaptersBody"></article>
       
       </section>
       <!--<section></section>-->
     </transition>
 
     <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
-      <div class="chapter-contents">
-          <p>{{book.title}}：目录</p>
-          <v-touch class="menu-btn" @tap="hideShow">
-            <span style="color: #66ccff;">隐藏</span>
-          </v-touch>
-          <v-touch tag="span" class="chapter-sort" @tap="descSort">
-              <Icon type="arrow-down-b" v-if="!chapterDescSort"></Icon>
-              <Icon type="arrow-up-b" v-else></Icon>
-          </v-touch>
+            <div class="chapter-contents">
+                <p>{{$store.state.bookInfo.title}}：目录</p>
+                <v-touch tag="span" class="chapter-sort" @tap="descSort">
+                    <Icon type="arrow-down-b" v-if="!chapterDescSort"></Icon>
+                    <Icon type="arrow-up-b" v-else></Icon>
+                </v-touch>
+            </div>
+            <ul id="chapter-list">
+                <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index">
+                <v-touch v-if="chapter.click" @tap="jumpChapter(index)">
+                    <div class="title">{{chapter.title}}</div>
+                    <div class="title2">&nbsp;{{chapter.title2}}</div>
+                </v-touch>
+                <div v-else class="mulucenter">
+                    {{chapter.title}}
+                </div>
+                </v-touch>
+            </ul>
       </div>
-      <ul id="chapter-list">
-          <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" @tap="jumpChapter(index)">
-                <div class="title">{{chapter.title}}</div>
-                <div class="title2">{{chapter.title2}}</div>
-          </v-touch>
-      </ul>
-    </div>
   </div>
 </template>
 
@@ -111,6 +114,9 @@ export default {
   computed: {
     wordCount() {
       return parseInt(this.book.wordCount / 10000, 10);
+    },
+    bookChaptersBody() {
+      return this.book.longIntro.replace(/\n/g, '<br>').replace(/ /g,'&nbsp;');
     }
   },
   created() {
@@ -370,14 +376,16 @@ section:first-child {
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #000000;
 }
 
 .title2 {
-    font-size: 1rem;
+    font-size: 0.5rem;
     color: #807d7d;
 }
-
+.mulucenter {
+    text-align: center;
+}
 
 </style>
