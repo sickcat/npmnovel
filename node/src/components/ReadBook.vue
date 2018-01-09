@@ -225,7 +225,7 @@ export default {
             //缓存时默认取前50章节
             //console.log(this.loadedChapters)
             if (this.$route.params.chapterId) {
-                this.currentChapter = this.$route.params.chapterId
+                this.currentChapter = parseInt(this.$route.params.chapterId)
             }
             else {
                 this.currentChapter = readRecord && readRecord[this.$route.params.bookId] && readRecord[this.$route.params.bookId].chapter ? readRecord[this.$route.params.bookId].chapter : 0;
@@ -256,7 +256,7 @@ export default {
             console.log("returnPos");
             let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
             if (readRecord[this.$route.params.bookId]) {
-                this.currentChapter = readRecord[this.$route.params.bookId].chapter;
+                this.currentChapter = parseInt(readRecord[this.$route.params.bookId].chapter);
                 document.getElementById("container").scrollTop = readRecord[this.$route.params.bookId].readPos;
             }
         },
@@ -270,7 +270,7 @@ export default {
         // todo 暂时获取一个章节内容，后续需要缓存3个章节左右
         getBookChapterContent() {
             this.loading = true;
-            api.getBookChapterContent(this.loadedChapters[this.currentChapter].link).then(response => {
+            api.getBookChapterContent(this.loadedChapters[parseInt(this.currentChapter)].link).then(response => {
                 this.title = response.data.title
                 this.bookChaptersContent = response.data.chapter;
                 this.loading = false;
@@ -312,9 +312,9 @@ export default {
                         return;
                     } else {
                         //当前章节加1
-                        this.currentChapter += 1;
+                        this.currentChapter = parseInt(this.currentChapter) + 1;
                         if (this.loadedChapters[this.currentChapter].click == 0)
-                            this.currentChapter += 1;
+                            this.currentChapter = parseInt(this.currentChapter) + 1;
                     }
                 }
                 contanierEle.scrollTop += screenHeight;
@@ -344,6 +344,7 @@ export default {
         //记录阅读历史
         recordReadHis(readRecord) {
             //目录正反序时，记录的都是正序排列的实际索引
+            console.log(this.currentChapter);
             let chapterRecord = this.chapterDescSort ? this.bookChapter.chapters.length - this.currentChapter - 1 : this.currentChapter;
             readRecord[this.$route.params.bookId] = {
                 cover: this.$store.state.bookInfo.cover,
