@@ -84,7 +84,7 @@ class UpdateBooksHandler(tornado.web.RequestHandler):
 			sql = 'INSERT INTO Book(book_id, cover, title, updated, cat, tags, read_count, word_count, longintro, author, shortintro, deleted) VALUES({0}, "", "{1}", "{2}", "", "", 0, {3}, "{4}", "{5}", "{6}", {7})'.format(
 				book_id, title, update_time, word_count, longintro, author, shortintro, deleted)
 		else:
-			sql = 'UPDATE Book set title="{0}", author="{1}", word_count={2}, longintro="{3}", shortintro="{4}", deleted={5}, updated="{6}" where book_id={6}'.format(
+			sql = 'UPDATE Book set title="{0}", author="{1}", word_count={2}, longintro="{3}", shortintro="{4}", deleted={5}, updated="{7}" where book_id={6}'.format(
 				title, author, word_count, longintro, shortintro, deleted, URL, update_time)
 		mysql.database(1, sql)
 		self.write("success")
