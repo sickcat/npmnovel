@@ -10,25 +10,13 @@ import Book from '@/components/Book'
 import ReadBook from '@/components/ReadBook'
 import Search from '@/components/Search'
 import BookcatDetail from '@/components/BookcatDetail'
+import Title from '@/components/Title'
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      component: Overview,
-      redirect: '/bookshelf',
-      children: [{
-        path: '/bookshelf',
-        name: 'bookshelf',
-        component: Bookshelf
-      }, {
-        path: '/bookcat',
-        name: 'bookcat',
-        component: BookcatDetail
-      },]
-    }, {
       path: '/bookcat/detail',
       name: 'bookcatDetail',
       component: BookcatDetail
@@ -50,6 +38,23 @@ export default new Router({
       component: Search
     }, {
       path: 'searchresult'
+    }, {
+      path: '/flash',
+      name: 'flash',
+      component: Title,
+    }, {
+      path: '/',
+      component: Overview,
+      redirect: '/bookshelf',
+      children: [{
+        path: '/bookshelf',
+        name: 'bookshelf',
+        component: Bookshelf
+      }, {
+        path: '/bookcat',
+        name: 'bookcat',
+        component: BookcatDetail
+      }]
     },
   ]
 })

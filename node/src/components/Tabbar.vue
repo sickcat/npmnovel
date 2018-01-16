@@ -11,7 +11,7 @@
         <li>
             <router-link to="/bookcat" active-class="active" exact>
                 <div>
-                    <Icon name="shopping-cart"></Icon>
+                    <Icon name="list"></Icon>
                 </div>
                 <div>目录</div>
             </router-link>
@@ -40,7 +40,7 @@ export default {
     display: -webkit-flex;
     flex-direction: row;
     justify-content: center;
-    background: #fff;
+    background: #005390;
     width: 100vw;
 }
 
@@ -48,7 +48,6 @@ export default {
     width: 33.3%;
     text-align: center;
     padding-top: .3rem;
-    border-top: 1px solid #ece3e3;
 }
 
 .tabbar p {
@@ -64,10 +63,10 @@ export default {
 .tabbar li a {
     font-size: 0.8rem;
     text-decoration: none;
-    color: #a58181;
+    color: #ffffff;
 }
 
 .tabbar li .active {
-    color: #6d7ac5;
+    color: #ffffff;
 }
 </style>

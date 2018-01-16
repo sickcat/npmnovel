@@ -4,27 +4,24 @@
 
     <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
-    <transition name="fade">
+    <transition name="fade"> 
       <section v-show="!loading">
 
         <!-- book name and so on -->
-        <img v-if="book" :src="staticPath + book.cover">
+        <div class="back-blue">
+          <img v-if="book" :src="staticPath + book.cover">
 
-        <div class="book-info">
-          <p class="book-title" v-if="book">{{book.title}}</p>
-          <p class="book-author" v-if="book">{{book.author}}</p>
-          <p class="reader-info" v-if="book">
-            <!-- {{book.updated}} | ago -->
-            <span v-text=""></span>{{book.updated}} | {{wordCount}}万字 | {{book.cat}}</p>
+          <div class="book-info">
+            <p class="book-title" v-if="book">{{book.title}}</p>
+            <br>
+            <p class="book-line"></p>
+            <br>
+            <p class="book-author" v-if="book">{{book.author}}</p>
+            <p class="reader-info" v-if="book">
+              <!-- {{book.updated}} | ago -->
+              <span v-text=""></span>{{book.updated}} | {{wordCount}}万字 | {{book.cat}}</p>
+          </div>
         </div>
-
-        <!-- button -->
-        <div class="book-operation">
-          <button class="btn" @click="readBook">开始阅读</button>
-          <button class="btn" @click="followAction">{{isFollowed ? '从书架移除' : '加入书架'}}</button>
-          <button class="btn" @click="showChapter">{{isShowChapter ? '隐藏目录' : '显示目录'}}</button>
-        </div>
-
         <!-- statics -->
         <div class="book-status">
           <div class="list-item">
@@ -41,13 +38,35 @@
           </div>
         </div>
 
-        <!-- tag -->
-        <div class="book-tag" v-if="book">
-          <span v-for="(tag, index) in book.tags" :key="index" class="tag">{{tag}}</span>
+        <!-- button -->
+        <div class="book-operation">
+          <button class="btn" @click="readBook">
+            <img class="btn-img" src="/static/png/startreading.png">
+          </button>
+          <!--button class="btn" @click="followAction">{{isFollowed ? '从书架移除' : '加入书架'}}</button-->
+          <button class="btn" @click="followAction" :class="{ backblue: isFollowed}">
+            <img class="btn-img" src="/static/png/addtocraft.png">
+          </button>
+          <button class="btn" @click="showChapter">
+            <img class="btn-img" src="/static/png/showcat.png">
+          </button>
+          <!--button class="btn" @click="showChapter">{{isShowChapter ? '隐藏目录' : '显示目录'}}</button-->
         </div>
-        
+
+
+        <!-- tag -->
+        <!--div class="book-tag" v-if="book">
+          <span v-for="(tag, index) in book.tags" :key="index" class="tag">{{tag}}</span>
+        </div-->
+        <div class="book-des">
+          <div class="vertical-line">
+            &nbsp;&nbsp;<b>书籍简介&nbsp;：</b>
+          </div>
+        </div>
         <!-- detail -->
-        <article class="book-intro" v-if="book" v-html="bookChaptersBody" margin-left="5vw"></article>
+        <div>
+          <article class="book-intro" v-if="book" v-html="bookChaptersBody"></article>      
+        </div>
       
       </section>
       <!--<section></section>-->
@@ -64,8 +83,8 @@
             <ul id="chapter-list">
                 <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index">
                 <v-touch v-if="chapter.click" @tap="jumpChapter(index)">
-                    <div class="title">{{chapter.title}}</div>
-                    <div class="title2">&nbsp;{{chapter.title2}}</div>
+                    <div class="title">&nbsp;·&nbsp;{{chapter.title}}</div>
+                    <div class="title2">&nbsp;&nbsp;&nbsp;{{chapter.title2}}</div>
                 </v-touch>
                 <div v-else class="mulucenter">
                     {{chapter.title}}
@@ -182,11 +201,13 @@ export default {
       let localShelf = JSON.parse(storage.getItem('followBookList')) ? JSON.parse(storage.getItem('followBookList')) : {};
       if (this.isFollowed) {
         //删除该书籍在本地的缓存记录
+        this.$Message.info('已从书架删除');
         delete localShelf[this.book._id];
         //重新保存
         storage.setItem("followBookList", JSON.stringify(localShelf));
         this.isFollowed = !this.isFollowed;
       } else {
+        this.$Message.info('加入书架成功');
         // 以bookId为键值，方便后续删除等操作
         localShelf[this.book._id] = {
           cover: this.book.cover,
@@ -204,19 +225,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 img {
-  width: 5rem;
-  height: 6rem;
+  width: 6rem;
+  height: 9rem;
   float: left;
   margin-right: 0.4rem;
 }
 
 section {
   box-sizing: border-box;
-  padding-right: 1rem;
-  padding-left: 1rem;
   padding-bottom: 0.2rem;
   padding-top: 0.2rem;
-  margin-top: 3.5rem;
+  margin-top: 2.9rem;
   width: 100vw;
 }
 
@@ -224,18 +243,46 @@ section:first-child {
   margin-bottom: 1rem;
 }
 
+.back-blue {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  width: 100vw;
+  height: 11em;
+  background: #005390;
+}
+
+.backblue {
+  background: #005390;
+  color: #005390;
+}
+
 .book-info {
   box-sizing: border-box;
   width: 100%;
-  height: 6rem;
-  padding-left: 6rem;
+  height: 9rem;
+  padding-left: 7.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  color: #ffffff;
 }
 
 .book-info p {
   margin: 0;
   line-height: 1.8rem;
+}
+
+.book-title {
+  font-size: 1.4rem;
+}
+
+.book-author {
+  font-size: 0.8rem !important;
+}
+
+.book-line {
+  margin-top: 1rem;
+  width: 5rem;
+  border: 1px solid #f2f2f2;
 }
 
 .book-operation {
@@ -247,18 +294,36 @@ section:first-child {
   border-bottom: 1px solid #f2f2f2;
 }
 
-.book-operation .btn {
-  width: 6rem;
-  background: #03a9f4;
+.book-operation {
+  width: 100vw;
   border: none;
   color: #fff;
   font-size: 1rem;
   text-align: center;
-  line-height: 2.2rem;
+  line-height: 1rem;
   border-radius: .2rem;
 }
 
-.book-operation .btn:focus {
+.btn {
+  width: 6rem;
+  background: #ffffff;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  height: 1rem;
+  border-radius: .2rem;
+  outline: none;
+}
+
+.btn-img {
+  width: 6rem;
+  height: 2rem;
+  float: left;
+  margin-right: 0.4rem;
+}
+
+.book-operation:focus {
   background: #2196f3;
   outline: none;
 }
@@ -269,7 +334,15 @@ section:first-child {
   justify-content: space-around;
   flex-wrap: wrap;
   padding: 1rem 0;
-  border-bottom: 1px solid #f2f2f2;
+  width: 95vw;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
+  border-bottom: 1px solid #B1B1B1;
+}
+
+.vertical-line {
+  margin-left: 2vw;
+  border-left: 0.5rem solid #005390;
 }
 
 .list-item {
@@ -322,7 +395,9 @@ section:first-child {
   font-size: 0.9rem;
 }
 .book-intro{
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 .chapter-list {
     position: absolute;

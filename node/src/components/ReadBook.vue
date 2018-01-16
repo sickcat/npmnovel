@@ -19,9 +19,35 @@
             <br>
             <br>
         </v-touch>
+        <div class="setting" v-if="setting">
+            <v-touch class="menu-btn middle-menu" id='autoread' @tap="auto_read()">
+                <Icon type="ios-play-outline"></Icon>
+                自动阅读
+            </v-touch>
+            <v-touch class="middle-menu menu-btn m-border" @tap="add_speed(1)">
+                滚动速度+
+            </v-touch>
+            <v-touch class="menu-btn m-border middle-menu" @tap="add_speed(-1)">
+                滚动速度-
+            </v-touch>
+        </div>
+        <div class="setting2" v-if="setting">
+            <div class="menu-btn">
+                字号：
+            </div>
+            <v-touch class="menu-btn font-border" @tap="add_fontsize(1)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aa&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </v-touch>
+            <div class="menu-btn">
+                {{fontSize.toFixed(1)}}
+            </div>
+            <v-touch class="menu-btn font-border" @tap="add_fontsize(-1)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aa&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </v-touch>  
+        </div>
         
 
-        <div class="setting" v-if="setting">
+        <!--div class="setting" v-if="setting">
             <v-touch class="menu-btn" @tap="auto_read()">
                 <Icon type="ios-clock-outline"></Icon>
                 <span>定时翻页</span>
@@ -42,8 +68,8 @@
                 <Icon type="ios-down-outline"></Icon>
                 <span>滚动速度-</span>
             </v-touch>
-        </div>
-        <div class="setting2" v-if="setting">
+        </div-->
+        <!--div class="setting2" v-if="setting">
             <v-touch class="menu-btn">
                 <span>背景颜色</span>
             </v-touch>
@@ -67,30 +93,35 @@
                 <span class='circle background-4'>
                 </span>  
             </v-touch>
-        </div>
+        </div-->
         <div class="setting3" v-if="setting">
             <v-touch class="menu-btn">
-                <span>字体颜色</span>
+                背景:
             </v-touch>
             <v-touch class="menu-btn" @tap="change_color(0)">
-                <span class='circle color-back-0'>
-                </span>  
+                <div class='circle color-back-0'>
+                Aa
+                </div>  
             </v-touch>
             <v-touch class="menu-btn" @tap="change_color(1)">
-                <span class='circle color-back-1'>
-                </span>  
+                <div class='circle color-back-1'>
+                Aa
+                </div>  
             </v-touch>
             <v-touch class="menu-btn" @tap="change_color(2)" style="background: #FFFFFF;">
-                <span class='circle color-back-2'>
-                </span>  
+                <div class='circle color-back-2'>
+                Aa
+                </div>  
             </v-touch>
             <v-touch class="menu-btn" @tap="change_color(3)">
-                <span class='circle color-back-3'>
-                </span>  
+                <div class='circle color-back-3'>
+                Aa
+                </div>  
             </v-touch>
             <v-touch class="menu-btn" @tap="change_color(4)">
-                <span class='circle color-back-4'>
-                </span>  
+                <div class='circle color-back-4'>
+                Aa
+                </div>  
             </v-touch>
         </div>
         <div class="setting4" v-if="false">
@@ -112,25 +143,25 @@
         </div>
 
         <div class="menu" v-if="operation">
-            <v-touch class="menu-btn" v-if="nightMode" @tap="changeMode">
-                <Icon type="ios-sunny-outline"></Icon>
-                <span>日间模式</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="changeMode" v-else>
-                <Icon type="ios-moon-outline"></Icon>
-                <span>夜间模式</span>
+            <v-touch class="menu-btn" @tap="showChapter">
+                <Icon type="ios-list-outline"></Icon>
+                目录
             </v-touch>
             <v-touch class="menu-btn" @tap="returnPos()">
                 <Icon type="ios-clock-outline"></Icon>
-                <span>回到历史位置</span>
+                回到历史位置
             </v-touch>
-            <v-touch class="menu-btn" @tap="showChapter">
-                <Icon type="ios-list-outline"></Icon>
-                <span>目录</span>
+            <v-touch class="menu-btn" v-if="nightMode" @tap="changeMode">
+                <Icon type="ios-sunny-outline"></Icon>
+                日间模式
+            </v-touch>
+            <v-touch class="menu-btn" @tap="changeMode" v-else>
+                <Icon type="ios-moon-outline"></Icon>
+                夜间模式
             </v-touch>
             <v-touch class="menu-btn" @tap="settings">
-                <Icon type="ios-setting-outline"></Icon>
-                <span>设置</span>
+                <Icon type="settings"></Icon>
+                设置
             </v-touch>
         </div>
         <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
@@ -141,11 +172,11 @@
                     <Icon type="arrow-up-b" v-else></Icon>
                 </v-touch>
             </div>
-            <ul id="chapter-list">
+            <ul class="scroll-style">
                 <v-touch tag="li" v-if="loadedChapters" v-for="(chapter, index) in loadedChapters" :key="index" :class="{ selected: index==currentChapter}">
                 <v-touch v-if="chapter.click" @tap="jumpChapter(index)">
-                    <div class="title">{{chapter.title}}</div>
-                    <div class="title2">&nbsp;{{chapter.title2}}</div>
+                    <div class="title">&nbsp;·&nbsp;{{chapter.title}}</div>
+                    <div class="title2">&nbsp;&nbsp;&nbsp;{{chapter.title2}}</div>
                 </v-touch>
                 <div v-else class="mulucenter">
                     {{chapter.title}}
@@ -535,8 +566,8 @@ export default {
     height: 100vh;
     overflow: auto;
     color: #000;
-    padding-left: 5vw;
-    padding-right: 5vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
 }
 
 header {
@@ -563,8 +594,8 @@ span {
     left: 0;
     height: 3rem;
     width: 100vw;
-    background: #000;
-    color: #f3e7e7;
+    background: #fff;
+    color: #000000;
     text-align: center;
     line-height: 3rem;
 }
@@ -576,7 +607,8 @@ span {
     position: fixed;
     bottom: 0;
     left: 0;
-    background: #000;
+    color: #000;
+    background: #fff;
     height: 3.5rem;
     width: 100vw;
 }
@@ -586,31 +618,47 @@ span {
     flex-direction: row;
     justify-content: space-around;
     position: fixed;
-    top: 0;
+    bottom: 3.5rem;
     left: 0;
-    background: #000;
-    height: 3rem;
+    background: #fff;
+    height: 2.5rem;
     width: 100vw;
+    border-top: 1px solid #C8C0A8;
+    border-bottom: 1px solid #C8C0A8;
 }
+#autoread {
+    margin-top: 0.5rem;
+    flex-direction: row;
+    vertical-align: middle;
+    position: relative;
+}
+
+
 .setting2 {
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
     position: fixed;
-    top: 3rem;
+    bottom: 6rem;
     left: 0;
-    background: #000;
+    background: #fff;
     height: 3.5rem;
     width: 100vw;
 }
+.font-border {
+    border: 1px solid #C8C0A8;
+    border-radius: 10%;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .setting3 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     position: fixed;
-    top: 6rem;
+    bottom: 9.5rem;
     left: 0;
-    background: #000;
+    background: #fff;
     height: 3.5rem;
     width: 100vw;
 }
@@ -631,14 +679,24 @@ span {
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.3rem;
+    justify-content:center;
 }
 
 .menu-btn {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: #f3e7e7;
-    text-align: center
+    color: #000;
+    text-align: center;
+    font-size: 0.7rem !important;
+}
+
+.menu-img {
+    height: 2.3rem;
+    width: auto;
 }
 
 .menu-btn i {
@@ -650,6 +708,7 @@ span {
 }
 
 .arrow-left {
+    color: #005d9c;
     position: absolute;
     left: 1rem;
     line-height: 3rem;
@@ -663,7 +722,7 @@ span {
 
 .chapter-list {
     position: absolute;
-    top: 0;
+    top: 0rem;
     left: 0;
     height: 100vh;
     overflow: auto;
@@ -693,20 +752,20 @@ span {
 }
 
 .chapter-contents {
-    position: fixed;
     top: 0;
     left: 0;
-    width: 80vw;
+    width: 75vw;
     background: #fff;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     line-height: 2.5rem;
     padding-left: 1rem;
+    color: #000;
 }
 
 .chapter-sort {
-    margin-right: 1.5rem;
+    margin-right: 2rem;
     font-size: 1.4rem !important;
 }
 
@@ -731,34 +790,44 @@ span {
     background: #FDEEC3;
 }
 .color-0 {
-    color: #807d7d;
+    background: #FEFBEB;
+    color: #363636;
 }
 .color-back-0 {
-    background: #807d7d;   
+    background: #FEFBEB;
+    color: #363636;
 }
 .color-1 {
-    color: #FFFFFF;
+    background: #DEF0ED;
+    color: #363636; 
 }
 .color-back-1 {
-    background: #FFFFFF;   
+    background: #DEF0ED;
+    color: #363636; 
 }
 .color-2 {
-    color: #000000;
+    background: #CEB294;
+    color: #363636; 
 }
 .color-back-2 {
-    background: #000000;   
+    background: #CEB294;
+    color: #363636;   
 }
 .color-3 {
-    color: #E50006;
+    background: #DED5C3;
+    color: #363636; 
 }
 .color-back-3 {
-    background: #E50006;   
+    background: #DED5C3;
+    color: #363636;   
 }
 .color-4 {
-    color: #FFFBB1;
+    background: #375149;
+    color: #FDFBFC;
 }
 .color-back-4 {
-    background: #FFFBB1;   
+    background: #375149;
+    color: #FDFBFC;   
 }
 .selected {
     background: #66ccFF;
@@ -768,5 +837,20 @@ span {
 }
 .mulucenter {
     text-align: center;
+    color: #005d9c;
+}
+.chapter-list::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 1rem;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1rem;
+}
+.chapter-list::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2);
+}
+.chapter-list::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 0;
+    background: rgba(0,0,0,0.1);
 }
 </style>

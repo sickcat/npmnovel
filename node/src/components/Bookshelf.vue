@@ -2,11 +2,27 @@
   <div>
     <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
     <div v-show="!loading">
-      <button type="button" class="add-book" v-if="!books.length" @click="$router.push('/bookcat')">添加书籍</button>
 
       <!-- bookshelf list -->
       <ul class="book-shelf" v-if="books.length">
         <v-touch tag="li" class="book-list-wrap" v-for="(book, index) in books" :key="index" @swipeleft="showDelBookBtn" @swiperight="hideDelBookBtn">
+          <v-touch class="book-list" @tap="gotobook(book)">
+            <img :src="getImgSrc(book)" />
+            <div class="info">
+              <p class="title">{{book.title}}</p>
+              <p class="updated">更新时间：{{book.updated | ago}}</p>
+              <p class="updated">最后章节：{{book.lastChapter}}</p>
+              <v-touch class="continue" @tap="readbook(book)">续看</v-touch>
+            </div>
+            <v-touch class="del-book-btn" @tap="delBook($event,index)">删除</v-touch>
+          </v-touch>
+        </v-touch>
+        <v-touch tag="li" class="book-list-wrap">
+        <button type="button" class="add-book" @click="$router.push('/bookcat')">添加书籍+</button>
+        </v-touch>
+      </ul>
+      <!--div class="book-div">
+         <v-touch tag="div" class="book-list-div" v-for="(book, index) in books" :key="index" @swipeleft="showDelBookBtn" @swiperight="hideDelBookBtn">
           <v-touch class="book-list" @tap="readbook(book)">
             <img :src="getImgSrc(book)" />
             <div class="info">
@@ -16,7 +32,7 @@
             <v-touch class="del-book-btn" @tap="delBook($event,index)">删除</v-touch>
           </v-touch>
         </v-touch>
-      </ul>
+      </div-->
 
     </div>
   </div>
@@ -107,11 +123,14 @@ export default {
      * 设置头部文字
      */
     changeHeadText() {
-      this.$store.commit('setHeadText', '书架');
+      this.$store.commit('setHeadText', '我的书架');
     },
     readbook(book) {
       this.$store.commit('setReadBook', book);
       this.$router.push('/readbook/' + book._id);
+    },
+    gotobook(book) {
+      this.$router.push('/book/' + book._id);
     },
     showDelBookBtn(e) {
       let target = e.target.parentElement;
@@ -175,8 +194,8 @@ export default {
 
 .book-list-wrap {
   position: relative;
-  height: 5rem;
-  margin-bottom: .2rem;
+  height: 7rem;
+  margin-bottom: .5rem;
 }
 
 .book-list {
@@ -190,8 +209,8 @@ export default {
 }
 
 .book-list img {
-  width: 4.2em;
-  height: 5rem;
+  width: 5em;
+  height: 7rem;
   float: left;
   margin-right: .4rem;
 }
@@ -202,9 +221,10 @@ export default {
   justify-content: center;
   box-sizing: border-box;
   width: 100%;
-  height: 5rem;
+  height: 7rem;
   margin-left: .6rem;
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 2px solid #f2f2f2;
+  padding-bottom: 1rem;
 }
 
 .info p {
@@ -221,7 +241,23 @@ export default {
   color: #fff;
   background: red;
   width: 40vw;
-  line-height: 5rem;
+  line-height: 7rem;
   text-align: center;
+}
+
+.book-div {
+  float: left;
+}
+.book-list-dev {
+  float: left;
+}
+.continue {
+  width: 4rem;
+  line-height: 1.8rem;
+  font-size: 1rem;
+  background: #04b1ff;
+  text-align: center;
+  border-radius: 4px;
+  color: #ffffff;
 }
 </style>

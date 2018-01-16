@@ -1,15 +1,24 @@
 <template>
     <div>
         <Topbar :showArrow="showArrow" goBack="/bookcat" :headText="major" :showFun="showFun"></Topbar>
-        <div class="select">
-            <ul class="select-bar">
-                <li v-for="(item, index) in types" @click="setType(item.type)">{{item.name}}</li>
-            </ul>
+        <div>
             
-            <ul class="select-bar">
+        </div>
+        <div class="select">
+            <!--ul class="select-bar">
+                <li v-for="(item, index) in types" @click="setType(item.type)">{{item.name}}</li>
+            </ul-->
+            
+            <!--ul class="select-bar">
                 <li data-type="hot">全部</li>
                 <li v-if="mins" v-for="(minor, index) in mins" @click="setMinor(minor)">{{minor}}</li>
-            </ul>
+            </ul-->
+        </div>
+        <div>
+            <img src="/static/png/timg.jpeg">
+        </div>
+        <div class="newest">
+            &nbsp;&nbsp;最新书籍&nbsp;：
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
         <ul v-show="!loading" class="book-list">
@@ -39,7 +48,7 @@ export default {
             books: null,
             type: 'hot',
             gender: '',
-            major: '',
+            major: '书籍中心',
             minor: '',
             mins: null,
             types: [{
@@ -99,6 +108,12 @@ export default {
 }
 </script>
 <style scoped>
+img {
+    margin: 5vw;
+    width: 90vw;
+    height: 10rem;
+    border-radius: 10px;
+}
 .select {
     position: fixed;
     top: 3rem;
@@ -128,7 +143,12 @@ export default {
 }
 .book-list{
     width: 100vw;
-    margin-top: 8rem;
-    background: #f2f2f2;
+    margin-top: 0rem;
+    background: #ffffff;
+}
+.newest {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    border-left: 1rem solid #005390;
 }
 </style>
