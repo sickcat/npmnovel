@@ -13,9 +13,7 @@
 
           <div class="book-info">
             <p class="book-title" v-if="book">{{book.title}}</p>
-            <br>
             <p class="book-line"></p>
-            <br>
             <p class="book-author" v-if="book">{{book.author}}</p>
             <p class="reader-info" v-if="book">
               <!-- {{book.updated}} | ago -->
@@ -272,7 +270,7 @@ section:first-child {
 }
 
 .book-title {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 .book-author {
@@ -292,6 +290,7 @@ section:first-child {
   padding-top: 3rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid #f2f2f2;
+  margin-bottom: 3rem;
 }
 
 .book-operation {
@@ -398,6 +397,7 @@ section:first-child {
   margin-top: 0.5rem;
   padding-left: 5vw;
   padding-right: 5vw;
+  font-size: 1.1rem;
 }
 .chapter-list {
     position: absolute;

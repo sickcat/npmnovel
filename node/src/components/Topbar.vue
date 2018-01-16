@@ -3,7 +3,7 @@
         <span v-if="!showArrow"></span>
         <router-link v-else :to="goBack" class="operation"><Icon name="arrow-left" ></Icon></router-link>
         <div class="header-text">
-            <span>{{headText}}</span>
+            <span class="headText">{{headText}}</span>
         </div>
         <div class="operation" v-if="false">
             <span @click="$router.push({path:'/search'})"><Icon  name="search"></Icon></span>
@@ -88,5 +88,8 @@ header a{
 .operation{
     z-index:10;
     margin-right: 1rem;
+}
+.headText {
+    font-size: 1.1rem !important;
 }
 </style>
