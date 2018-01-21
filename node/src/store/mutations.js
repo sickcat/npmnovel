@@ -16,5 +16,8 @@ export default {
     },
     setReadBook(state,book){
         state.bookInfo = book; 
-    }
+    },
+    setTitle(state,title) {
+        state.title = title;
+    },
 }

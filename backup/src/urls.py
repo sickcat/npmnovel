@@ -14,8 +14,8 @@ from handler.Img import ImgHandler
 from handler.types import TypesHandler
 from handler.oms import GetBooksHandler
 from handler.oms import UpdateBooksHandler, ZipHandler
-from handler.search import SearchHotWordHandler
-
+from handler.search import SearchHotWordHandler, AutoCompleteHandler
+from handler.search import FuzzyHandler
 url_patterns = [
 
     #Test server
@@ -33,7 +33,9 @@ url_patterns = [
     (r'/oms/books', GetBooksHandler),
     (r'/oms/book/(\w+)', UpdateBooksHandler),
     (r'/oms/zip', ZipHandler),
-    (r'/api/book/search-hotwords', SearchHotWordHandler)
+    (r'/api/book/search-hotwords', SearchHotWordHandler),
+    (r'/api/book/auto-complete', AutoCompleteHandler),
+    (r'/api/book/search-hotwords/fuzzy', FuzzyHandler)
     #(r'/index/(\w+)', MainHandler),
     #(r'/index', MainHandler),
     #(r'/movie/(\w+)', MovieHandler),

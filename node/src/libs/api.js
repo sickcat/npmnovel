@@ -114,8 +114,8 @@ export default {
      * http://api05iye5.zhuishushenqi.com/book/auto-complete?query=%E6%96%97%E7%BD%97
      */
     autoComplete(searchWord){
-        //return Vue.http.get('/book/auto-complete?query='+searchWord)
-        return Vue.http.get('/api/book/search-hotwords/auto/' + searchWord);
+        return Vue.http.get('/api/book/auto-complete?query='+searchWord)
+        //return Vue.http.get('/api/book/search-hotwords/auto/' + searchWord);
     },
 
     /**
@@ -124,7 +124,7 @@ export default {
      */
     fuzzySearch(searchWord){
         //return Vue.http.get('/book/fuzzy-search?query='+searchWord)
-        return Vue.http.get('/api/book/search-hotwords/fuzzy/' + searchWord);
+        return Vue.http.get('/api/book/search-hotwords/fuzzy?query=' + searchWord);
     },
 
 

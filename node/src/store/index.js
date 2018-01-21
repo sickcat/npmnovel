@@ -11,7 +11,8 @@ const state = {
     totalRankId: '',
     headText: '', //头部文字
     backPath:{},
-    bookInfo: {}
+    bookInfo: {},
+    title: '',
 };
 
 export default new Vuex.Store({

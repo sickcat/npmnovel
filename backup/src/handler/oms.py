@@ -87,6 +87,8 @@ class UpdateBooksHandler(tornado.web.RequestHandler):
 			sql = 'UPDATE Book set title="{0}", author="{1}", word_count={2}, longintro="{3}", shortintro="{4}", deleted={5}, updated="{7}" where book_id={6}'.format(
 				title, author, word_count, longintro, shortintro, deleted, URL, update_time)
 		mysql.database(1, sql)
+		settings["all_books_title"] = []
+		settings["all_chapters_title"] = []
 		self.write("success")
 		self.finish()
 
@@ -95,6 +97,8 @@ class ZipHandler(tornado.web.RequestHandler):
 
 	#接收上传的zip文件夹,并调用更新脚本
 	def post(self, URL=""):
+		settings["all_books_title"] = []
+		settings["all_chapters_title"] = []
 		book_id = int(self.request.arguments["book_id"][0])
 		f = self.request.files.get('fileUpload')
 		sql = 'SELECT * FROM Book WHERE book_id={0}'.format(book_id)

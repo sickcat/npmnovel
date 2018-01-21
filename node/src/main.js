@@ -8,6 +8,8 @@ import Ajax from './libs/ajax'
 import store from './store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'    // 使用 CSS
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import vuescroll from 'vue-scroll'
 
 Vue.use(vuescroll)
@@ -41,6 +43,6 @@ document.addEventListener('contextmenu', event => {
   event.stopPropagation();
 });
 //Disable double click selection
-document.addEventListener('mousedown', e => {
-  e.preventDefault();
-})
+//document.addEventListener('mousedown', e => {
+//  e.preventDefault();
+//})

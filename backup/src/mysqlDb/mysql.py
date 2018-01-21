@@ -64,3 +64,7 @@ def get_chapter_from_id(chapter_id):
 def get_all_cats():
 	sql = 'select * from Cat'
 	return database(0, sql)
+
+def get_all_chapter():
+	sql = 'select * from Chapter where book_id in (select book_id from Book where deleted != 1) and deleted!=1'
+	return database(0, sql)

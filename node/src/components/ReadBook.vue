@@ -4,7 +4,7 @@
             <span class="arrow-left" @click="$router.push(preView)">
                 <Icon type="arrow-left-c"></Icon>
             </span>
-            {{$store.state.bookInfo.title}}
+            {{$store.state.title}}
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
@@ -166,7 +166,7 @@
         </div>
         <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
             <div class="chapter-contents">
-                <p>{{$store.state.bookInfo.title}}：目录</p>
+                <p>{{$store.state.title}}：目录</p>
                 <v-touch tag="span" class="chapter-sort" @tap="descSort">
                     <Icon type="arrow-down-b" v-if="!chapterDescSort"></Icon>
                     <Icon type="arrow-up-b" v-else></Icon>
@@ -237,6 +237,7 @@ export default {
             speed: 5,
             fontFamily: 'STKaiti',
             autoread: false,
+            book_id: 0,
         }
     },
     computed: {
@@ -375,7 +376,7 @@ export default {
         //记录阅读历史
         recordReadHis(readRecord) {
             //目录正反序时，记录的都是正序排列的实际索引
-            console.log(this.currentChapter);
+            //console.log(this.currentChapter);
             let chapterRecord = this.chapterDescSort ? this.bookChapter.chapters.length - this.currentChapter - 1 : this.currentChapter;
             readRecord[this.$route.params.bookId] = {
                 cover: this.$store.state.bookInfo.cover,
@@ -422,14 +423,14 @@ export default {
                     ele.style.fontFamily = fontFamily;
                 });
             Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
-                    ele.style.maxWidth =  '90vw';
-                    ele.style.maxHeight = '100vh';
                     ele.style.width = "auto";
                     ele.style.height = "auto";
+                    ele.style.maxWidth =  '90vw';
+                    ele.style.maxHeight = '100vh';
                 });
         },
         add_fontsize(a) {
-            console.log(a);
+            //console.log(a);
             var fontSize = this.fontSize;
             var fontFamily = this.fontFamily;
             if (a == 0) {
@@ -535,6 +536,12 @@ export default {
             if (vm.preView == "/")
                 vm.preView = "/bookshelf"
         });
+        str = str.match(/\/readbook\/(\S*)\/\d/);
+        if (str) {
+            str = str[1];
+            console.log(this);
+            this.book_id = parseInt(str)
+        }
     },
     beforeRouteLeave(to, from, next) {
         clearInterval(this.timer);

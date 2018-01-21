@@ -4,29 +4,46 @@
       <span class="search-icon">
         <Icon type="ios-search-strong"></Icon>
       </span>
-      <input name="searchinput" type="text" class="search-input" placeholder="输入书名/作者名/章节名/公安分局名" @keyup.enter="fuzzySearch" @keyup="autoComplete" :value="searchWord">
-      <button type="button" class="cancel" @click="$router.push({path:back})">取消</button>
+      <input type="text" class="search-input" placeholder="输入书名或者作者名" @input="autoComplete" @keyup.enter="fuzzySearch" v-model="searchWord">
+      <!--button type="button" class="cancel" @click="$router.push({path:back})">取消</button-->
+      <button type="button" class="cancel" @click="$router.push('/bookcat')">取消</button>
     </div>
     <!--只有在没有自动补全与搜索结果时，显示热搜词（优先级最低）-->
     <ul class="search-word" v-if="!autoCompleteList.length && !searchResult.length && !loading">
-      <li class="search-hot-word" v-if="searchHotWords" v-for="(searchHotWord, index) in searchHotWords" :key="index" @click="fuzzySearch">
-        {{searchHotWord.word}}
+      <li class="search-hot-word" v-if="searchHotWords" v-for="(searchHotWord, index) in searchHotWords" :key="index" @click="fuzzySearch">{{searchHotWord.word}}
       </li>
     </ul>
     <!--有自动补全数据就显示自动补全（优先级最高）-->
     <ul class="auto-complete-list" v-if="autoCompleteList.length">
       <li v-for="(item, index) in autoCompleteList" :key="index" @click="fuzzySearch">
         <span class="search-result-icon">
-          <Icon type="ios-search-strong"></Icon>
-        </span>
-        {{item}}
+          <Icon type="ios-search-strong">  </Icon>
+        </span>{{item}}
       </li>
     </ul>
     <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
     <!--没有自动补全且有搜索结果就显示（优先级中）-->
     <transition name="fade">
       <ul class="search-result" v-if="searchResult.length && !autoCompleteList.length && !loading">
-        <Booklist v-for="book in searchResult" :book="book" :key="book._id"></Booklist>
+        <li v-for="book in searchResult" :book="book" :key="book._id">
+          <div v-if="book.is_book" @click="getBook(book)" class="li-class">
+            <img :src="getImgSrc(book)" />
+            <div class="book-info">
+              <p class="book-title" v-if="book">{{book.title}}</p>
+              <p style="line-height:0.6rem;">&nbsp;</p>
+              <p class="book-line"></p>
+              <p style="line-height:0.6rem;">&nbsp;</p>
+              <p class="book-author" v-if="book">{{book.author}}</p>
+              <p class="short-intro">{{book.shortIntro}}</p>
+              <p class="reader-info">&nbsp;{{book.read_count}}人次阅读</p>
+            </div>
+          </div>
+          <div v-if="!book.is_book" class="li-chapter" @click="getChapter(book)">
+            <div class="title">&nbsp;·&nbsp;{{book.title}}</div>
+            <div class="title2">&nbsp;&nbsp;&nbsp;{{book.title2}}</div>
+          </div>
+        </li>
+        <!--Booklist v-for="book in searchResult" :book="book" :key="book._id"></Booklist-->
       </ul>
     </transition>
   </div>
@@ -45,10 +62,11 @@ export default {
   },
   data() {
     return {
+      staticPath: api.staticPath,
       searchWord: '',
       searchHotWords: null,
-      autoCompleteList: ["ac"],
-      searchResult: ["sr"],
+      autoCompleteList: [],
+      searchResult: [],
       loading: false,
       color: '#04b1ff',
       size: '10px',
@@ -63,7 +81,6 @@ export default {
   created() {
     api.getHotWords().then(response => {
       this.searchHotWords = response.data.searchHotWords;
-      console.log(this.searchHotWords);
       //只取前10个热词
       this.searchHotWords.length = 10;
     }).
@@ -87,6 +104,7 @@ export default {
         console.log(err);
       })
     },
+    /****/
     fuzzySearch(el) {
       let search = el.target.value || el.target.innerText;
       this.searchWord = search;
@@ -98,6 +116,22 @@ export default {
       }).catch(err => {
         console.log(err);
       })
+    },
+    getBook(book) {
+        // 只记录从不是搜索结果中进入书本详情的路径，不然会出现死循环
+        // if(this.$route.path.indexOf('/search') === -1){
+        //     this.$store.commit('setPrePath', this.$route.fullPath);
+        // }
+        this.$store.commit('setTitle',book.title);
+        this.$router.push('/book/' + book.book_id);
+    },
+    getImgSrc(book) {
+      console.log(book);
+        return this.staticPath + book.cover
+    },
+    getChapter(chapter) {
+      this.$store.commit('setTitle',chapter.book_title);
+      this.$router.push('/readbook/' + chapter.book_id + '/' + chapter.chapter_id);
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -134,13 +168,7 @@ export default {
   padding-left: 1.8rem;
   border-radius: .4rem;
   border: none;
-  -webkit-user-select: auto !important;
-  -khtml-user-select: auto !important;
-  -moz-user-select: auto !important;
-  -ms-user-select: auto !important;
-  user-select: auto !important;
 }
-.search-input:focus,
 
 .cancel:focus {
   outline: none;
@@ -212,5 +240,84 @@ export default {
 .search-result-icon{
   font-size: 1.2rem;
   line-height: 2.5rem;
+  margin-right : 1rem;
+}
+
+img {
+  width: 6rem;
+  height: 8rem;
+  float: left;
+  margin: 0.5rem;
+}
+
+.li-class {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-bottom: 1px solid #e6dbdb;
+  border-top: 2px solid #66ccff;
+  height: 10rem;
+}
+
+.li-class:active, .li-class:focus{
+  background: #ffffff;
+}
+
+.book-info {
+  box-sizing: border-box;
+  width: 100%;
+  height: 6rem;
+  padding-left: 7.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.book-title {
+  padding-top: 0.5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.short-intro {
+  padding-top: 0.3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #655555;
+}
+
+.book-author {
+  color: #655555;
+}
+
+.book-info p {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.3rem;
+}
+
+.book-line {
+  width: 2rem;
+  border: 3px solid #005390;
+}
+.book-author {
+  font-size: 0.8rem;
+}
+.reader-info {
+  padding-top: 0.5rem;
+}
+
+.title {
+    font-size: 1.2rem;
+    color: #000000;
+}
+.title2 {
+    font-size: 1rem;
+    color: #807d7d;
+    margin-bottom: 0.3rem;
+}
+.li-chapter{
+  margin-left: 15vw;
+  width: 85vw;
 }
 </style>

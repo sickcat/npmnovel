@@ -126,6 +126,7 @@ export default {
       this.$store.commit('setHeadText', '我的书架');
     },
     readbook(book) {
+      this.$store.commit('setTitle',book.title);
       this.$store.commit('setReadBook', book);
       this.$router.push('/readbook/' + book._id);
     },
@@ -184,6 +185,7 @@ export default {
 }
 
 .book-shelf {
+  z-index: 0;
   position: absolute;
   left: 0vw;
   width: 100vw;
@@ -260,4 +262,5 @@ export default {
   border-radius: 4px;
   color: #ffffff;
 }
+
 </style>

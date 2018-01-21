@@ -172,10 +172,12 @@ export default {
     },
     readBook() {
       this.$store.commit('setReadBook',this.book);
+      this.$store.commit('setTitle',this.book.title);
       this.$router.push('/readbook/' + this.$route.params.bookId);
     },
     jumpChapter(index) {
       this.$store.commit('setReadBook',this.book);
+      this.$store.commit('setTitle',this.book.title);
       this.$router.push('/readbook/' + this.$route.params.bookId + '/' + index);
     },
     showChapter() {

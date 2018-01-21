@@ -40,7 +40,7 @@
     font-size: 16px;
   }
   
-  .fade-enter-active,
+  /*.fade-enter-active,
   .fade-leave-active {
     transition: opacity .5s
   }
@@ -55,6 +55,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+  }*/
 
 </style>

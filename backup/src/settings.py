@@ -36,3 +36,10 @@ settings['timezone'] = '+8:00'
 
 # novel data path
 settings["data_path"] = "../../data/"
+
+#hot word
+settings["fix_hot_words"] = []
+settings["hot_words"] = ["块责任", "指挥处", "手稿"]
+
+settings["all_books_title"] = []
+settings["all_chapters_title"] = []
