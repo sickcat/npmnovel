@@ -63,7 +63,7 @@
         </div>
         <!-- detail -->
         <div v-show="!isShowChapter">
-          <article class="book-intro" v-if="book" v-html="bookChaptersBody"></article>      
+          <article class="book-intro" v-if="book" v-html="bookChaptersBody" style="font-family: '宋体'"></article>      
         </div>
       
       </section>
