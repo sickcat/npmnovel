@@ -14,7 +14,7 @@
             
             <br>
             <br>
-            <div class='mulucenter'>点击底部阅读下一章</div>
+            <div class='mulucenter' :class="colorClass">点击底部阅读下一章</div>
             <br>
             <br>
             <br>
@@ -641,7 +641,7 @@ span {
     bottom: 6rem;
     left: 0;
     background: #fff;
-    height: 3.5rem;
+    height: 2.5rem;
     width: 100vw;
 }
 .font-border {
@@ -656,7 +656,7 @@ span {
     flex-direction: row;
     justify-content: space-around;
     position: fixed;
-    bottom: 9.5rem;
+    bottom: 8.5rem;
     left: 0;
     background: #fff;
     height: 3.5rem;
@@ -837,7 +837,6 @@ span {
 }
 .mulucenter {
     text-align: center;
-    color: #005d9c;
 }
 .chapter-list::-webkit-scrollbar {/*滚动条整体样式*/
     width: 1rem;     /*高宽分别对应横竖滚动条的尺寸*/

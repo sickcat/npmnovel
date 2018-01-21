@@ -4,7 +4,7 @@
     <div v-show="!loading">
 
       <!-- bookshelf list -->
-      <ul class="book-shelf" v-if="books.length">
+      <ul class="book-shelf">
         <v-touch tag="li" class="book-list-wrap" v-for="(book, index) in books" :key="index" @swipeleft="showDelBookBtn" @swiperight="hideDelBookBtn">
           <v-touch class="book-list" @tap="gotobook(book)">
             <img :src="getImgSrc(book)" />

@@ -105,7 +105,7 @@ export default {
      * @returns {null}
      */
     getHotWords(){
-      return Vue.http.get('/book/search-hotwords');
+      return Vue.http.get('/api/book/search-hotwords');
     },
 
     /**
@@ -114,7 +114,8 @@ export default {
      * http://api05iye5.zhuishushenqi.com/book/auto-complete?query=%E6%96%97%E7%BD%97
      */
     autoComplete(searchWord){
-        return Vue.http.get('/book/auto-complete?query='+searchWord)
+        //return Vue.http.get('/book/auto-complete?query='+searchWord)
+        return Vue.http.get('/api/book/search-hotwords/auto/' + searchWord);
     },
 
     /**
@@ -122,7 +123,8 @@ export default {
      *  @param {String} searchWord 搜索内容
      */
     fuzzySearch(searchWord){
-        return Vue.http.get('/book/fuzzy-search?query='+searchWord)
+        //return Vue.http.get('/book/fuzzy-search?query='+searchWord)
+        return Vue.http.get('/api/book/search-hotwords/fuzzy/' + searchWord);
     },
 
 

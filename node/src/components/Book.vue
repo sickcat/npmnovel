@@ -62,7 +62,7 @@
           </div>
         </div>
         <!-- detail -->
-        <div>
+        <div v-show="!isShowChapter">
           <article class="book-intro" v-if="book" v-html="bookChaptersBody"></article>      
         </div>
       
@@ -90,6 +90,8 @@
                 </v-touch>
             </ul>
       </div>
+      <v-touch class="hide-chapter" v-show="isShowChapter" @tap="hideShow">
+      </v-touch>
   </div>
 </template>
 
@@ -291,6 +293,7 @@ section:first-child {
   padding-bottom: 3rem;
   border-bottom: 1px solid #f2f2f2;
   margin-bottom: 3rem;
+  z-index: 100;
 }
 
 .book-operation {
@@ -462,5 +465,11 @@ section:first-child {
 .mulucenter {
     text-align: center;
 }
-
+.hide-chapter {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 20vw;
+}
 </style>

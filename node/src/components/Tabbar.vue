@@ -16,12 +16,21 @@
                 <div>目录</div>
             </router-link>
         </li>
+        <li>
+            <router-link to="/search" active-class="active" exact>
+                <div>
+                    <Icon name="search"></Icon>
+                </div>
+                <div>搜索</div>
+            </router-link>
+        </li>
     </ul>
 </template>
 <script>
 import 'vue-awesome/icons/book';
 import 'vue-awesome/icons/shopping-cart';
 import 'vue-awesome/icons/list';
+import 'vue-awesome/icons/search';
 import Icon from 'vue-awesome/components/Icon';
 
 export default {

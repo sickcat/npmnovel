@@ -17,6 +17,9 @@
         <div>
             <img src="/static/png/timg.jpeg">
         </div>
+        <router-link to="/search" active-class="active" exact>
+            <img src="/static/png/search.png" class="search-icon">
+        </router-link>
         <div class="newest">
             &nbsp;&nbsp;最新书籍&nbsp;：
         </div>
@@ -55,6 +58,7 @@ export default {
                 type: 'all',
                 name: '全部'
             }],
+            searchWord: "",
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -103,6 +107,12 @@ export default {
         setMinor(minor) {
             this.minor = minor;
             this.getNovelListByCat(this.gender, this.type, this.major, this.minor);
+        },
+        autoComplete(el) {
+          
+        },
+        fuzzySearch(el) {
+          
         }
     }
 }
@@ -150,5 +160,18 @@ img {
     margin-left: 1rem;
     margin-bottom: 1rem;
     border-left: 1rem solid #005390;
+}
+
+.search {
+    line-height: 2rem;
+    width: 90vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    border: 1rem solid #005390;
+    border-radius: 0.2rem;
+}
+.search-icon {
+    height: 2.5rem;    
+    width: 90vw;
 }
 </style>

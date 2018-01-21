@@ -14,6 +14,7 @@ from handler.Img import ImgHandler
 from handler.types import TypesHandler
 from handler.oms import GetBooksHandler
 from handler.oms import UpdateBooksHandler, ZipHandler
+from handler.search import SearchHotWordHandler
 
 url_patterns = [
 
@@ -32,6 +33,7 @@ url_patterns = [
     (r'/oms/books', GetBooksHandler),
     (r'/oms/book/(\w+)', UpdateBooksHandler),
     (r'/oms/zip', ZipHandler),
+    (r'/api/book/search-hotwords', SearchHotWordHandler)
     #(r'/index/(\w+)', MainHandler),
     #(r'/index', MainHandler),
     #(r'/movie/(\w+)', MovieHandler),

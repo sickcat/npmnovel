@@ -4,7 +4,7 @@
       <span class="search-icon">
         <Icon type="ios-search-strong"></Icon>
       </span>
-      <input type="text" class="search-input" placeholder="输入书名或者作者名" @keyup.enter="fuzzySearch" @keyup="autoComplete" :value="searchWord">
+      <input name="searchinput" type="text" class="search-input" placeholder="输入书名/作者名/章节名/公安分局名" @keyup.enter="fuzzySearch" @keyup="autoComplete" :value="searchWord">
       <button type="button" class="cancel" @click="$router.push({path:back})">取消</button>
     </div>
     <!--只有在没有自动补全与搜索结果时，显示热搜词（优先级最低）-->
@@ -35,7 +35,7 @@
 <script>
 import api from '../libs/api';
 import Booklist from '@/components/Booklist';
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 export default {
   name: 'Search',
@@ -47,8 +47,8 @@ export default {
     return {
       searchWord: '',
       searchHotWords: null,
-      autoCompleteList: [],
-      searchResult: [],
+      autoCompleteList: ["ac"],
+      searchResult: ["sr"],
       loading: false,
       color: '#04b1ff',
       size: '10px',
@@ -63,6 +63,7 @@ export default {
   created() {
     api.getHotWords().then(response => {
       this.searchHotWords = response.data.searchHotWords;
+      console.log(this.searchHotWords);
       //只取前10个热词
       this.searchHotWords.length = 10;
     }).
@@ -106,12 +107,12 @@ export default {
         vm.$store.commit('setSecPath', from.path);
       }
     })
-  }
+  },
 }
-
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only
+ -->
 <style scoped>
 .search-head {
   position: fixed;
@@ -133,9 +134,14 @@ export default {
   padding-left: 1.8rem;
   border-radius: .4rem;
   border: none;
+  -webkit-user-select: auto !important;
+  -khtml-user-select: auto !important;
+  -moz-user-select: auto !important;
+  -ms-user-select: auto !important;
+  user-select: auto !important;
 }
-
 .search-input:focus,
+
 .cancel:focus {
   outline: none;
 }
