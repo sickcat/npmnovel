@@ -159,7 +159,7 @@ export default {
   align-items: center;
   box-sizing: border-box;
   padding: 0 1rem;
-  background: #04b1ff;
+  background: #005390;
 }
 
 .search-input {
@@ -181,7 +181,7 @@ export default {
   color: #fff;
   text-align: center;
   border: none;
-  background: #04b1ff;
+  background: #005390;
 }
 
 .search-word {
