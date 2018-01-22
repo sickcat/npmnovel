@@ -423,8 +423,8 @@ export default {
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                     ele.value = parseInt(ele.style.fontSize);
                     ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                    ele.style.height = parseInt(ele.value) + 5 +fontSize + 'pt';
-                    ele.style.lineHeight = parseInt(ele.value) + 3 + fontSize + 'pt';
+                    ele.style.height = parseInt(ele.value) + 20 +fontSize + 'pt';
+                    ele.style.lineHeight = parseInt(ele.value) + 20 + fontSize + 'pt';
                     ele.style.fontFamily = fontFamily;
                 });
             Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
@@ -446,27 +446,27 @@ export default {
                 fontSize = 15;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 1 && fontSize < 10) {
                 fontSize += 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == -1 && fontSize > -1) {
                 fontSize -= 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 2 ) {
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else {
