@@ -80,7 +80,7 @@ import api from '../libs/api'
   }
   
   .book-title {
-    padding-top: 0.5rem;
+    padding-top: 0.2rem;
     font-weight: bold;
     font-size: 0.9rem;
   }
@@ -91,7 +91,7 @@ import api from '../libs/api'
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #655555;
-    font-size: 0.4rem;
+    font-size: 0.6rem;
   }
   
   .book-author {
@@ -112,8 +112,8 @@ import api from '../libs/api'
     font-size: 0.8rem;
   }
   .reader-info {
-    padding-top: 0.5rem;
-    font-size: 0.4rem;
+    padding-top: 0.4rem;
+    font-size: 0.6rem;
   }
 
 </style>
