@@ -82,7 +82,9 @@ export default {
     api.getHotWords().then(response => {
       this.searchHotWords = response.data.searchHotWords;
       //只取前10个热词
-      this.searchHotWords.length = 10;
+      if (this.searchHotWords.length > 10)
+        this.searchHotWords.length = 10;
+      this.autoCompleteList = response.data.searchHotWords;
     }).
       catch(err => {
         console.log(err);

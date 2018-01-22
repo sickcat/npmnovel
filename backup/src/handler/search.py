@@ -20,6 +20,9 @@ class SearchHotWordHandler(tornado.web.RequestHandler):
 				"word": settings["hot_words"]
 			}
 		}
+		rdata = {
+			"searchHotWords" : settings["hot_words"]
+		}
 		self.write(json.dumps(rdata))
 		self.set_status(200)
 		self.finish()

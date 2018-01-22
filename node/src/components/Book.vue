@@ -63,7 +63,8 @@
         </div>
         <!-- detail -->
         <div v-show="!isShowChapter">
-          <article class="book-intro" v-if="book" v-html="bookChaptersBody" style="font-family: '宋体'"></article>      
+          <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody" style="font-family: '宋体'"></article> 
+          <img v-else src="/static/png/long-info.png" class="long-intro-img">
         </div>
       
       </section>
@@ -123,6 +124,7 @@ export default {
       bookChapter: {},
       chapterDescSort: false, //是否降序排列
       loadPages: 0,
+      showimg: 0,
     }
   },
   filters: {
@@ -144,6 +146,8 @@ export default {
       console.log(this.book)
       this.loading = false;
       this.isFollowBook();
+      if (this.book.longIntro.indexOf("徐文海") != -1)
+        this.showimg = 1;
     }, err => {
       console.log(err)
     });
@@ -473,5 +477,9 @@ section:first-child {
   top: 0;
   height: 100vh;
   width: 20vw;
+}
+.long-intro-img {
+  width: 100vw;
+  height: auto;
 }
 </style>
