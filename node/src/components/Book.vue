@@ -266,7 +266,7 @@ section:first-child {
   box-sizing: border-box;
   width: 100%;
   height: 9rem;
-  padding-left: 7.5rem;
+  padding-left: 6.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   color: #ffffff;
@@ -278,7 +278,7 @@ section:first-child {
 }
 
 .book-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .book-author {
@@ -298,8 +298,8 @@ section:first-child {
   padding-top: 3rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid #f2f2f2;
-  margin-bottom: 3rem;
-  z-index: 100;
+  margin-bottom: 5rem;
+  z-index: 1000;
 }
 
 .book-operation {
@@ -419,11 +419,11 @@ section:first-child {
 }
 
 .chapter-list ul {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
 }
 
 .chapter-list li {
-    padding-top: 2.5rem;
+    padding-top: 1rem;
     padding-left: 1rem;
     line-height: 2.5rem;
     border-bottom: 1px solid #f2f2f2;
@@ -470,6 +470,7 @@ section:first-child {
 }
 .mulucenter {
     text-align: center;
+    padding-bottom: 1rem;
 }
 .hide-chapter {
   position: fixed;

@@ -8,9 +8,11 @@
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
-        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass + ' ' + fontFamily" @doubletap="dbclickEvent()">
+        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass" @doubletap="dbclickEvent()">
+            <br>
+            <br>
             <!--header>{{bookChaptersContent.title}}</header-->
-            <article :class='fontFamily' id="fontStyle" v-html="bookChaptersBody" :fontFamily="fontFamily"></article>
+            <article id="fontStyle" v-html="bookChaptersBody"></article>
             
             <br>
             <br>
@@ -230,7 +232,7 @@ export default {
             backgroundClass: '',
             colorClass: '',
             setting: false,
-            fontSize: 1.5,
+            fontSize: 0,
             showNextTitle: true,
             dbflag: false,
             timer: Object(),
@@ -243,7 +245,7 @@ export default {
     computed: {
         bookChaptersBody() {
             return this.bookChaptersContent.body
-            return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
+            //return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
     },
@@ -418,8 +420,10 @@ export default {
             var fontFamily = this.fontFamily;
             this.fontFamily = "KaiTi";
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                    ele.style.fontSize = fontSize + 'rem';
-                    ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                    console.log(ele.style.fontSize);
+                    ele.value = ele.style.fontSize;
+                    ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
+                    ele.style.lineHeight = parseInt(ele.value) + fontSize + 3 + 'pt';
                     ele.style.fontFamily = fontFamily;
                 });
             Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
@@ -428,36 +432,40 @@ export default {
                     ele.style.maxWidth =  '90vw';
                     ele.style.maxHeight = '100vh';
                 });
+            Array.prototype.slice.call(document.getElementsByTagName("h1")).forEach(function (ele) {
+                    ele.style.marginBottom = "0pt";
+                    ele.style.lineHeight="30pt";
+                });
         },
         add_fontsize(a) {
             //console.log(a);
             var fontSize = this.fontSize;
             var fontFamily = this.fontFamily;
             if (a == 0) {
-                fontSize = 1.5;
+                fontSize = 15;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize  + 0.4 + 'rem';
+                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
-            } else if (a == 1 && fontSize < 2.5) {
-                fontSize += 0.1;
+            } else if (a == 1 && fontSize < 10) {
+                fontSize += 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
-            } else if (a == -1 && fontSize > 1.0) {
-                fontSize -= 0.1;
+            } else if (a == -1 && fontSize > -1) {
+                fontSize -= 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 2 ) {
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = fontSize + 'rem';
-                        ele.style.lineHeight = fontSize + 0.4 + 'rem';
+                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else {
