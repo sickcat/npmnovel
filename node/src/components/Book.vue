@@ -407,6 +407,7 @@ section:first-child {
   padding-left: 5vw;
   padding-right: 5vw;
   font-size: 1.1rem;
+  justify-content: space-between;
 }
 .chapter-list {
     position: absolute;

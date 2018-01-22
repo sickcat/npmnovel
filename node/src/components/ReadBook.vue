@@ -220,7 +220,7 @@ export default {
             preView: '', //返回上级路径
             firstLoad: true, //首次加载标识符
             operation: true, //显示操作界面标识符
-            currentChapter: 0,
+            currentChapter: -1,
             isNewset: false, //最新章节
             nightMode: false, //夜间/日间模式却换
             isShowChapter: false, //是否显示目录
@@ -244,7 +244,7 @@ export default {
     },
     computed: {
         bookChaptersBody() {
-            return this.bookChaptersContent.body
+            return this.bookChaptersContent.body.replace(/<o:p>([\w\W]*?)<\/o:p>/g, '&nbsp')
             //return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
@@ -265,7 +265,7 @@ export default {
                 this.currentChapter = readRecord && readRecord[this.$route.params.bookId] && readRecord[this.$route.params.bookId].chapter ? readRecord[this.$route.params.bookId].chapter : 0;
             }
             this.loadedChapters = this.bookChapter.chapters;
-            this.getBookChapterContent();
+            //this.getBookChapterContent();
         }).catch(err => {
             console.log(err);
         })
@@ -276,7 +276,7 @@ export default {
             this.colorClass = settings["colorClass"];
             this.fontSize = settings["fontSize"];
         }
-        this.updateFont();
+        //this.updateFont();
     },
     ready() {
         window.addEventListener('scroll', this.scorll);
@@ -313,7 +313,7 @@ export default {
                 this.$Message.error('获取章节失败！');
                 console.log(err);
             });
-            this.updateFont();
+            //this.updateFont();
         },
         operationAction($event) {
             //判断点击位置 执行不同操作
@@ -419,11 +419,12 @@ export default {
             var fontSize = this.fontSize;
             var fontFamily = this.fontFamily;
             this.fontFamily = "KaiTi";
+            console.log("????");
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                    console.log(ele.style.fontSize);
-                    ele.value = ele.style.fontSize;
+                    ele.value = parseInt(ele.style.fontSize);
                     ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                    ele.style.lineHeight = parseInt(ele.value) + fontSize + 3 + 'pt';
+                    ele.style.height = parseInt(ele.value) + 5 +fontSize + 'pt';
+                    ele.style.lineHeight = parseInt(ele.value) + 3 + fontSize + 'pt';
                     ele.style.fontFamily = fontFamily;
                 });
             Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
@@ -444,28 +445,28 @@ export default {
             if (a == 0) {
                 fontSize = 15;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
+                        ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 1 && fontSize < 10) {
                 fontSize += 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
+                        ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == -1 && fontSize > -1) {
                 fontSize -= 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
+                        ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 2 ) {
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
-                        ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + fontSize  + 3 + 'pt';
+                        ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 3 + 'pt';
                         ele.style.fontFamily = fontFamily;
                 });
             } else {
@@ -846,9 +847,6 @@ span {
 }
 .selected {
     background: #66ccFF;
-}
-#fontStyle {
-    font-family: STKaiti;
 }
 .mulucenter {
     text-align: center;

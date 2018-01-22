@@ -44,6 +44,11 @@ CREATE TABLE `Tag` (
   PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `User` (
+  `user_id` varchar(255) NOT NULL,
+  `read_list` text DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 INSERT INTO `Book`(book_id, cover, title, updated, cat, tags, read_count, word_count, longintro, last_chapter, author) VALUES(1, "1/title.png", "测试书本", "2017-01-01", "", "", 15678, 500000, "一本关于测试是的户籍的书", 1, "德成广告");
 
