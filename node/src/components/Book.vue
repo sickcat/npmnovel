@@ -274,7 +274,7 @@ section:first-child {
 }
 
 .book-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .book-author {
