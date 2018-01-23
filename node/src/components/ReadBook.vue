@@ -1,5 +1,5 @@
 <template>
-    <div id="container" class="container" :class="backgroundClass + ' ' +colorClass + ' ' + fontFamily">
+    <div id="container" class="container" :class="backgroundClass + ' ' +colorClass">
         <div class="head" v-if="operation">
             <span class="arrow-left" @click="$router.push(preView)">
                 <Icon type="arrow-left-c"></Icon>
@@ -421,15 +421,11 @@ export default {
         },
         updateFont() {
             var fontSize = this.fontSize;
-            var fontFamily = this.fontFamily;
-            this.fontFamily = "KaiTi";
-            console.log("????");
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                     ele.value = parseInt(ele.style.fontSize);
                     ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
                     ele.style.height = parseInt(ele.value) + 20 +fontSize + 'pt';
                     ele.style.lineHeight = parseInt(ele.value) + 20 + fontSize + 'pt';
-                    ele.style.fontFamily = fontFamily;
                 });
             Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
                     ele.style.width = "auto";
@@ -445,33 +441,28 @@ export default {
         add_fontsize(a) {
             //console.log(a);
             var fontSize = this.fontSize;
-            var fontFamily = this.fontFamily;
             if (a == 0) {
                 fontSize = 15;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
                         ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
-                        ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 1 && fontSize < 10) {
                 fontSize += 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
                         ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
-                        ele.style.fontFamily = fontFamily;
                 });
             } else if (a == -1 && fontSize > -1) {
                 fontSize -= 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
                         ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
-                        ele.style.fontFamily = fontFamily;
                 });
             } else if (a == 2 ) {
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
                         ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
-                        ele.style.fontFamily = fontFamily;
                 });
             } else {
                 this.$Message.info('不能再继续改变字体了');
@@ -515,9 +506,6 @@ export default {
                 else
                     this.$Message.info('减少成功');
             }
-        },
-        update_family(a) {
-            this.fontFamily = a;
         },
         auto_read() {
             var speed = this.speed;
@@ -871,26 +859,39 @@ span {
 }
 @font-face{
 font-family:"Times New Roman";
-src: url("/static/front/方正小标宋简体.ttf") !important;
+src: url("/static/front/方正小标宋简体.ttf");
 }
 
 @font-face{
 font-family:"宋体";
-src: url("/static/front/方正小标宋简体.ttf") !important;
+src: url("/static/front/方正小标宋简体.ttf");
 }
 
 @font-face{
 font-family:"等线";
-src: url("/static/front/小草体.ttf") !important;
+src: url("/static/front/方正小标宋简体.ttf"),
+    url('/static/front/song.otf');
 font-style: italic;
 }
 
 @font-face{
 font-family:"Wingdings";
-src: url("/static/front/宋体-粗体_0.ttf") !important;
+src: url("/static/front/宋体-粗体_0.ttf");
 }
 @font-face{
 font-family:"楷体";
-src: url("/static/front/小草体.ttf") !important;
+src: url("/static/front/song.otf");
+}
+@font-face{
+font-family:"方正小标宋简体";
+src: url("/static/front/方正小标宋简体.ttf");
+}
+@font-face{
+font-family:"楷体_GB2312";
+src: url("/static/front/simkai_2.ttf");
+}
+@font-face{
+font-family:"黑体";
+src: url("/static/front/simhei2.ttf");
 }
 </style>
