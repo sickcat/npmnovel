@@ -61,6 +61,14 @@ export default {
             searchWord: "",
         }
     },
+    created() {
+        if(this.$route.query.user_id) {
+          console.log(this.$route.query.user_id);
+          this.$store.commit('setUserId',this.$route.query.user_id);
+        } else {
+          console.log("default");
+        }
+    },
     beforeRouteEnter(to, from, next) {
         next(vm => {
             //vm.major = vm.$route.query.major;

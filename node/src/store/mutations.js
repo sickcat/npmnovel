@@ -20,4 +20,7 @@ export default {
     setTitle(state,title) {
         state.title = title;
     },
+    setUserId(state,userId) {
+        state.userId = userId;
+    }
 }

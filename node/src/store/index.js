@@ -13,6 +13,7 @@ const state = {
     backPath:{},
     bookInfo: {},
     title: '',
+    userId: 'default',
 };
 
 export default new Vuex.Store({

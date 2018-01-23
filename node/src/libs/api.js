@@ -96,8 +96,8 @@ export default {
      * @param {String} chapterUrl 章节url
      * http://chapterup.zhuishushenqi.com/chapter/http://vip.zhuishushenqi.com/chapter/5817f1161bb2ca566b0a5973?cv=1481275033588
      */
-    getBookChapterContent(chapterUrl) {
-        return Vue.http.get("/api/getChapter?chapterUrl="+ chapterUrl);
+    getBookChapterContent(chapterUrl, user_id) {
+        return Vue.http.get("/api/getChapter?chapterUrl="+ chapterUrl + '&user_id=' + user_id);
     },
 
     /**

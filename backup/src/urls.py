@@ -9,7 +9,7 @@ from handler.book import BookHandler
 from handler.book import BookViewHandler
 from handler.category import CategoryHandler
 from handler.getchapter import ChapterHandler
-from handler.getchapter import GetChapterHandler
+from handler.getchapter import GetChapterHandler, GetUnread
 from handler.Img import ImgHandler
 from handler.types import TypesHandler
 from handler.oms import GetBooksHandler
@@ -35,7 +35,8 @@ url_patterns = [
     (r'/oms/zip', ZipHandler),
     (r'/api/book/search-hotwords', SearchHotWordHandler),
     (r'/api/book/auto-complete', AutoCompleteHandler),
-    (r'/api/book/search-hotwords/fuzzy', FuzzyHandler)
+    (r'/api/book/search-hotwords/fuzzy', FuzzyHandler),
+    (r'/api/unread', GetUnread),
     #(r'/index/(\w+)', MainHandler),
     #(r'/index', MainHandler),
     #(r'/movie/(\w+)', MovieHandler),

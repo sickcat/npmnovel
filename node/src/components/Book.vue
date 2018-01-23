@@ -63,6 +63,7 @@
         </div>
         <!-- detail -->
         <div v-show="!isShowChapter">
+          <img src="/static/png/important2.png" v-show="!isShowChapter" class="bottom-img">
           <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody" style="font-family: '宋体'"></article> 
           <img v-else src="/static/png/long-info.png" class="long-intro-img">
         </div>
@@ -162,6 +163,12 @@ export default {
         }).catch(err => {
             console.log(err);
         });
+    if(this.$route.query.user_id) {
+      console.log(this.$route.query.user_id);
+      this.$store.commit('setUserId',this.$route.query.user_id);
+    } else {
+      console.log("default");
+    }
   },
   beforeRouteEnter(to, from, next) {  
     next(vm => {
@@ -296,10 +303,9 @@ section:first-child {
   flex-direction: row;
   justify-content: space-around;
   padding-top: 3rem;
-  padding-bottom: 3rem;
   border-bottom: 1px solid #f2f2f2;
-  margin-bottom: 5rem;
   z-index: 1000;
+  height: 8rem;
 }
 
 .book-operation {
@@ -482,6 +488,11 @@ section:first-child {
 }
 .long-intro-img {
   width: 100vw;
+  height: auto;
+}
+.bottom-img {
+  width: 90vw;
+  margin-left: 5vw;
   height: auto;
 }
 </style>

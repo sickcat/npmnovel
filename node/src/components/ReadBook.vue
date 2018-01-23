@@ -12,7 +12,7 @@
             <br>
             <br>
             <!--header>{{bookChaptersContent.title}}</header-->
-            <article id="fontStyle" v-html="bookChaptersBody"></article>
+            <article v-html="bookChaptersBody"></article>
             
             <br>
             <br>
@@ -277,6 +277,10 @@ export default {
             this.fontSize = settings["fontSize"];
         }
         //this.updateFont();
+        if(this.$route.query.user_id) {
+          console.log(this.$route.query.user_id);
+          this.$store.commit('setUserId',this.$route.query.user_id);
+        }
     },
     ready() {
         window.addEventListener('scroll', this.scorll);
@@ -304,7 +308,7 @@ export default {
         // todo 暂时获取一个章节内容，后续需要缓存3个章节左右
         getBookChapterContent() {
             this.loading = true;
-            api.getBookChapterContent(this.loadedChapters[parseInt(this.currentChapter)].link).then(response => {
+            api.getBookChapterContent(this.loadedChapters[parseInt(this.currentChapter)].link, this.$store.state.userId).then(response => {
                 this.title = response.data.title
                 this.bookChaptersContent = response.data.chapter;
                 this.loading = false;
@@ -770,7 +774,7 @@ span {
 .chapter-contents {
     top: 0;
     left: 0;
-    width: 75vw;
+    width: 80vw;
     background: #fff;
     display: flex;
     flex-direction: row;
@@ -864,5 +868,29 @@ span {
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     border-radius: 0;
     background: rgba(0,0,0,0.1);
+}
+@font-face{
+font-family:"Times New Roman";
+src: url("/static/front/方正小标宋简体.ttf") !important;
+}
+
+@font-face{
+font-family:"宋体";
+src: url("/static/front/方正小标宋简体.ttf") !important;
+}
+
+@font-face{
+font-family:"等线";
+src: url("/static/front/小草体.ttf") !important;
+font-style: italic;
+}
+
+@font-face{
+font-family:"Wingdings";
+src: url("/static/front/宋体-粗体_0.ttf") !important;
+}
+@font-face{
+font-family:"楷体";
+src: url("/static/front/小草体.ttf") !important;
 }
 </style>

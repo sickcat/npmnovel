@@ -86,8 +86,10 @@ class GetChapterHandler(tornado.web.RequestHandler):
 	def get(self, URL = ""):
 		#get chapter detail
 		chapter_id = int(self.request.arguments["chapterUrl"][0])
+		user_id = self.request.arguments["user_id"][0]
 		chapter = mysql.get_chapter_from_id(chapter_id)[0]
 		book = mysql.get_book_from_id(int(chapter['book_id']))[0]
+		mysql.update_user_book(user_id, int(chapter['book_id']))
 		mysql.add_click(book["book_id"])
 		mysql.add_read(book["book_id"])
 		f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]), "r")
@@ -98,6 +100,30 @@ class GetChapterHandler(tornado.web.RequestHandler):
 				"body": body,
 				"title": chapter["title"],
 			}
+		}
+		self.write(json.dumps(rdata))
+		self.finish()
+
+class GetUnread(tornado.web.RequestHandler):
+	def get(self):
+		user_id = self.request.arguments["user_id"][0]
+		read_list = mysql.get_read_list(user_id)
+		if len(settings["all_books_title"]) == 0:
+			settings["all_books_title"] = mysql.get_all_book()
+		books = []
+		for each in settings["all_books_title"]:
+			books = int(each["book_id"])
+
+		count = 0
+		for each in read_list:
+			if int(each) in books:
+				count += 1
+
+		rdata={
+			"user_id": user_id,
+			"unread": len(books) - count,
+			"stat": 1,
+			"msg": "",
 		}
 		self.write(json.dumps(rdata))
 		self.finish()

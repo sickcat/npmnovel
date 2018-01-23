@@ -156,7 +156,7 @@ class FuzzyHandler(tornado.web.RequestHandler):
 							flag = 1
 						rdata["books"].append(idict)
 		settings["hot_words"].extend(words)
-		settings["hot_words"] = list(set(settings["hot_words"]))
+		settings["hot_words"] = list(set(settings["hot_words"]))[-10:]
 
 		'''rdata = {
 			"books":[{

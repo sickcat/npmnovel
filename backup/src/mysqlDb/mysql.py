@@ -68,3 +68,28 @@ def get_all_cats():
 def get_all_chapter():
 	sql = 'select * from Chapter where book_id in (select book_id from Book where deleted != 1) and deleted!=1'
 	return database(0, sql)
+
+def update_user_book(user_id, book_id):
+	sql = 'select * from User where user_id="{0}"'.format(torndb.MySQLdb.escape_string(user_id))
+	user = database(0, sql)
+	#new user
+	if len(user) == 0:
+		sql = 'insert into User(user_id, read_list) Values("{0}", "{1}")'.format(
+			torndb.MySQLdb.escape_string(user_id), str(book_id))
+		database(1, sql)
+	else:
+		read_list = user[0]["read_list"].split(',')
+		read_list.append(str(book_id))
+		read_list = list(set(read_list))
+		read_list = ','.join(read_list)
+		sql = 'update User set read_list="{0}" where user_id="{1}"'.format(
+			read_list, torndb.MySQLdb.escape_string(user_id))
+		database(1, sql)
+
+def get_read_list(user_id):
+	sql = 'select * from User where user_id="{0}"'.format(torndb.MySQLdb.escape_string(user_id))
+	rlist = database(0, sql)
+	if rlist:
+		return rlist
+	else:
+		return []

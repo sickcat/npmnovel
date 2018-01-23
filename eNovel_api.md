@@ -27,7 +27,7 @@ book_id 为int型数据
 
 ### 获取某人剩余未读书本
 **GET**
-`/#/api/unread?user_id=<user_id>`
+`/api/unread?user_id=<user_id>`
 
 Return: json格式
 |字段名|类型|描述|
