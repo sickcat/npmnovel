@@ -64,7 +64,7 @@
         <!-- detail -->
         <div v-show="!isShowChapter">
           <img src="/static/png/important2.png" v-show="!isShowChapter" class="bottom-img">
-          <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody" style="font-family: '宋体'"></article> 
+          <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody"></article> 
           <img v-else src="/static/png/long-info.png" class="long-intro-img">
         </div>
       
@@ -414,6 +414,8 @@ section:first-child {
   padding-right: 5vw;
   font-size: 1.1rem;
   justify-content: space-between;
+  overflow: auto;
+  text-align:justify;
 }
 .chapter-list {
     position: absolute;

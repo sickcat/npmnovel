@@ -285,19 +285,19 @@ export default {
         newStyle.appendChild(document.createTextNode("\
             @font-face{\
                 font-family:\"Times New Roman\";\
-                src: url(\"/static/front/方正小标宋简体.ttf\"),\
+                src: url('/static/front/song.otf'),\
                 url('/static/front/song.otf');\
                 }\
                 \
                 @font-face{\
                 font-family:\"宋体\";\
-                src: url(\"/static/front/方正小标宋简体.ttf\"),\
+                src: url('/static/front/simsun.ttc'),\
                 url('/static/front/song.otf');\
                 }\
                 \
                 @font-face{\
                 font-family:\"等线\";\
-                src: url(\"/static/front/方正小标宋简体.ttf\"),\
+                    src: url('/static/front/simhei2.ttf'),\
                     url('/static/front/song.otf');\
                 }\
                 \
@@ -904,46 +904,46 @@ span {
     background: rgba(0,0,0,0.1);
 }
 @font-face{
-font-family:"Times New Roman";
-src: url("/static/front/方正小标宋简体.ttf"),
+font-family:'Times New Roman';
+src: url('/static/front/song.otf'),
 url('/static/front/song.otf');
 }
 
 @font-face{
-font-family:"宋体";
-src: url("/static/front/方正小标宋简体.ttf"),
+font-family:'宋体';
+src: url('/static/front/simsun.ttc'),
 url('/static/front/song.otf');
 }
 
 @font-face{
-font-family:"等线";
-src: url("/static/front/方正小标宋简体.ttf"),
+font-family:'等线';
+src: url('/static/front/simhei2.ttf'),
     url('/static/front/song.otf');
 }
 
 @font-face{
-font-family:"Wingdings";
-src: url("/static/front/宋体-粗体_0.ttf"),
+font-family:'Wingdings';
+src: url('/static/front/宋体-粗体_0.ttf'),
 url('/static/front/song.otf');
 }
 @font-face{
-font-family:"楷体";
-src: url("/static/front/simkai_2.ttf"),
+font-family:'楷体';
+src: url('/static/front/simkai_2.ttf'),
 url('/static/front/song.otf');
 }
 @font-face{
-font-family:"方正小标宋简体";
-src: url("/static/front/方正小标宋简体.ttf"),
+font-family:'方正小标宋简体';
+src: url('/static/front/方正小标宋简体.ttf'),
 url('/static/front/song.otf');
 }
 @font-face{
-font-family:"楷体_GB2312";
-src: url("/static/front/simkai_2.ttf"),
+font-family:'楷体_GB2312';
+src: url('/static/front/simkai_2.ttf'),
 url('/static/front/song.otf');
 }
 @font-face{
-font-family:"黑体";
-src: url("/static/front/simhei2.ttf"),
+font-family:'黑体';
+src: url('/static/front/simhei2.ttf'),
 url('/static/front/song.otf');
 }
 </style>
