@@ -1,5 +1,5 @@
 <template>
-    <div id="container" class="container" :class="backgroundClass + ' ' +colorClass">
+    <div id="container" class="container" :class="backgroundClass + ' ' +colorClass"  v-scroll="onScroll">
         <div class="head" v-if="operation">
             <span class="arrow-left" @click="$router.push(preView)">
                 <Icon type="arrow-left-c"></Icon>
@@ -21,15 +21,13 @@
             <br>
             <br>
         </v-touch>
-        <div id="mocha" class="setting" v-if="!setting && operation && false">
-            <!--div class = "middle">
+
+        <div class="setting" :class="{display: !(!setting&&operation)}">
+            <vm-progress :percentage="percentage" class="progress" :text-inside="true">&nbsp;</vm-progress>
+            <v-touch id="progressBtn" class="progress-btn" @pan="swipe" :style="{left: leftPos}">&nbsp;</v-touch>
             &nbsp;
-            </div>
-            <div class="move-circle">
-                &nbsp;
-            </div-->
-            <v-touch @swipeleft="get_next" @swiperight="get_next">swipeleft</v-touch> 
         </div>
+
         <div class="setting" v-if="setting">
             <v-touch class="menu-btn middle-menu" id='autoread' @tap="auto_read()">
                 <Icon type="ios-play-outline"></Icon>
@@ -108,7 +106,7 @@
                 设置
             </v-touch>
         </div>
-        <div class="chapter-list" v-show="isShowChapter" v-scroll="onScroll">
+        <div id="chapter-ul" class="chapter-list" v-show="isShowChapter">
             <div class="chapter-contents">
                 <p>{{$store.state.title}}：目录</p>
                 <v-touch tag="span" class="chapter-sort" @tap="descSort">
@@ -139,6 +137,7 @@
 <script>
 import api from '../libs/api'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import Progress from 'vue-multiple-progress'
 
 export default {
     name: 'ReadBook',
@@ -182,6 +181,10 @@ export default {
             fontFamily: 'STKaiti',
             autoread: false,
             book_id: 0,
+            value: 0,
+            max: 0,
+            type: "",
+            percentage: 0,
         }
     },
     computed: {
@@ -192,10 +195,15 @@ export default {
             //return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
+        leftPos() {
+            return (document.body.clientWidth * (this.percentage-1)) / 100.0 + "px";
+        },
+    },
+    active: {
     },
     created() {
         //NProgress.start();
-        this.$Progress.start();
+        //this.$Progress.start();
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
         //let scrollTop = readRecord ? readRecord[this.$route.params.bookId].readPos : 0;
         this.firstLoad = true;
@@ -276,9 +284,12 @@ export default {
     },
     ready() {
         window.addEventListener('scroll', this.scorll);
+        this.percentage = parseInt(document.getElementById("container").scrollTop / document.getElementById("container").scrollHeight*100);
     },
     watch: {
         'currentChapter': 'getBookChapterContent',
+        'percentage': 'updateProgress',
+        'scorll': 'get_next',
     },
     methods: {
         //回到上次位置
@@ -288,6 +299,7 @@ export default {
             if (readRecord[this.$route.params.bookId]) {
                 this.currentChapter = parseInt(readRecord[this.$route.params.bookId].chapter);
                 document.getElementById("container").scrollTop = readRecord[this.$route.params.bookId].readPos;
+                this.percentage = parseInt(document.getElementById("container").scrollTop / document.getElementById("container").scrollHeight*100);
             }
         },
         returnTop() {
@@ -331,6 +343,9 @@ export default {
             if (targetPos > gap && targetPos < screenHeight - gap) {
                 this.operation = !this.operation;
                 this.setting = false;
+                if (this.operation) {
+                    document.getElementById("progressBtn").style.left = (document.body.clientWidth * (this.percentage-1)) / 100.0 + "px";
+                }
             }
             if (screenHeight - gap < targetPos && targetPos < screenHeight) {
                 this.operation = false;
@@ -387,6 +402,8 @@ export default {
                 cover: this.$store.state.bookInfo.cover,
                 title: this.$store.state.bookInfo.title,
                 chapter: chapterRecord,
+                chapterTitle: this.loadedChapters[this.currentChapter].title,
+                readTime: new Date(),
                 readPos: document.getElementById('container').scrollTop
             }
             window.localStorage.setItem('followBookList', JSON.stringify(readRecord));
@@ -417,6 +434,7 @@ export default {
             //   this.loadPages++;
             //    console.log("onScroll");
             //}
+            this.percentage = parseInt(document.getElementById("container").scrollTop/(document.getElementById("container").scrollHeight - document.body.clientHeight) * 100);
         },
         updateFont() {
             var fontSize = this.fontSize;
@@ -527,8 +545,29 @@ export default {
                 this.$Message.info('开始自动翻页');
             }
         },
-        get_next(a) {
-            console.log(a);
+        get_next() {
+            console.log("00");
+        },
+        updateProgress() {
+            //console.log(this.percentage);
+            //document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
+        },
+        swipe(a) {
+            if (a.additionalEvent == "panup" || a.additionalEvent == "pandown")
+                return;
+            else if (a.additionalEvent == "panright" || a.additionalEvent == "panleft") {
+                var deltaX = a.changedPointers[0].movementX
+                document.body.clientWidth; //px
+                if (parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100) > 98) {                    
+                    this.percentage = 98;
+                }
+                else if (parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100) < 0)
+                    this.percentage = 0;
+                else    
+                    this.percentage = parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100)
+                document.getElementById("progressBtn").style.left = (document.body.clientWidth * (this.percentage-1)) / 100.0 + "px";
+                document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
+            }
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -928,5 +967,45 @@ url('/static/front/song.otf');
 font-family:'黑体';
 src: url('/static/front/simhei2.ttf'),
 url('/static/front/song.otf');
+}
+.progress {
+.vm-progress--line {
+  width: 350px;
+  margin-bottom: 15px;
+}
+.vd-custom-text .vm-progress-bar {
+  padding-right: 100px;
+  margin-right: -105px;
+}
+}
+.btn-striped {
+margin-bottom: 20px;
+}
+.progress {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 98vw;
+    margin-left: 1vw;
+    font-size: 0rem;
+}
+.progress-btn {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    top: 0.75rem;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    justify-content:center;
+    background-color: #000;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
+.display {
+    height: 0;
+    border: 0;
+    overflow: hidden;
 }
 </style>

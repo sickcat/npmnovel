@@ -11,8 +11,9 @@ import 'iview/dist/styles/iview.css'    // 使用 CSS
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import vuescroll from 'vue-scroll'
-import VueProgressBar from 'vue-progressbar'
+//import VueProgressBar from 'vue-progressbar'
 import 'jquery'
+import Progress from 'vue-multiple-progress'
 
 const options = {
   color: '#bffaf3',
@@ -25,9 +26,10 @@ const options = {
   },
   autoRevert: true,
   location: 'left',
-  inverse: false
+  inverse: false,
 }
-Vue.use(VueProgressBar, options)
+//Vue.use(VueProgressBar, options)
+Vue.use(Progress)
 
 Vue.use(vuescroll)
 VueTouch.config.swipe = {

@@ -17,7 +17,11 @@
             <p class="book-author" v-if="book">{{book.author}}</p>
             <p class="reader-info" v-if="book">
               <!-- {{book.updated}} | ago -->
-              <span v-text=""></span>{{book.updated}} | {{wordCount}}万字 | {{book.cat}}</p>
+              <span v-text=""></span>出版时间：{{book.updated}} &nbsp;| &nbsp;{{wordCount}}万字</p>
+            <p class="ago" v-if="book">
+              <div class="ago" v-if="!hasHistory">暂未阅读</div>
+              <div class="ago" v-if="hasHistory">{{Tago}},阅读到{{chapterTitle}}</div>
+            </p>
           </div>
         </div>
         <!-- statics -->
@@ -127,6 +131,9 @@ export default {
       chapterDescSort: false, //是否降序排列
       loadPages: 0,
       showimg: 0,
+      hasHistory: false,
+      Tago: "3天前",
+      chapterTitle: "后记",
     }
   },
   filters: {
@@ -150,6 +157,13 @@ export default {
       this.isFollowBook();
       if (this.book.longIntro.indexOf("徐文海") != -1)
         this.showimg = 1;
+
+      let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
+      if (readRecord[this.$route.params.bookId].readTime) {
+        this.hasHistory = true;
+        this.Tago = moment(readRecord[this.$route.params.bookId].readTime).fromNow();
+        this.chapterTitle = readRecord[this.$route.params.bookId].chapterTitle;
+      }
     }, err => {
       console.log(err)
     });
@@ -275,14 +289,12 @@ section:first-child {
   width: 100%;
   height: 9rem;
   padding-left: 6.5rem;
-  padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   color: #ffffff;
 }
 
 .book-info p {
   margin: 0;
-  line-height: 1.8rem;
 }
 
 .book-title {
@@ -401,7 +413,7 @@ section:first-child {
 }
 
 .reader-info,.book-author {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
 }
 .book-intro{
   margin-top: 0.5rem;
@@ -497,5 +509,8 @@ section:first-child {
 }
 .book-des {
   margin-top: 0.5rem;
+}
+.ago {
+  font-size: 0.5rem;
 }
 </style>
