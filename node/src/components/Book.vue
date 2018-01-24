@@ -13,7 +13,7 @@
 
           <div class="book-info">
             <p class="book-title" v-if="book">{{book.title}}</p>
-            <p class="book-line"></p>
+            <!--p class="book-line"></p-->
             <p class="book-author" v-if="book">{{book.author}}</p>
             <p class="reader-info" v-if="book">
               <!-- {{book.updated}} | ago -->
@@ -56,16 +56,17 @@
         <!--div class="book-tag" v-if="book">
           <span v-for="(tag, index) in book.tags" :key="index" class="tag">{{tag}}</span>
         </div-->
-        <div class="book-des">
-          <div class="vertical-line">
-            &nbsp;&nbsp;<b>书籍简介&nbsp;：</b>
+        <div class = "bottom-container">        
+          <div class="book-des">
+            <div class="vertical-line">
+              &nbsp;&nbsp;<b>书籍简介&nbsp;：</b>
+            </div>
           </div>
-        </div>
-        <!-- detail -->
-        <div v-show="!isShowChapter">
-          <img src="/static/png/important2.png" v-show="!isShowChapter" class="bottom-img">
-          <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody"></article> 
-          <img v-else src="/static/png/long-info.png" class="long-intro-img">
+          <!-- detail -->
+          <div v-show="!isShowChapter">
+            <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody"></article> 
+            <img v-else src="/static/png/long-info.png" class="long-intro-img">
+          </div>
         </div>
       
       </section>
@@ -302,19 +303,13 @@ section:first-child {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-top: 3rem;
+  padding-top: 3.5rem;
   border-bottom: 1px solid #f2f2f2;
   z-index: 1000;
-  height: 8rem;
-}
-
-.book-operation {
+  height: 9rem;
   width: 100vw;
   border: none;
   color: #fff;
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1rem;
   border-radius: .2rem;
 }
 
@@ -494,7 +489,13 @@ section:first-child {
 }
 .bottom-img {
   width: 90vw;
-  margin-left: 5vw;
   height: auto;
+  margin: 5vw;
+}
+.bottom-container {
+  margin-top: 0.5rem;
+}
+.book-des {
+  margin-top: 0.5rem;
 }
 </style>

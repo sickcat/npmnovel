@@ -12,7 +12,7 @@
             <br>
             <br>
             <!--header>{{bookChaptersContent.title}}</header-->
-            <article v-html="bookChaptersBody"></article>
+            <article v-html="bookChaptersBody" style="text-align:justify;"></article>
             
             <br>
             <br>
@@ -21,6 +21,15 @@
             <br>
             <br>
         </v-touch>
+        <div id="mocha" class="setting" v-if="!setting && operation && false">
+            <!--div class = "middle">
+            &nbsp;
+            </div>
+            <div class="move-circle">
+                &nbsp;
+            </div-->
+            <v-touch @swipeleft="get_next" @swiperight="get_next">swipeleft</v-touch> 
+        </div>
         <div class="setting" v-if="setting">
             <v-touch class="menu-btn middle-menu" id='autoread' @tap="auto_read()">
                 <Icon type="ios-play-outline"></Icon>
@@ -47,55 +56,6 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aa&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </v-touch>  
         </div>
-        
-
-        <!--div class="setting" v-if="setting">
-            <v-touch class="menu-btn" @tap="auto_read()">
-                <Icon type="ios-clock-outline"></Icon>
-                <span>定时翻页</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="add_fontsize(1)">
-                <Icon type="ios-up-outline"></Icon>
-                <span>字体+</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="add_fontsize(-1)">
-                <Icon type="ios-down-outline"></Icon>
-                <span>字体-</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="add_speed(1)">
-                <Icon type="ios-down-outline"></Icon>
-                <span>滚动速度+</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="add_speed(-1)">
-                <Icon type="ios-down-outline"></Icon>
-                <span>滚动速度-</span>
-            </v-touch>
-        </div-->
-        <!--div class="setting2" v-if="setting">
-            <v-touch class="menu-btn">
-                <span>背景颜色</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="change_back(0)">
-                <span class='circle background-0'>
-                </span>  
-            </v-touch>
-            <v-touch class="menu-btn" @tap="change_back(1)">
-                <span class='circle background-1'>
-                </span>  
-            </v-touch>
-            <v-touch class="menu-btn" @tap="change_back(2)">
-                <span class='circle background-2'>
-                </span>  
-            </v-touch>
-            <v-touch class="menu-btn" @tap="change_back(3)">
-                <span class='circle background-3'>
-                </span>  
-            </v-touch>
-            <v-touch class="menu-btn" @tap="change_back(4)">
-                <span class='circle background-4'>
-                </span>  
-            </v-touch>
-        </div-->
         <div class="setting3" v-if="setting">
             <v-touch class="menu-btn">
                 背景:
@@ -126,24 +86,6 @@
                 </div>  
             </v-touch>
         </div>
-        <div class="setting4" v-if="false">
-            <v-touch class="menu-btn" @tap="">
-                <span>字体选择</span>
-            </v-touch>
-            <v-touch class="menu-btn heiti" @tap="update_family('heiti')">
-                <span class="heiti">黑体</span>
-            </v-touch>
-            <v-touch class="menu-btn songti" @tap="update_family('songti')">
-                <span>宋体</span>
-            </v-touch>
-            <v-touch class="menu-btn kaiti" @tap="update_family('kaiti')">
-                <span>楷体</span>
-            </v-touch>
-            <v-touch class="menu-btn" @tap="">
-                <span>定时翻页</span>
-            </v-touch>
-        </div>
-
         <div class="menu" v-if="operation">
             <v-touch class="menu-btn" @tap="showChapter">
                 <Icon type="ios-list-outline"></Icon>
@@ -244,12 +186,16 @@ export default {
     },
     computed: {
         bookChaptersBody() {
-            return this.bookChaptersContent.body.replace(/<o:p>([\w\W]*?)<\/o:p>/g, '&nbsp')
+            //弃用.replace(/<o:p>([\w\W]*?)<\/o:p>/g, '&nbsp')
+            //因为不对齐
+            return this.bookChaptersContent.body
             //return this.bookChaptersContent && this.bookChaptersContent.body.replace(/\n/g, '<br>').replace(/(<br>.*?$<br>)/g, "<br>$").replace(/(<head>.*<\/head>)/i, "");
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
     },
     created() {
+        //NProgress.start();
+        this.$Progress.start();
         let readRecord = JSON.parse(window.localStorage.getItem('followBookList'));
         //let scrollTop = readRecord ? readRecord[this.$route.params.bookId].readPos : 0;
         this.firstLoad = true;
@@ -395,8 +341,15 @@ export default {
                         this.$Message.info('这已经是最新的章节了~');
                         return;
                     } else {
-                        //当前章节加1
+                        //保存历史进度
+                        let readRecord = JSON.parse(window.localStorage.getItem('followBookList')) || {};
+                        if (!readRecord[this.bookChapter.book]) {
+                            this.recordReadHis(readRecord);
+                        } else {
+                            this.recordReadHis(readRecord);
+                        }
                         this.currentChapter = parseInt(this.currentChapter) + 1;
+                        //当前章节加1
                         if (this.loadedChapters[this.currentChapter].click == 0)
                             this.currentChapter = parseInt(this.currentChapter) + 1;
                     }
@@ -480,6 +433,7 @@ export default {
                     ele.style.maxHeight = '100vh';
                 });
             Array.prototype.slice.call(document.getElementsByTagName("h1")).forEach(function (ele) {
+                    ele.style.marginTop = "0pt";
                     ele.style.marginBottom = "0pt";
                     ele.style.lineHeight="30pt";
                 });
@@ -573,7 +527,8 @@ export default {
                 this.$Message.info('开始自动翻页');
             }
         },
-        get_next() {
+        get_next(a) {
+            console.log(a);
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -640,6 +595,7 @@ article {
 
 span {
     font-size: 1.5rem;
+    padding: 1px;
 }
 
 .head {
@@ -902,6 +858,33 @@ span {
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     border-radius: 0;
     background: rgba(0,0,0,0.1);
+}
+.content {
+    text-align:justify;
+}
+.middle {
+    height: 0.3rem;
+    background: #124598;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 90vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+.move-circle {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.3rem;
+    justify-content:center;
+    background: #66ccff;
 }
 @font-face{
 font-family:'Times New Roman';

@@ -112,7 +112,7 @@ class GetUnread(tornado.web.RequestHandler):
 			settings["all_books_title"] = mysql.get_all_book()
 		books = []
 		for each in settings["all_books_title"]:
-			books = int(each["book_id"])
+			books.append(int(each["book_id"]))
 
 		count = 0
 		for each in read_list:

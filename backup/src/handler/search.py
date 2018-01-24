@@ -62,7 +62,7 @@ class AutoCompleteHandler(tornado.web.RequestHandler):
 			print "redis chapters"
 		chapters = settings["all_chapters_title"]
 		for each in chapters:
-			title = ""
+			title = each["title"]
 			if each["title"] and "  " in each["title"]:
 				title2 = each["title"][each["title"].find("  ")+2:]
 				title = each["title"][:each["title"].find("  ")]

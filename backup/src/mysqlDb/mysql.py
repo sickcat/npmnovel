@@ -90,6 +90,6 @@ def get_read_list(user_id):
 	sql = 'select * from User where user_id="{0}"'.format(torndb.MySQLdb.escape_string(user_id))
 	rlist = database(0, sql)
 	if rlist:
-		return rlist
+		return rlist[0]["read_list"].split(',')
 	else:
 		return []
