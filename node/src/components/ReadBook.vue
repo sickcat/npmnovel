@@ -289,7 +289,6 @@ export default {
     watch: {
         'currentChapter': 'getBookChapterContent',
         'percentage': 'updateProgress',
-        'scorll': 'get_next',
     },
     methods: {
         //回到上次位置
@@ -434,7 +433,7 @@ export default {
             //   this.loadPages++;
             //    console.log("onScroll");
             //}
-            this.percentage = parseInt(document.getElementById("container").scrollTop/(document.getElementById("container").scrollHeight - document.body.clientHeight) * 100);
+            this.percentage = parseInt(document.getElementById("container").scrollTop/(document.getElementById("container").scrollHeight - document.body.clientHeight) * 100) < 0 ? 98 : parseInt(document.getElementById("container").scrollTop/(document.getElementById("container").scrollHeight - document.body.clientHeight) * 100);
         },
         updateFont() {
             var fontSize = this.fontSize;
@@ -551,21 +550,23 @@ export default {
         updateProgress() {
             //console.log(this.percentage);
             //document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
+            console.log(this.percentage);
         },
         swipe(a) {
             if (a.additionalEvent == "panup" || a.additionalEvent == "pandown")
                 return;
             else if (a.additionalEvent == "panright" || a.additionalEvent == "panleft") {
-                var deltaX = a.changedPointers[0].movementX
-                document.body.clientWidth; //px
+                var deltaX = parseInt(a.changedPointers[0].movementX)
+                if (isNaN(deltaX))
+                    deltaX = parseInt(a.deltaX);
                 if (parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100) > 98) {                    
                     this.percentage = 98;
                 }
                 else if (parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100) < 0)
                     this.percentage = 0;
                 else    
-                    this.percentage = parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100)
-                document.getElementById("progressBtn").style.left = (document.body.clientWidth * (this.percentage-1)) / 100.0 + "px";
+                    this.percentage = parseInt((parseInt(document.body.clientWidth)*this.percentage/100+deltaX)/document.body.clientWidth*100);
+                document.getElementById("progressBtn").style.left = (document.body.clientWidth * (this.percentage-1.5)) / 100.0 + "px";
                 document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
             }
         }
@@ -984,8 +985,8 @@ margin-bottom: 20px;
 .progress {
     margin-top: auto;
     margin-bottom: auto;
-    width: 98vw;
-    margin-left: 1vw;
+    width: 95vw;
+    margin-left: 2.5vw;
     font-size: 0rem;
 }
 .progress-btn {

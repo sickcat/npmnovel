@@ -19,8 +19,8 @@
               <!-- {{book.updated}} | ago -->
               <span v-text=""></span>出版时间：{{book.updated}} &nbsp;| &nbsp;{{wordCount}}万字</p>
             <p class="ago" v-if="book">
-              <div class="ago" v-if="!hasHistory">暂未阅读</div>
-              <div class="ago" v-if="hasHistory">{{Tago}},阅读到{{chapterTitle}}</div>
+              <div class="ago" v-if="!hasHistory">&nbsp;暂未阅读</div>
+              <div class="ago" v-if="hasHistory">&nbsp;{{Tago}},阅读到{{chapterTitle}}</div>
             </p>
           </div>
         </div>
@@ -511,6 +511,6 @@ section:first-child {
   margin-top: 0.5rem;
 }
 .ago {
-  font-size: 0.5rem;
+  font-size: 0.7rem;
 }
 </style>
