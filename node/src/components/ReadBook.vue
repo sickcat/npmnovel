@@ -566,14 +566,14 @@ export default {
                 document.getElementById("progressBtn").style.left = (document.body.clientWidth * (this.percentage-1.5)) / 100.0 + "px";
                 document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
             }*/
-            console.log(a);
             var leftX = parseInt(a.center.x);
             var width = document.body.clientWidth;
-            if (leftX < width*0.025)
+            if (isNaN(deltaX))
+                leftX = width*0.025
+            if (leftX <= width*0.025)
                 leftX = width*0.025;
-            else if (leftX > width*0.975)
+            else if (leftX >= width*0.975)
                 leftX = width*0.95;
-            console.log(leftX);
             document.getElementById("progressBtn").style.left = leftX + "px";
             this.percentage = (leftX - width*0.025) / width / 0.95 * 100;
             document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
