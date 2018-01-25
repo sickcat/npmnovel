@@ -196,7 +196,7 @@ export default {
             //return this.bookChaptersContent && this.bookChaptersContent.body;
         },
         leftPos() {
-            return (document.body.clientWidth * (this.percentage-1)) / 100.0 + "px";
+            return (document.body.clientWidth * (this.percentage)) / 100.0 + "px";
         },
     },
     active: {
@@ -288,7 +288,6 @@ export default {
     },
     watch: {
         'currentChapter': 'getBookChapterContent',
-        'percentage': 'updateProgress',
     },
     methods: {
         //回到上次位置
@@ -313,6 +312,7 @@ export default {
             this.loading = true;
             api.getBookChapterContent(this.loadedChapters[parseInt(this.currentChapter)].link, this.$store.state.userId).then(response => {
                 this.title = response.data.title
+                this.percentage = 0;
                 this.bookChaptersContent = response.data.chapter;
                 this.loading = false;
                 setTimeout(this.updateFont, 100);
@@ -366,6 +366,7 @@ export default {
                         //当前章节加1
                         if (this.loadedChapters[this.currentChapter].click == 0)
                             this.currentChapter = parseInt(this.currentChapter) + 1;
+                        this.percentage = 0; 
                     }
                 }
                 contanierEle.scrollTop += screenHeight;
@@ -547,18 +548,14 @@ export default {
         get_next() {
             console.log("00");
         },
-        updateProgress() {
-            //console.log(this.percentage);
-            //document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
-            console.log(this.percentage);
-        },
         swipe(a) {
-            if (a.additionalEvent == "panup" || a.additionalEvent == "pandown")
+            /*if (a.additionalEvent == "panup" || a.additionalEvent == "pandown")
                 return;
             else if (a.additionalEvent == "panright" || a.additionalEvent == "panleft") {
                 var deltaX = parseInt(a.changedPointers[0].movementX)
                 if (isNaN(deltaX))
                     deltaX = parseInt(a.deltaX);
+                console.log(a);
                 if (parseInt(parseInt(document.body.clientWidth*this.percentage/100+deltaX)/document.body.clientWidth*100) > 98) {                    
                     this.percentage = 98;
                 }
@@ -568,7 +565,18 @@ export default {
                     this.percentage = parseInt((parseInt(document.body.clientWidth)*this.percentage/100+deltaX)/document.body.clientWidth*100);
                 document.getElementById("progressBtn").style.left = (document.body.clientWidth * (this.percentage-1.5)) / 100.0 + "px";
                 document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
-            }
+            }*/
+            console.log(a);
+            var leftX = parseInt(a.center.x);
+            var width = document.body.clientWidth;
+            if (leftX < width*0.025)
+                leftX = width*0.025;
+            else if (leftX > width*0.975)
+                leftX = width*0.95;
+            console.log(leftX);
+            document.getElementById("progressBtn").style.left = leftX + "px";
+            this.percentage = (leftX - width*0.025) / width / 0.95 * 100;
+            document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
         }
     },
     beforeRouteEnter(to, from, next) {
