@@ -185,7 +185,8 @@ export default {
       console.log("default");
     }
   },
-  beforeRouteEnter(to, from, next) {  
+  beforeRouteEnter(to, from, next) {
+    console.log(to);
     next(vm => {
       if(from.fullPath.indexOf('/readbook/') === -1){
           vm.$store.commit('setThirdPath',from.fullPath);     
@@ -315,7 +316,7 @@ section:first-child {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-top: 3.5rem;
+  padding-top: 3rem;
   border-bottom: 1px solid #f2f2f2;
   z-index: 1000;
   height: 9rem;
@@ -332,7 +333,7 @@ section:first-child {
   color: #fff;
   font-size: 1rem;
   text-align: center;
-  height: 1rem;
+  height: 2rem;
   border-radius: .2rem;
   outline: none;
 }
