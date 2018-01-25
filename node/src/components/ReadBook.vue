@@ -568,7 +568,7 @@ export default {
             }*/
             var leftX = parseInt(a.center.x);
             var width = document.body.clientWidth;
-            if (isNaN(deltaX))
+            if (isNaN(leftX))
                 leftX = width*0.025
             if (leftX <= width*0.025)
                 leftX = width*0.025;
