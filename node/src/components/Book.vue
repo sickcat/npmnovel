@@ -417,11 +417,11 @@ section:first-child {
   font-size: 0.7rem;
 }
 .book-intro{
+  width: 100vw;
   margin-top: 0.5rem;
   padding-left: 5vw;
   padding-right: 5vw;
   font-size: 1.1rem;
-  justify-content: space-between;
   overflow: auto;
   text-align:justify;
 }
