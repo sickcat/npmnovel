@@ -1015,10 +1015,10 @@ margin-bottom: 20px;
     font-size: 0rem;
 }
 .progress-btn {
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    top: 0.75rem;
+    top: 0.5rem;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     text-align: center;
