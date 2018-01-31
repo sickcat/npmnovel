@@ -96,6 +96,7 @@ class GetChapterHandler(tornado.web.RequestHandler):
 		body = f.read()
 		rdata = {
 			"title": book["title"],
+			"downloadLink": "/api/download?chapterUrl=" + str(chapter_id),
 			"chapter": {
 				"body": body,
 				"title": chapter["title"],
@@ -126,4 +127,39 @@ class GetUnread(tornado.web.RequestHandler):
 			"msg": "",
 		}
 		self.write(json.dumps(rdata))
+		self.finish()
+
+class DownloadHandler(tornado.web.RequestHandler):
+	def get(self, URL=""):
+		chapter_id = int(self.request.arguments["chapterUrl"][0])
+		chapter = mysql.get_chapter_from_id(chapter_id)[0]
+		book = mysql.get_book_from_id(int(chapter['book_id']))[0]
+		if chapter["click"] != 1:
+			self.write("")
+			self.finish()
+			return
+
+		if chapter["title"] and "  " in chapter["title"]:
+			title2 = chapter["title"][chapter["title"].find("  ")+2:]
+			chapter["title"] = chapter["title"][:chapter["title"].find("  ")]
+			if title2 == "":
+				title2 = "  "
+		else:
+			title2 = "  "
+		try:
+			int(chapter["title"][:3])
+			chapter["title"] = chapter["title"][3:]
+		except Exception as e:
+			pass
+	
+		self.set_header ('Content-Type', 'application/octet-stream')
+		self.set_header ('Content-Disposition', 'attachment; filename='+chapter["title"])
+		#读取的模式需要根据实际情况进行修改
+		if os.path.exists(os.path.join(settings["data_path"], str(book["book_id"]), "download" ,chapter["link"][:-5]+".pdf")):
+			print "download pdf:" + str(chapter_id)
+			f = open(os.path.join(settings["data_path"], str(book["book_id"]), "download" ,chapter["link"][:-5]+".pdf"), "r")
+		else:
+			f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]), "r")
+		data = f.read()
+		self.write(data)
 		self.finish()

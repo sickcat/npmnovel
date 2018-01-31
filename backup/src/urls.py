@@ -9,7 +9,7 @@ from handler.book import BookHandler
 from handler.book import BookViewHandler
 from handler.category import CategoryHandler
 from handler.getchapter import ChapterHandler
-from handler.getchapter import GetChapterHandler, GetUnread
+from handler.getchapter import GetChapterHandler, GetUnread, DownloadHandler
 from handler.Img import ImgHandler
 from handler.types import TypesHandler
 from handler.oms import GetBooksHandler
@@ -27,6 +27,7 @@ url_patterns = [
     (r'/api/category/detail', CategoryHandler),
     (r'/api/chapters/(\w+)', ChapterHandler),
     (r'/api/getChapter', GetChapterHandler),
+    (r'/api/download', DownloadHandler),
     (r'/api/img', ImgHandler),
     (r'/api/types', TypesHandler),
     

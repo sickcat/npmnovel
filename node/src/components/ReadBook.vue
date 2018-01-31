@@ -5,6 +5,10 @@
                 <Icon type="arrow-left-c"></Icon>
             </span>
             {{$store.state.title}}
+            <span class="arrow-down">
+                <a :href="downloadLink"><Icon type="ios-download-outline">
+                </Icon></a>
+            </span>
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
@@ -185,6 +189,7 @@ export default {
             max: 0,
             type: "",
             percentage: 0,
+            downloadLink: "",
         }
     },
     computed: {
@@ -315,6 +320,8 @@ export default {
                 this.percentage = 0;
                 this.bookChaptersContent = response.data.chapter;
                 this.loading = false;
+                // /api/download?chapterUrl=...
+                this.downloadLink = response.data.downloadLink;
                 setTimeout(this.updateFont, 100);
             }).catch(err => {
                 this.$Message.error('获取章节失败！');
@@ -548,6 +555,9 @@ export default {
         get_next() {
             console.log("00");
         },
+        download() {
+            console.log("00");
+        },
         swipe(a) {
             /*if (a.additionalEvent == "panup" || a.additionalEvent == "pandown")
                 return;
@@ -771,6 +781,13 @@ span {
     left: 1rem;
     line-height: 3rem;
     font-size: 1.5rem !important;
+}
+.arrow-down {
+    color: #005d9c;
+    position: absolute;
+    right: 1rem;
+    line-height: 3rem;
+    font-size: 2rem !important;
 }
 
 .night-mode {
