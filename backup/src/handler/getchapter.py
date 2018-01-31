@@ -153,13 +153,16 @@ class DownloadHandler(tornado.web.RequestHandler):
 			pass
 	
 		self.set_header ('Content-Type', 'application/octet-stream')
-		self.set_header ('Content-Disposition', 'attachment; filename='+chapter["title"])
 		#读取的模式需要根据实际情况进行修改
+		backfix = ".html"
 		if os.path.exists(os.path.join(settings["data_path"], str(book["book_id"]), "download" ,chapter["link"][:-5]+".pdf")):
 			print "download pdf:" + str(chapter_id)
 			f = open(os.path.join(settings["data_path"], str(book["book_id"]), "download" ,chapter["link"][:-5]+".pdf"), "r")
+			backfix = ".pdf"
 		else:
 			f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]), "r")
+		
+		self.set_header ('Content-Disposition', 'attachment; filename='+chapter["title"] + backfix)
 		data = f.read()
 		self.write(data)
 		self.finish()
