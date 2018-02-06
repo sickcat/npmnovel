@@ -256,7 +256,7 @@ export default {
                 \
                 @font-face{\
                 font-family:\"等线\";\
-                    src: url('/static/front/simhei2.ttf'),\
+                    src: url('/static/front/msyh.ttf'),\
                     url('/static/front/song.otf');\
                 }\
                 \
@@ -448,8 +448,8 @@ export default {
             Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                     ele.value = parseInt(ele.style.fontSize);
                     ele.style.fontSize = parseInt(ele.value) + fontSize + 'pt';
-                    ele.style.height = parseInt(ele.value) + 20 +fontSize + 'pt';
-                    ele.style.lineHeight = parseInt(ele.value) + 20 + fontSize + 'pt';
+                    ele.style.height = parseInt(ele.value) + 10 +fontSize + 'pt';
+                    ele.style.lineHeight = parseInt(ele.value) + 10 + fontSize + 'pt';
                 });
             Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(function (ele) {
                     ele.style.width = "auto";
@@ -470,24 +470,24 @@ export default {
                 fontSize = 15;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 10 + 'pt';
                 });
             } else if (a == 1 && fontSize < 10) {
                 fontSize += 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 10 + 'pt';
                 });
             } else if (a == -1 && fontSize > -1) {
                 fontSize -= 1;
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 10 + 'pt';
                 });
             } else if (a == 2 ) {
                 Array.prototype.slice.call(document.getElementsByTagName("span")).forEach(function (ele) {
                         ele.style.fontSize = parseInt(ele.value) + parseInt(fontSize) + 'pt';
-                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 20 + 'pt';
+                        ele.style.lineHeight = parseInt(ele.value) + parseInt(fontSize)  + 10 + 'pt';
                 });
             } else {
                 this.$Message.info('不能再继续改变字体了');
@@ -791,8 +791,8 @@ span {
 }
 
 .night-mode {
-    background: #383434;
-    color: #807d7d;
+    background: #161819;
+    color: #808080;
 }
 
 .chapter-list {
@@ -845,8 +845,8 @@ span {
 }
 
 .night-mode {
-    background: #383434;
-    color: #807d7d;
+    background: #161819;
+    color: #808080;
 }
 
 .background-0 {
@@ -866,11 +866,15 @@ span {
 }
 .color-0 {
     background: #FEFBEB;
+    background: #161819;
     color: #363636;
+    color: #808080;
 }
 .color-back-0 {
     background: #FEFBEB;
+    background: #161819;
     color: #363636;
+    color: #808080;
 }
 .color-1 {
     background: #DEF0ED;
@@ -965,7 +969,7 @@ url('/static/front/song.otf');
 
 @font-face{
 font-family:'等线';
-src: url('/static/front/simhei2.ttf'),
+src: url('/static/front/msyh.ttf'),
     url('/static/front/song.otf');
 }
 
