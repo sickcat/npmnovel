@@ -796,6 +796,7 @@ span {
 }
 
 .chapter-list {
+    z-index: 1000;
     position: absolute;
     top: 0rem;
     left: 0;
