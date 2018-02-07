@@ -89,7 +89,7 @@
             </v-touch>
         </div>
         <div class="menu" v-if="operation">
-            <v-touch class="menu-btn" @tap="showChapter">
+            <v-touch class="menu-btn" @tap="showChapter($event)">
                 <Icon type="ios-list-outline"></Icon>
                 目录
             </v-touch>
@@ -391,8 +391,9 @@ export default {
             }
         },
         //显示目录
-        showChapter() {
+        showChapter(event) {
             this.isShowChapter = true;
+            event.cancelBubble = true;
         },
         //点击目录，跳转章节
         jumpChapter(index) {
