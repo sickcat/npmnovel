@@ -97,6 +97,7 @@ class GetChapterHandler(tornado.web.RequestHandler):
 		rdata = {
 			"title": book["title"],
 			"downloadLink": "/api/download?chapterUrl=" + str(chapter_id),
+			"pdfLink": "/api/download?chapterUrl=" + str(chapter_id),
 			"chapter": {
 				"body": body,
 				"title": chapter["title"],
@@ -152,7 +153,7 @@ class DownloadHandler(tornado.web.RequestHandler):
 		except Exception as e:
 			pass
 	
-		self.set_header ('Content-Type', 'application/octet-stream')
+		self.set_header('Content-Type', 'application/octet-stream')
 		#读取的模式需要根据实际情况进行修改
 		backfix = ".html"
 		if os.path.exists(os.path.join(settings["data_path"], str(book["book_id"]), "download" ,chapter["link"][:-5]+".pdf")):
@@ -162,7 +163,7 @@ class DownloadHandler(tornado.web.RequestHandler):
 		else:
 			f = open(os.path.join(settings["data_path"], str(book["book_id"]), chapter["link"]), "r")
 		
-		self.set_header ('Content-Disposition', 'attachment; filename='+chapter["title"] + backfix)
+		self.set_header('Content-Disposition', 'attachment; filename='+chapter["title"] + backfix)
 		data = f.read()
 		self.write(data)
 		self.finish()

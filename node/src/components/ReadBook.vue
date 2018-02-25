@@ -12,13 +12,22 @@
         </div>
         <pulse-loader :loading="loading" :color="color" :size="size" :margin="margin"></pulse-loader>
 
-        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass" @doubletap="dbclickEvent()">
+        <v-touch class="content" v-show="!loading" @tap="operationAction($event)" :class="backgroundClass + ' ' +colorClass" @doubletap="dbclickEvent()" v-on:swipeleft="testPan" v-on:swiperight="testPan">
             <br>
             <br>
             <!--header>{{bookChaptersContent.title}}</header-->
-            <article v-html="bookChaptersBody" style="text-align:justify;"></article>
-            
+            <article v-show="!isPDF" v-html="bookChaptersBody" style="text-align:justify;"></article>
+            <pdf class="pdf-class" v-show="isPDF"
+            :src="pdfSrc"
+            :rotate="rotate"
+            :page="currentPage"
+            @num-pages="pageCount = $event"
+            @page-loaded="currentPage = $event"
+            ></pdf>
             <br>
+            <div class="mulucenter" v-show="isPDF" :class="colorClass">
+            第{{currentPage}}页/共{{pageCount}}页
+            </div>
             <br>
             <div class='mulucenter' :class="colorClass">点击底部阅读下一章</div>
             <br>
@@ -26,10 +35,15 @@
             <br>
         </v-touch>
 
-        <div class="setting" :class="{display: !(!setting&&operation)}">
+        <div class="setting" :class="{display: !(!setting&&operation)}" v-show="!isPDF">
             <vm-progress :percentage="percentage" class="progress" :text-inside="true">&nbsp;</vm-progress>
             <v-touch id="progressBtn" class="progress-btn" @pan="swipe" :style="{left: leftPos}">&nbsp;</v-touch>
             &nbsp;
+        </div>
+        <div class="setting" :class="{display: !(!setting&&operation)}" v-show="isPDF">
+            <v-touch class="pdf-text">输入页码</v-touch>
+            <input class="pdf-current" :placeholder="currentPage" type="number" id="pdfInput"></input>
+            <v-touch class="pdf-text" @tap="pdfjump">点此跳转</v-touch>
         </div>
 
         <div class="setting" v-if="setting">
@@ -42,6 +56,12 @@
             </v-touch>
             <v-touch class="menu-btn m-border middle-menu" @tap="add_speed(-1)">
                 滚动速度-
+            </v-touch>
+            <v-touch class="menu-btn m-border middle-menu" @tap="changePDF" v-show="!isPDF">
+                翻页pdf模式
+            </v-touch>
+            <v-touch class="menu-btn m-border middle-menu" @tap="changePDF" v-show="isPDF">
+                滑动模式
             </v-touch>
         </div>
         <div class="setting2" v-if="setting">
@@ -142,11 +162,13 @@
 import api from '../libs/api'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Progress from 'vue-multiple-progress'
+import pdf from 'vue-pdf'
 
 export default {
     name: 'ReadBook',
     components: {
-        PulseLoader
+        PulseLoader,
+        pdf,
     },
     data() {
         return {
@@ -190,6 +212,11 @@ export default {
             type: "",
             percentage: 0,
             downloadLink: "",
+            rotate: 0,
+            isPDF: 0,
+            pageCount: 10,
+            currentPage: 1,
+            pdfSrc: "",
         }
     },
     computed: {
@@ -322,6 +349,7 @@ export default {
                 this.loading = false;
                 // /api/download?chapterUrl=...
                 this.downloadLink = response.data.downloadLink;
+                this.pdfSrc = response.data.pdfLink;
                 setTimeout(this.updateFont, 100);
             }).catch(err => {
                 this.$Message.error('获取章节失败！');
@@ -588,7 +616,31 @@ export default {
             document.getElementById("progressBtn").style.left = leftX + "px";
             this.percentage = (leftX - width*0.025) / width / 0.95 * 100;
             document.getElementById("container").scrollTop = document.getElementById("container").scrollHeight * this.percentage / 100;
-        }
+        },
+        testPan(a) {
+            if(!this.isPDF)
+                return;
+            if(a.type == "swipeleft") {
+                if (this.currentPage < this.pageCount)
+                    this.currentPage += 1;
+            } else if (a.type == "swiperight") {
+                if (this.currentPage > 1)
+                    this.currentPage -= 1;
+            }
+        },
+        changePDF() {
+            this.isPDF = !this.isPDF;
+        },
+        pdfjump() {
+            if (!document.getElementById("pdfInput").value)
+                return;
+            var itmp = parseInt(document.getElementById("pdfInput").value);
+            if (itmp < 1 || itmp > this.pageCount) {
+                this.$Message.info('数字不合理');
+            } else {
+                this.currentPage = itmp;
+            }
+        },
     },
     beforeRouteEnter(to, from, next) {
         var str = to.path;
@@ -1039,5 +1091,24 @@ margin-bottom: 20px;
     height: 0;
     border: 0;
     overflow: hidden;
+}
+.pdf-class {
+    width: 96vw;
+    margin-left: 0vw;
+    height: auto;
+}
+.pdf-current {
+    width: 3rem;
+    height: 1.5rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    border-radius: 20%;
+    -moz-border-radius: 20%;
+    -webkit-border-radius: 20%;
+}
+.pdf-text {
+    height: 1.5rem;
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
 }
 </style>

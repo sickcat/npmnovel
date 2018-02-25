@@ -11,6 +11,7 @@ import 'iview/dist/styles/iview.css'    // 使用 CSS
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import vuescroll from 'vue-scroll'
+import pdf from 'vue-pdf'
 //import VueProgressBar from 'vue-progressbar'
 import 'jquery'
 import Progress from 'vue-multiple-progress'
@@ -30,7 +31,7 @@ const options = {
 }
 //Vue.use(VueProgressBar, options)
 Vue.use(Progress)
-
+Vue.use(pdf, {name: 'pdf'})
 Vue.use(vuescroll)
 VueTouch.config.swipe = {
   direction: 'horizontal'

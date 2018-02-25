@@ -15,21 +15,22 @@
   "dependencies": {
     "axios": "^0.16.1",
     "iview": "^2.0.0-rc.14",
+    "jquery": "^3.3.1",
+    "mint-ui": "^2.2.7",
     "moment": "^2.18.1",
+    "nprogress": "^0.2.0",
     "vue": "^2.2.6",
     "vue-awesome": "^2.3.1",
     "vue-infinite-scroll": "^2.0.1",
+    "vue-multiple-progress": "^1.1.1",
+    "vue-pdf": "^3.2.2",
+    "vue-progressbar": "^0.7.3",
     "vue-router": "^2.3.1",
     "vue-scroll": "^2.0.3",
     "vue-scroller": "^2.2.0",
     "vue-spinner": "^1.0.2",
     "vue-touch": "^2.0.0-beta.4",
-    "vuex": "^2.3.1",
-    "mint-ui": "^2.2.7",
-    "vue-progressbar": "^0.7.3",
-    "nprogress": "^0.2.0",
-    "jquery": "^3.3.1",
-    "vue-multiple-progress": "^1.1.1"
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
