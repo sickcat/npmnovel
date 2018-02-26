@@ -26,7 +26,7 @@
             ></pdf>
             <br>
             <div class="mulucenter" v-show="isPDF" :class="colorClass">
-            第{{currentPage}}页/共{{pageCount}}页
+            第 {{currentPage}} 页/共 {{pageCount}} 页
             </div>
             <br>
             <div class='mulucenter' :class="colorClass">点击底部阅读下一章</div>
@@ -159,10 +159,10 @@
 </template>
 
 <script>
+import pdf from 'vue-pdf'
 import api from '../libs/api'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Progress from 'vue-multiple-progress'
-import pdf from 'vue-pdf'
 
 export default {
     name: 'ReadBook',
@@ -216,7 +216,7 @@ export default {
             isPDF: 0,
             pageCount: 10,
             currentPage: 1,
-            pdfSrc: "",
+            pdfSrc: '',
         }
     },
     computed: {
@@ -349,7 +349,7 @@ export default {
                 this.loading = false;
                 // /api/download?chapterUrl=...
                 this.downloadLink = response.data.downloadLink;
-                this.pdfSrc = response.data.pdfLink;
+                this.pdfSrc = '' + response.data.pdfLink;
                 setTimeout(this.updateFont, 100);
             }).catch(err => {
                 this.$Message.error('获取章节失败！');
@@ -619,7 +619,7 @@ export default {
         },
         testPan(a) {
             if(!this.isPDF)
-                return;
+                return 0;
             if(a.type == "swipeleft") {
                 if (this.currentPage < this.pageCount)
                     this.currentPage += 1;
@@ -633,7 +633,7 @@ export default {
         },
         pdfjump() {
             if (!document.getElementById("pdfInput").value)
-                return;
+                return 0;
             var itmp = parseInt(document.getElementById("pdfInput").value);
             if (itmp < 1 || itmp > this.pageCount) {
                 this.$Message.info('数字不合理');
