@@ -50,6 +50,17 @@ CREATE TABLE `User` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `Comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time` varchar(255) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `to_id` int(11) DEFAULT 0,
+  `to_name` varchar(255) DEFAULT NULL,
+  `book_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 INSERT INTO `Book`(book_id, cover, title, updated, cat, tags, read_count, word_count, longintro, last_chapter, author) VALUES(1, "1/title.png", "测试书本", "2017-01-01", "", "", 15678, 500000, "一本关于测试是的户籍的书", 1, "德成广告");
 
 INSERT INTO `Chapter`(chapter_id, chapter, book_id, title, link, read_count, word_count) VALUES(1, "章节1", 1, "章节1", "1.txt", 150, 500000);

@@ -16,6 +16,7 @@ from handler.oms import GetBooksHandler
 from handler.oms import UpdateBooksHandler, ZipHandler
 from handler.search import SearchHotWordHandler, AutoCompleteHandler
 from handler.search import FuzzyHandler
+from handler.comment import GetCommentHandler, PostCommentHandler
 url_patterns = [
 
     #Test server
@@ -38,6 +39,8 @@ url_patterns = [
     (r'/api/book/auto-complete', AutoCompleteHandler),
     (r'/api/book/search-hotwords/fuzzy', FuzzyHandler),
     (r'/api/unread', GetUnread),
+    (r'/api/comment/(\w+)', GetCommentHandler),
+    (r'/api/commentpost/(\w+)', PostCommentHandler),
     #(r'/index/(\w+)', MainHandler),
     #(r'/index', MainHandler),
     #(r'/movie/(\w+)', MovieHandler),

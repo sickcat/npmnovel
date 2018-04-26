@@ -53,6 +53,16 @@ export default {
         return Vue.http.get('/api/book/' + bookId);
     },
 
+    /*
+    获取评论
+    */
+    getComment(bookId) {
+        return Vue.http.get('/api/comment/' + bookId);
+    },
+    postComment(bookId, data) {
+        return Vue.http.post('/api/commentpost/' + bookId, data, {emulateJSON: true});
+    },
+
 
     /**
      * 获取小说源(正版源)

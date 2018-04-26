@@ -66,10 +66,45 @@
               &nbsp;&nbsp;<b>书籍简介&nbsp;：</b>
             </div>
           </div>
+          <p>&nbsp;&nbsp;</p>
           <!-- detail -->
           <div v-show="!isShowChapter">
             <article class="book-intro" v-if="book && !showimg" v-html="bookChaptersBody"></article> 
             <img v-else src="/static/png/long-info.png" class="long-intro-img">
+          </div>
+
+          <div v-show="!isShowChapter">
+            <div>
+              <h3 class="comment-head">评论</h3>
+              <p class="comment comment-name" v-if="comment.length==0">暂无评论</p>
+              <div v-else>
+                <div class="comment" v-for="(item,index) in comment" v-bind:index="index" >
+                  <b class="comment-name">{{item.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.time}}</b>
+                  <p @click="changCommmer(item.name,index,item.id)">{{item.content}}</p>
+                  <div v-if="item.reply.length > 0">
+                    <div class="reply" v-for="reply in item.reply">
+                        <b class="comment-name">{{reply.responder}}&nbsp;&nbsp;回复&nbsp;&nbsp;{{reply.reviewers}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{reply.time}}</b>
+                        <p @click="changCommmer(reply.responder,index, reply.id)">{{reply.content}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="commentBox">
+              <h3 class="comment-head">发表评论</h3>
+              <div v-if="type" class="post-relpy">
+              <b>你回复&nbsp;{{name}}</b>
+              </div>
+              <input type="text" placeholder="输入你的名字" v-model="commentName" class="post-name">
+              <textarea name="" value="请填写评论内容" v-model="commentText" class="post-content"></textarea>
+              <div class="post-button">
+              <button @click="addComment" class="post-button-one">发表</button>
+              <button @click="canelComment" class="post-button-one">取消</button>
+              </div>
+            </div>
+
+
           </div>
         </div>
       
@@ -112,7 +147,7 @@ export default {
   name: 'Book',
   components: {
     Topbar,
-    PulseLoader
+    PulseLoader,
   },
   data() {
     return {
@@ -134,6 +169,26 @@ export default {
       hasHistory: false,
       Tago: "3天前",
       chapterTitle: "后记",
+      comment: [
+    	{
+        	name: "有毒的黄同学",    //评论人名字
+        	time: "2016-08-17",    
+        	content: "好,讲得非常好，good",
+        	reply: [              //回复评论的信息，是一个数组，如果没内容就是一个空数组
+            {
+                responder: "傲娇的",    //评论者
+                reviewers: "有毒的黄同学",         //被评论者
+                time: "2016-09-05",
+                content: "你说得对"
+            }
+        	]
+      	}
+    ],
+      type: 0,
+      name: "测试名字1",
+      commentText: "",
+      commentName: "",
+      replyid: 0,
     }
   },
   filters: {
@@ -183,7 +238,12 @@ export default {
       this.$store.commit('setUserId',this.$route.query.user_id);
     } else {
       console.log("default");
-    }
+    };
+    api.getComment(this.$route.params.bookId).then(response => {
+    	this.comment = response.data.comment;
+    }).catch(err => {
+    	console.log(err);
+    });
   },
   beforeRouteEnter(to, from, next) {
     console.log(to);
@@ -245,6 +305,41 @@ export default {
         storage.setItem("followBookList", JSON.stringify(localShelf));
         this.isFollowed = !this.isFollowed;
       }
+    },
+    addComment: function() {
+      this.$emit("submit",this.commentText);
+      this.commentText = "";
+    },
+    canelComment: function() {
+      this.$emit("canelCommit");
+      this.commentText = "";
+      this.commentName = "";
+      this.type = 0;
+    },
+    //添加评论
+    addComment: function(data) {
+      if (this.commentText == "" || this.commentName == "") {
+        this.$Message.info('请输入名字及需要发表的内容');
+        return;
+      }
+      data = new Object();
+      data.name = this.commentName;
+      data.content = this.commentText;
+      data.replyid = this.replyid;
+      data.rtype = this.type;
+      api.postComment(this.$route.params.bookId, JSON.stringify(data)).then(response => {
+        location.reload();
+      });
+    },
+    //监听到了点击了别人的评论
+    changCommmer: function(name,index, id) {
+        this.name = name;
+        this.type = 1;
+        this.replyid = id;
+    },
+    //监听到了取消评论
+    canelCommit: function() {
+      this.type = 0;
     }
   }
 }
@@ -513,5 +608,77 @@ section:first-child {
 }
 .ago {
   font-size: 0.7rem;
+}
+.comment-head {
+	  width: 90vw;
+  	margin-top: 0.5rem;
+  	margin-left: 5vw;
+  	margin-right: 5vw;
+  	padding-top: 0.3rem;
+  	padding-left: 0.2rem;
+  	font-size: 1.1rem;
+  	height: 2rem;
+  	overflow: auto;
+  	text-align: middle;
+  	background-color: #E9E5DF;
+    color: #73553A;
+}
+.comment {
+    width: 90vw;
+    margin-top: 0.5rem;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    padding-top: 0.3rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.2rem;
+    font-size: 0.8rem;
+    border-bottom: 0.2rem solid #E9E5DF;
+}
+.comment-name {
+  color: #00553F;
+}
+.reply {
+  width: 85vw;
+    margin-top: 0.3rem;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    padding-left: 0.2rem;
+    padding-bottom: 0.2rem;
+    font-size: 0.8rem;
+    border-bottom: 0.1rem solid #E9E5DF;
+}
+.post-relpy {
+  width: 85vw;
+  margin-left: 10vw;
+  font-size: 0.8rem;
+  color: #00553F;
+  margin-top: 0.5rem;
+}
+.post-name {
+  width: 40vw;
+  margin-top: 0.5rem;
+  margin-left: 10vw;
+  border-radius: .4rem;
+  margin-bottom: 0.5rem;
+}
+.post-content {
+  width: 85vw;
+  height: 4rem;
+  overflow: auto;
+  margin-left: 10vw;
+}
+.post-button {
+  float: left;
+  margin-left: 10vw;
+}
+.post-button-one {
+  width: 4rem;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+  text-align: center;
+  background-color: #00553F;
+  color: #FFFFFF;
+  border-radius: 0.4rem;
+  border: none;
 }
 </style>
